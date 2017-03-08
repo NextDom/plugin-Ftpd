@@ -112,7 +112,6 @@ class FTPserverThread(threading.Thread):
                 log('DEBUG', "mkdir: " + self.cwd)
                 os.mkdir(self.cwd)
                 new_camera=True
-                r = requests.get(url_force_scan)
             while True:
                 cmd=self.conn.recv(256)
                 if not cmd: break
@@ -127,10 +126,6 @@ class FTPserverThread(threading.Thread):
                         self.conn.send('500 Sorry.\r\n')
             if new_camera:
                 r = requests.get(url_force_scan)
-            else:
-                for config in dataconfig.xpath("/config/ftpd_client/"+client[0]):
-                    if config.text != '':
-                        r = requests.get(config.text)
         else:
             log('ERROR', "connexion refuser from " + addr[0])
             self.conn.send('223 Sorry\r\n')
@@ -195,31 +190,6 @@ class FTPserverThread(threading.Thread):
         log('DEBUG', "open " + ip + " " + str(port))
         self.conn.send('227 Entering Passive Mode (%s,%u,%u).\r\n' %
                 (','.join(ip.split('.')), port>>8&0xFF, port&0xFF))
-
-    def start_datasock(self):
-        if self.pasv_mode:
-            self.datasock, addr = self.servsock.accept()
-            log('DEBUG', "connect: " + addr[0])
-            try:
-                client=socket.gethostbyaddr(addr[0])
-                clientdns=client[0]
-            except Exception,e:
-                clientdns="Addr_" + addr[0]
-                log('ERROR', "unable to solve: " + addr[0] + " " +str(e))
-            log('DEBUG', "identify as: " + clientdns)
-            self.cwd=os.path.join(self.basewd,clientdns)
-            if not os.path.isdir(self.cwd):
-                log('DEBUG', "mkdir:" + self.cwd)
-                os.mkdir(self.cwd)
-        else:
-            self.datasock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-            self.datasock.connect((self.dataAddr,self.dataPort))
-
-    def stop_datasock(self):
-        self.datasock.close()
-        if self.pasv_mode:
-            self.servsock.close()
-
 
     def LIST(self,cmd):
         #self.conn.send('150 Here comes the directory listing.\r\n')
@@ -309,13 +279,34 @@ class FTPserverThread(threading.Thread):
         else:
             fo=open(fn,'w')
         self.conn.send('150 Opening data connection.\r\n')
-        self.start_datasock()
+        if self.pasv_mode:
+            self.datasock, addr = self.servsock.accept()
+            log('DEBUG', "connect: " + addr[0])
+            try:
+                client=socket.gethostbyaddr(addr[0])
+                clientdns=client[0]
+            except Exception,e:
+                clientdns="Addr_" + addr[0]
+                log('ERROR', "unable to solve: " + addr[0] + " " +str(e))
+            log('DEBUG', "identify as: " + clientdns)
+            self.cwd=os.path.join(self.basewd,clientdns)
+            if not os.path.isdir(self.cwd):
+                log('DEBUG', "mkdir:" + self.cwd)
+                os.mkdir(self.cwd)
+        else:
+            self.datasock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+            self.datasock.connect((self.dataAddr,self.dataPort))
         while True:
             data=self.datasock.recv(1024)
             if not data: break
             fo.write(data)
         fo.close()
-        self.stop_datasock()
+        self.datasock.close()
+        if self.pasv_mode:
+            self.servsock.close()
+        for config in dataconfig.xpath("/config/ftpd_client/"+clientdns):
+            if config.text != '':
+                r = requests.get(config.text + '&file=' + cmd[5:-2])
         self.conn.send('226 Transfer complete.\r\n')
 
 class FTPserver(threading.Thread):

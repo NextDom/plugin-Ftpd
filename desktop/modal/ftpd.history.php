@@ -25,7 +25,7 @@ if ($handle = opendir($dir))
 		if ($file != "." && $file != "..")
 		{
 			$date = filemtime($dir."/".$file);
-			$files[date("Ymd", $date)][date("H:s:i", $date)] = $file;
+			$files[date("Ymd", $date)][date("H:i:s", $date)] = $file;
 		}
 	}
 	closedir($handle);

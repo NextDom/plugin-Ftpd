@@ -310,10 +310,10 @@ class ftpd extends eqLogic {
         if (!is_object($cmd)) {
             throw new Exception('Commande ID virtuel inconnu : ' . init('id'));
         }
-		log::add('ftpd','debug',"Receive push notification for ".$cmd->getName()." (". init('id').")");
+		$EqLogic = $cmd->getEqLogic();
+		log::add('ftpd','debug',"Receive push notification for ".$EqLogic->getLogicalId()." ".$cmd->getName()." (". init('id')."-".init('file').")");
 		$cmd->setCollectDate('');
 		$cmd->event(1);
-		$EqLogic = $cmd->getEqLogic();
 		$files = array();
 		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$EqLogic->getLogicalId();
 		if ($handle = opendir($_CaptureDir))
@@ -344,7 +344,7 @@ class ftpd extends eqLogic {
 		}
         $lastfilename = $EqLogic->getCmd(null, 'lastfilename');
 		$lastfilename->setCollectDate('');
-		$lastfilename->event(config::byKey('recordDir', 'ftpd').'/'.$EqLogic->getLogicalId()."/".$file);
+		$lastfilename->event(config::byKey('recordDir', 'ftpd').'/'.$EqLogic->getLogicalId()."/".init('file'));
  		sleep(10);
 		$cmd->setCollectDate('');
 		$cmd->event(0);
