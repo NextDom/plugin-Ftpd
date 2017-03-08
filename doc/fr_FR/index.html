@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3.dev">
-<title>Ping</title>
+<title>Ftpd</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -410,310 +410,168 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
+
 <body class="article toc2 toc-left">
-<div id="header">
-<div id="toc" class="toc2">
-<div id="toctitle">Table des matières</div>
-<ul class="sectlevel1">
-<li><a href="#_ping">1. Ping</a>
-<ul class="sectlevel2">
-<li><a href="#_présentation">1.1. Présentation</a>
-<ul class="sectlevel3">
-<li><a href="#_installation">1.1.1. Installation :</a></li>
-<li><a href="#_informations_visibles">1.1.2. Informations visibles :</a></li>
-<li><a href="#_actions_possibles">1.1.3. Actions possibles :</a></li>
-</ul>
-</li>
-<li><a href="#_installation_configuration">1.2. Installation/Configuration</a></li>
-<li><a href="#_faq">1.3. FAQ</a></li>
-<li><a href="#_changelog">1.4. Changelog</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div id="content">
-<div class="sect1">
-<h2 id="_ping">1. Ping</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_présentation">1.1. Présentation</h3>
-<div class="paragraph">
-<p>Ce plugin permet de pinguer un équipement en TCP, ICMP et ARP.
-Il permet donc de tester des services genre http, mysql, smb, &#8230;&#8203;</p>
-</div>
-<div class="imageblock" style="text-align: center">
-<div class="content">
-<img src="../images/ping_screenshot1.jpg" alt="http://fr.wikipedia.org/wiki/Liste_de_ports_logiciels Liste complète">
-</div>
-</div>
-<div class="sect3">
-<h4 id="_installation">1.1.1. Installation :</h4>
-<div class="paragraph">
-<p>Le plugin détecte automatiquement les commandes disponibles pour les requêtes ARP et le ping ICMP</p>
-</div>
-<div class="imageblock" style="text-align: center">
-<div class="content">
-<img src="../images/ping_screenshot3.jpg" alt="ping screenshot3">
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_informations_visibles">1.1.2. Informations visibles :</h4>
-<div class="ulist horizontal">
-<ul class="horizontal">
-<li>
-<p><strong>Etat du ping</strong> : état du ping</p>
-</li>
-<li>
-<p><strong>Delai</strong> : Delai de réponse au ping en µs</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_actions_possibles">1.1.3. Actions possibles :</h4>
-<div class="ulist horizontal">
-<ul class="horizontal">
-<li>
-<p><strong>ping</strong> : Force un ping.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_installation_configuration">1.2. Installation/Configuration</h3>
-<div class="paragraph">
-<p>Nous allons maintenant paramétrer l&#8217;équipement. Pour se faire, cliquer sur <strong>Plugins / Communicaton / ping</strong></p>
-</div>
-<div class="paragraph">
-<p>Puis définir :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Objet parent</p>
-</li>
-<li>
-<p>Catégorie (optionnelle)</p>
-</li>
-<li>
-<p>Activer (coché par défaut)</p>
-</li>
-<li>
-<p>Visible (optionel si vous ne désirez pas le rendre visible sur le Dashboard)</p>
-</li>
-<li>
-<p>Mode de ping (Icmp, Arp, Tcp)</p>
-</li>
-<li>
-<p>Adresse Mac a pinger</p>
-</li>
-<li>
-<p>IP a pinger</p>
-</li>
-<li>
-<p>Port a pinger</p>
-</li>
-</ul>
-</div>
-<div class="imageblock" style="text-align: center">
-<div class="content">
-<img src="../images/ping_screenshot2.jpg" alt="ping screenshot2">
-</div>
-</div>
-<div class="paragraph">
-<p>Et pour finir, cliquer sur Sauvegarder</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_faq">1.3. FAQ</h3>
-<div class="openblock panel">
-<div class="title">Pourquoi le plugin est gratuit ?</div><div class="content">
-<div class="paragraph">
-<p>Ce plugin est gratuit pour que chacun puisse en profiter simplement. Si vous souhaitez tout de même faire un don au développeur du plugin, utilisez le lien suivant.
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=VDCCCHBA3CCSE">Faire un don au développeur du plugin</a></p>
-</div>
-</div>
-</div>
-<div class="openblock">
-<div class="title">Quelle est la fréquence de rafraichissement des informations ?</div><div class="content">
-<div class="paragraph">
-<p>Le plugin actualise les informations toutes les minutes.</p>
-</div>
-</div>
-</div>
-<div class="openblock">
-<div class="title">Est-ce que le plugin met à jour l&#8217;état lors d&#8217;un ping forcé par le bouton ?</div><div class="content">
-<div class="paragraph">
-<p>Non, il ne met à jour l&#8217;état que si celui-ci change.</p>
-</div>
-</div>
-</div>
-<div class="openblock">
-<div class="title">Pour le port, est-ce que l&#8217;on peut mettre le numéro du port que l&#8217;on veut où juste des noms (http, &#8230;&#8203;., )</div><div class="content">
-<div class="paragraph">
-<p>Oui, depuis la version 1.1</p>
-</div>
-</div>
-</div>
-<div class="openblock">
-<div class="title">Quel est la liste des noms reconnus ?</div><div class="content">
-<div class="paragraph">
-<p>La liste des noms de port reconnu dépend de votre système mais elle correspond globalement à ce que vous trouverez sur le lien ci dessous :</p>
-</div>
-</div>
-</div>
-<div class="openblock">
-<div class="title">Quel port TCP pour quel type d&#8217;équipement (liste non exhaustive ?</div><div class="content">
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Type d&#8217;équipement</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Port</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PC</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tcp - Smb</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ampli</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tcp - Upnp</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Synology</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tcp - Http</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tablette</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Arp</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Téléphone</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Arp</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">B</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="openblock">
-<div class="title">Pourquoi Arp et Icmp ne sont pas accesible ?</div><div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Pour les commandes pings :
-Ajouter la ligne :</p>
-</li>
-</ul>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>www-data ALL=NOPASSWD: /bin/ping</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Pour les commandes arp :</p>
-</li>
-</ul>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>sudo apt-get install arp-scan
-sudo visudo -s</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Ajouter la ligne :</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>www-data ALL=NOPASSWD: /usr/bin/arp-scan</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="openblock">
-<div class="title">J&#8217;aimerai remonter des erreurs/modifications directement dans le code ?</div><div class="content">
-<div class="paragraph">
-<p>C&#8217;est tout à fait possible via <a href="https://github.com/guenneguezt/plugin-ping">github</a></p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_changelog">1.4. Changelog</h3>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Detail complet des mises à jour sur <a href="https://github.com/guenneguezt/plugin-ping/commits/master">Historique Commit</a>
-</td>
-</tr>
-</table>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">1.7</dt>
-<dd>
-<p>Prise en compte de l&#8217;application mobile.</p>
-<div class="paragraph">
-<p>Correction de bug de résolution DNS et de nom de port.</p>
-</div>
-<div class="paragraph">
-<p>Changement de l&#8217;unité en µs.</p>
-</div>
-</dd>
-<dt class="hdlist1">1.6</dt>
-<dd>
-<p>Prise en charge de docker.</p>
-</dd>
-<dt class="hdlist1">1.5</dt>
-<dd>
-<p>Ajout de cron indépendante.</p>
-</dd>
-<dt class="hdlist1">1.4</dt>
-<dd>
-<p>Correction pour que le mode de ping soit bien affiché.</p>
-</dd>
-<dt class="hdlist1">1.3</dt>
-<dd>
-<p>Prise en compte de l&#8217;interface bond0 pour les mini+.</p>
-</dd>
-<dt class="hdlist1">1.2</dt>
-<dd>
-<p>Prise en compte du ping et requête Arp pour les plateformes supportantes.</p>
-</dd>
-<dt class="hdlist1">1.1</dt>
-<dd>
-<p>Possibilité de mettre un port sous forme numerique.</p>
-</dd>
-<dt class="hdlist1">1.0</dt>
-<dd>
-<p>Première version bêta.</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="footer">
-<div id="footer-text">
-</div>
-</div>
+  <div id="header">
+  </div>
+  <div id="content">
+    <div class="sect1">
+      <h2 id="_ftpd">ftpd</h2>
+      <div class="sectionbody">
+        <div class="sect2">
+          <h3 id="_pr_sentation">Présentation</h3>
+          <div class="paragraph">
+            <p>Ce plugin permet de creer un serveur ftp qui notifiera jeedom lorsqu&#8217;un
+              fichier est déposé. Très utile pour les cameras IP qui peuvent sur
+              détection de mouvement envoyer un fichier par ftp.</p>
+          </div>
+          <div class="imageblock" style="text-align: center">
+            <div class="content">
+              <img src="../images/ftpd_screenshot3.jpg" alt="ftpd screenshot3">
+            </div>
+          </div>
+          <div class="sect3">
+            <h4 id="_installation_configuration">Installation/Configuration</h4>
+            <div class="paragraph">
+              <p>Nous allons configurer le plugin. Pour se faire, cliquer sur <strong>Plugin / Gestion des plugins</strong>.
+                Puis trouver <strong>ftpd</strong>.</p>
+            </div>
+            <div class="imageblock" style="text-align: center">
+              <div class="content">
+                <img src="../images/ftpd_screenshot1.jpg" alt="ftpd screenshot1">
+              </div>
+            </div>
+            <div class="paragraph">
+              <p>Il faut définir certains paramètres global au plugin :</p>
+            </div>
+            <div class="ulist">
+              <ul>
+                <li>
+                  <p>Port ftpd : Port sur lequel le daemon écoutera pour les fichiers.</p>
+                </li>
+                <li>
+                  <p>Local IP : Adresse ip d'écoute du daemon. Il est préférable de
+                    laisser 0.0.0.0.</p>
+                </li>
+                <li>
+                  <p>IP Autorisées : Liste les IPs autorisées à déposer des fichiers.</p>
+                  <div class="paragraph">
+                    <p>Format : liste séparé par virgule sans espace. La liste peut
+                      contenir des ips (192.168.1.1), des masques ( (192.168.1.0/32)
+                      ou des plages (192.168.1.1-192.168.1.12).</p>
+                  </div>
+                </li>
+                <li>
+                  <p>Chemin des enregistrements : Chemin dans lequel les fichiers seront
+                    stockés.</p>
+                </li>
+                <li>
+                  <p>Debug daemon : Permet d&#8217;activer le debug du daemon ftpd.</p>
+                </li>
+              </ul>
+            </div>
+            <div class="paragraph">
+              <p>Et pour finir, cliquer sur Sauvegarder.</p>
+            </div>
+          </div>
+          <div class="sect3">
+            <h4 id="_fonctionnement">Fonctionnement :</h4>
+            <div class="paragraph">
+              <p>Le plugin créera automatiquement les équipements une fois qu&#8217;ils
+                auront envoyé un fichier.</p>
+            </div>
+            <div class="imageblock" style="text-align: center">
+              <div class="content">
+                <img src="../images/ftpd_screenshot6.jpg" alt="ftpd screenshot6">
+              </div>
+            </div>
+          </div>
+          <div class="sect3">
+            <h4 id="_informations_visibles">Informations visibles :</h4>
+            <div class="ulist horizontal">
+              <ul class="horizontal">
+                <li>
+                  <p><strong>Etat</strong> : état du ftpd. C&#8217;est une commande
+                    de type info binary. Elle est active durant 10 secondes sur reception
+                    de fichier.</p>
+                </li>
+                <li>
+                  <p><strong>lastfilename</strong> : Nom de la dernière capture reçue.</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect2">
+          <h3 id="_configuration">Configuration</h3>
+          <div class="paragraph">
+            <p>Nous allons maintenant paramétrer l'équipement. Pour se faire, cliquer
+              sur <strong>Plugins / Sécurité / Ftpd</strong></p>
+          </div>
+          <div class="paragraph">
+            <p>Puis définir les caractèristiques : - Objet parent - Catégorie (optionnelle)
+              - Activer (coché par défaut) - Visible (optionel si vous ne désirez
+              pas le rendre visible sur le Dashboard) - Nombre max de fichier : Nombre
+              de fichier maximum conservés.</p>
+          </div>
+          <div class="imageblock" style="text-align: center">
+            <div class="content">
+              <img src="../images/ftpd_screenshot2.jpg" alt="ftpd screenshot2">
+            </div>
+          </div>
+          <div class="paragraph">
+            <p>Et pour finir, cliquer sur Sauvegarder</p>
+          </div>
+        </div>
+        <div class="sect2">
+          <h3 id="_faq">FAQ</h3>
+          <div class="openblock panel">
+            <div class="title">Pourquoi le plugin est gratuit ?</div>
+            <div class="content">
+              <div class="paragraph">
+                <p>Ce plugin est gratuit pour que chacun puisse en profiter simplement.
+                  Si vous souhaitez tout de même faire un don au développeur du plugin,
+                  utilisez le lien suivant.
+                  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=C7MF4WU7SWNKG">Faire un don au développeur du plugin</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="openblock">
+            <div class="title">J&#8217;aimerai remonter des erreurs/modifications directement dans le
+              code ?</div>
+            <div class="content">
+              <div class="paragraph">
+                <p>C&#8217;est tout à fait possible via <a href="https://github.com/guenneguezt/plugin-ftpd">github</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sect2">
+          <h3 id="_changelog">Changelog</h3>
+          <div class="admonitionblock warning">
+            <table>
+              <tr>
+                <td class="icon">
+                  <div class="title">Warning</div>
+                </td>
+                <td class="content">
+                  Detail complet des mises à jour sur <a href="https://github.com/guenneguezt/plugin-ftpd/commits/master">Historique Commit</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="dlist">
+            <dl>
+              <dt class="hdlist1">1.0</dt>
+              <dd>
+                <p>Première version bêta.</p>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
