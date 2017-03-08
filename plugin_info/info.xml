@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <id>ftpd</id>
+    <name>Ftpd</name>
+    <description>Plugin de récupération de photo envoye par camera en ftp sur détection de mouvement</description>
+    <icon>fa fa-download</icon>
+    <licence>AGPL</licence>
+    <author>Thomas Guenneguez</author>
+    <require>1.124.0</require>
+	<installation></installation>
+    <version>1.0</version>
+    <category>security</category>
+    <hasOwnDeamon>1</hasOwnDeamon>
+</info>
