@@ -32,7 +32,6 @@ for config in dataconfig.xpath("/config/daemon/debug"):
   if config.text != '0':
     std_log_file = log_file
     DEBUG = True
-    log('DEBUG', "Debug actif")
   else:
     DEBUG = False
 for config in dataconfig.xpath("/config/daemon/local_ip"):
@@ -281,21 +280,23 @@ class FTPserverThread(threading.Thread):
         self.conn.send('150 Opening data connection.\r\n')
         if self.pasv_mode:
             self.datasock, addr = self.servsock.accept()
-            log('DEBUG', "connect: " + addr[0])
-            try:
-                client=socket.gethostbyaddr(addr[0])
-                clientdns=client[0]
-            except Exception,e:
-                clientdns="Addr_" + addr[0]
-                log('ERROR', "unable to solve: " + addr[0] + " " +str(e))
-            log('DEBUG', "identify as: " + clientdns)
-            self.cwd=os.path.join(self.basewd,clientdns)
-            if not os.path.isdir(self.cwd):
-                log('DEBUG', "mkdir:" + self.cwd)
-                os.mkdir(self.cwd)
+            clientip=addr[0]
         else:
             self.datasock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
             self.datasock.connect((self.dataAddr,self.dataPort))
+            clientip=self.dataAddr
+        log('DEBUG', "connect: " + clientip)
+        try:
+            client=socket.gethostbyaddr(clientip)
+            clientdns=client[0]
+        except Exception,e:
+            clientdns="Addr_" + clientip
+            log('ERROR', "unable to solve: " + clientip + " " +str(e))
+        log('DEBUG', "identify as: " + clientdns)
+        self.cwd=os.path.join(self.basewd,clientdns)
+        if not os.path.isdir(self.cwd):
+            log('DEBUG', "mkdir:" + self.cwd)
+            os.mkdir(self.cwd)
         while True:
             data=self.datasock.recv(1024)
             if not data: break
@@ -304,7 +305,7 @@ class FTPserverThread(threading.Thread):
         self.datasock.close()
         if self.pasv_mode:
             self.servsock.close()
-        for config in dataconfig.xpath("/config/ftpd_client/"+clientdns):
+        for config in dataconfig.xpath("/config/ftpd_client/" + clientdns):
             if config.text != '':
                 r = requests.get(config.text + '&file=' + cmd[5:-2])
         self.conn.send('226 Transfer complete.\r\n')
@@ -353,6 +354,7 @@ class App():
         ftp.stop()
 
 if __name__ == '__main__':
+  log('DEBUG', "Debug actif")
   app = App()
   daemon_runner = runner.DaemonRunner(app)
   daemon_runner.do_action()
