@@ -1,11 +1,11 @@
 [panel,primary]
-.Pourquoi le plugin est gratuit ?
+.Warum ist das Plugin kostenlos?
 --
-Ce plugin est gratuit pour que chacun puisse en profiter simplement. Si vous souhaitez tout de même faire un don au développeur du plugin, utilisez le lien suivant.
-link:https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C7MF4WU7SWNKG[Faire un don au développeur du plugin]
+Dieses Plugin ist kostenlos, damit jeder davon einfach profitieren kann. Wenn Sie dennoch für den Plugin-Entwickler spenden möchten, verwenden Sie den folgenden Link.
+link:https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C7MF4WU7SWNKG[Spenden Sie für die Plugin-Entwickler]
 --
 
-.J'aimerai remonter des erreurs/modifications directement dans le code ?
+Ich möchte frühere Fehler/Änderungen im Code direkt ansehen?
 --
-C'est tout à fait possible via https://github.com/guenneguezt/plugin-ftpd[github]
+Das ist alles über https://github.com/guenneguezt/plugin-ftpd[github] möglich.
 --

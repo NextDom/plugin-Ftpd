@@ -1,4 +1,4 @@
 [horizontal]
-WARNING: Detail complet des mises à jour sur https://github.com/guenneguezt/plugin-ftpd/commits/master[Historique Commit]
+Warnung: Ausführliche Informationen zu den Updates auf https://github.com/guenneguezt/plugin-ftpd/commits/master[Commit Geschichte]
 
-1.0:: Première version bêta.
+1.0:: Erste beta Version .

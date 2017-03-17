@@ -1,19 +1,19 @@
-Nous allons configurer le plugin. Pour se faire, cliquer sur *Plugin / Gestion des plugins*. Puis trouver *ftpd*.
+Wir werden das Plugin konfigurieren. Um dies zu tun, klicken Sie auf *Plugin / Plugin Verwaltung* . Dann *ftpd* ausfindig machen.
 
 image::../images/ftpd_screenshot1.jpg[align="center"]
 
-Il faut définir certains paramètres global au plugin :
+Es müssen auf dem Plugin einige globale Parameter festgelegt werden :
 
-- Port ftpd : Port sur lequel le daemon écoutera pour les fichiers.
+- ftpd Port : Port, auf dem der Dämon-Dateien abhört.
 
-- Local IP : Adresse ip d'écoute du daemon. Il est préférable de laisser 0.0.0.0.
+- Lokale IP : IP Adresse des Abhör Daemon. Am besten ist es 0.0.0.0 zu belassen.
 
-- IP Autorisées : Liste les IPs autorisées à déposer des fichiers.
+- Autorisierte IPs : Liste der autorisierten IPs um Dateien abzuspeichern. 
 +
-Format : liste séparé par virgule sans espace. La liste peut contenir des ips (192.168.1.1), des masques ( (192.168.1.0/32) ou des plages (192.168.1.1-192.168.1.12).
+Format : Liste durch Komma ohne Leerzeichen getrennt. Die Liste kann ips (192.168.1.1) enthalten, Masken ( (192.168.1.0/32) oder Bereiche (192.168.1.1-192.168.1.12).
 
-- Chemin des enregistrements : Chemin dans lequel les fichiers seront stockés.
+ - Speicherpfad : Pfad in dem die Dateien gespeichert werden.
 
-- Debug daemon : Permet d'activer le debug du daemon ftpd.
+- Debug-Dämon : Ermöglicht den ftpd Debug-Daemon zu aktivieren.
 
-Et pour finir, cliquer sur Sauvegarder.
+Klicken Sie abschließend auf Speichern.
