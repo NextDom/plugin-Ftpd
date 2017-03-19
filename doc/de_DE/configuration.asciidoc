@@ -1,4 +1,4 @@
-Nous allons maintenant paramétrer l'équipement. Pour se faire, cliquer sur *Plugins / Sécurité / Ftpd*
+Wir werden jetzt das Plugin konfigurieren. Um dies zu tun, klicken Sie auf *Plugins / Sicherheit / ftpd*.
 
 Dann definieren Sie die Eigenschaften :
 - Eltern Objekt
