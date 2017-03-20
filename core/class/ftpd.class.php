@@ -349,6 +349,36 @@ class ftpd extends eqLogic {
 		$cmd->setCollectDate('');
 		$cmd->event(0);
     }
+
+	public static function compilationOk() { 
+		$ftpd_path = dirname(__FILE__) . '/../../ressources';
+		$cmd = "cd ".$ftpd_path.";python ./ftpd.py test";
+		system($cmd,$code);
+		log::add('ftpd','debug','daemon test');
+		if ($code == 0 )
+			return true; 
+		else
+			return false;
+	} 
+ 
+	public static function dependancy_info() { 
+		$return = array(); 
+		$return['log'] = 'ftpd_update'; 
+		$return['progress_file'] = '/tmp/ftpd_in_progress'; 
+		$return['state'] = (self::compilationOk()) ? 'ok' : 'nok'; 
+		return $return; 
+	} 
+
+	public static function dependancy_install() { 
+		if (file_exists('/tmp/ftpd_in_progress')) { 
+			return; 
+		} 
+		log::remove('ftpd_update'); 
+		$cmd = 'sudo /bin/bash ' . dirname(__FILE__) . '/../../resources/install.sh'; 
+		$cmd .= ' >> ' . log::getPathToLog('ftpd_update') . ' 2>&1 &'; 
+		exec($cmd); 
+	} 
+
 }
 
 class ftpdCmd extends cmd 
