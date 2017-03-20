@@ -10,5 +10,6 @@
 	<installation></installation>
     <version>1.0</version>
     <category>security</category>
+	<hasDependency>1</hasDependency>
     <hasOwnDeamon>1</hasOwnDeamon>
 </info>
