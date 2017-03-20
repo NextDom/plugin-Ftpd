@@ -1,12 +1,35 @@
 #!/bin/bash
-# This file is part of Plugin openzwave for jeedom.##  Plugin openzwave for jeedom is free software: you can redistribute it and/or modify#  it under the terms of the GNU General Public License as published by#  the Free Software Foundation, either version 3 of the License, or#  (at your option) any later version.##  Plugin openzwave for jeedom is distributed in the hope that it will be useful,#  but WITHOUT ANY WARRANTY; without even the implied warranty of#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the#  GNU General Public License for more details.##  You should have received a copy of the GNU General Public License#  along with Plugin openzwave for jeedom. If not, see <http://www.gnu.org/licenses/>.
-#set -x  # make sure each command is printed in the terminaltouch /tmp/compilation_ozw_in_progressecho 0 > /tmp/compilation_ozw_in_progressecho "Lancement de l'installation/mise à jour des dépendances openzwave"
+
+# This file is part of Plugin ftpd for jeedom.
+#
+#set -x  # make sure each command is printed in the terminal
+touch /tmp/ftpd_in_progress
+echo 0 > /tmp/ftpd_in_progress
+echo "Lancement de l'installation/mise à jour des dépendances ftpd"
+
 BASEDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-function apt_install {  sudo apt-get -y install "$@"  if [ $? -ne 0 ]; then    echo "could not install $1 - abort"    rm /tmp/compilation_ozw_in_progress    exit 1  fi}
-function pip_install {  sudo pip install "$@"  if [ $? -ne 0 ]; then    echo "could not install $p - abort"    rm /tmp/compilation_ozw_in_progress    exit 1  fi}
-if [ $(ps ax | grep z-way-server | grep -v grep | wc -l ) -ne 0 ]; then  echo "Désactivation du z-way-server"  sudo service z-way-server stop  sudo service mongoose stop  sudo service zbw_connect stop  sudo update-rc.d -f z-way-server remove  sudo update-rc.d -f mongoose remove  sudo update-rc.d -f zbw_connect remove  ps aux | grep mongoose | awk '{print $2}' | xargs kill -9  ps aux | grep z-way-server | awk '{print $2}' | xargs kill -9   ps aux | grep zbw_connect | awk '{print $2}' | xargs kill -9   sudo rm -rf /opt/z-way-server*fi
-if [ ! -d /opt ]; then  sudo mkdir /optfiecho 10 > /tmp/compilation_ozw_in_progresssudo rm -f /var/lib/dpkg/updates/*sudo apt-get cleanecho 20 > /tmp/compilation_ozw_in_progresssudo apt-get updateecho 30 > /tmp/compilation_ozw_in_progressecho "Installation des dependances"apt_install mercurial git python-pip python-dev python-pyudev python-setuptools python-louie python-sphinx make build-essential libudev-dev g++ gcc python-lxml unzip libjpeg-dev python-serial python-requestsecho 40 > /tmp/compilation_ozw_in_progress# Pythonecho "Installation des dependances Python"pip_install sphinxcontrib-blockdiagecho 41 > /tmp/compilation_ozw_in_progresspip_install sphinxcontrib-actdiagecho 42 > /tmp/compilation_ozw_in_progresspip_install sphinxcontrib-nwdiagecho 43 > /tmp/compilation_ozw_in_progresspip_install sphinxcontrib-seqdiagecho 44 > /tmp/compilation_ozw_in_progresspip_install urwidecho 45 > /tmp/compilation_ozw_in_progresspip_install louieecho 46 > /tmp/compilation_ozw_in_progresspip_install flaskecho 47 > /tmp/compilation_ozw_in_progresspip_install flask-restfulecho 48 > /tmp/compilation_ozw_in_progresspip_install flask-httpauthecho 49 > /tmp/compilation_ozw_in_progresspip_install sixecho 50 > /tmp/compilation_ozw_in_progresspip_install tornadoecho 51 > /tmp/compilation_ozw_in_progress
-sudo mkdir /optif [ -d /opt/python-openzwave ]; then  cd /opt/python-openzwave  echo "Désinstallation de la version précédente";  sudo make uninstall > /dev/null 2>&1  echo 55 > /tmp/compilation_ozw_in_progress  sudo rm -rf /usr/local/lib/python2.7/dist-packages/libopenzwave*  sudo rm -rf /usr/local/lib/python2.7/dist-packages/openzwave*   cd /opt  sudo rm -rf /opt/python-openzwavefi
-echo "Installation de Python-OpenZwave"cd /optcp -R ${BASEDIR}/python-openzwave python-openzwaveif [ $? -ne 0 ]; then  echo "Unable to copy python-openzwave source"  rm /tmp/compilation_ozw_in_progress  exit 1fiecho 60 > /tmp/compilation_ozw_in_progresscd python-openzwavesudo pip uninstall -y Cythoncd /opt/python-openzwavesudo make cython-depsecho 65 > /tmp/compilation_ozw_in_progresssudo make repo-depsecho 70 > /tmp/compilation_ozw_in_progresscp -R ${BASEDIR}/python-openzwave/openzwave openzwaveif [ $? -ne 0 ]; then  echo "Unable to copy openzwave"  rm /tmp/compilation_ozw_in_progress  exit 1fiecho 75 > /tmp/compilation_ozw_in_progresscd /opt/python-openzwavemkdir /opt/python-openzwave/.gitsudo make install-apiecho 80 > /tmp/compilation_ozw_in_progresssudo mkdir /opt/python-openzwave/python-eggssudo chown -R www-data:www-data /opt/python-openzwavesudo chmod -R 777 /opt/python-openzwaveecho 90 > /tmp/compilation_ozw_in_progressif [ -e /dev/ttyAMA0 ];  then   sudo sed -i 's/console=ttyAMA0,115200//; s/kgdboc=ttyAMA0,115200//' /boot/cmdline.txt  sudo sed -i 's|[^:]*:[^:]*:respawn:/sbin/getty[^:]*ttyAMA0[^:]*||' /etc/inittabfi
-if [ -e /dev/ttymxc0 ];  then   sudo systemctl mask serial-getty@ttymxc0.service  sudo systemctl stop serial-getty@ttymxc0.servicefiif [ -e /dev/ttyAMA0 ];  then   sudo systemctl mask serial-getty@ttyAMA0.service  sudo systemctl stop serial-getty@ttyAMA0.servicefi
-RPI_BOARD_REVISION=`grep Revision /proc/cpuinfo | cut -d: -f2 | tr -d " "`if [[ $RPI_BOARD_REVISION ==  "a02082" || $RPI_BOARD_REVISION == "a22082" ]]then   systemctl disable hciuart   if [[ ! `grep "dtoverlay=pi3-miniuart-bt" /boot/config.txt` ]]   then      echo "Raspberry Pi 3 Detected. If you use a Razberry board you must Disabling Bluetooth"      echo "Please add 'dtoverlay=pi3-miniuart-bt' to the end of the file /boot/config.txt"      echo "And reboot your Raspberry Pi"   fifiecho 100 > /tmp/compilation_ozw_in_progressecho "Everything is successfully installed!"rm /tmp/compilation_ozw_in_progress
+
+function apt_install {
+  sudo apt-get -y install "$@"
+  if [ $? -ne 0 ]; then
+    echo "could not install $1 - abort"
+    rm /tmp/ftpd_in_progress
+    exit 1
+  fi
+}
+
+echo "Installation des dependances"
+apt_install python-pip
+echo 33 > /tmp/ftpd_in_progress
+
+echo "Installation des dependances"
+apt_install python-lxml
+echo 66 > /tmp/ftpd_in_progress
+
+echo "Installation des dependances"
+apt_install python-requests
+echo 99 > /tmp/ftpd_in_progress
+
+echo 100 > /tmp/ftpd_in_progress
+echo "Everything is successfully installed!"
+rm /tmp/ftpd_in_progress
