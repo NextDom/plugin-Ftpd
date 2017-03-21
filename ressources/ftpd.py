@@ -10,6 +10,10 @@ import requests
 #import traceback
 DEBUG = False
 
+if sys.argv[1] == "test":
+	print("ftpd startable")
+	sys.exit(0)
+
 def iptoint(ip):
     return int(socket.inet_aton(ip).encode('hex'),16)
     

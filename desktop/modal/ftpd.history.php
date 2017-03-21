@@ -42,8 +42,6 @@ $i=0;
 foreach ($files as $date => $file) {
 	echo '<div class="div_dayContainer">';
 	echo '<legend>';
-	echo '<a class="btn btn-xs btn-danger bt_removeftpdFile" data-day="1" data-filename="' . $EqLogic->getId() . '/' . $file.'><i class="fa fa-trash-o"></i> {{Supprimer}}</a> ';
-	echo '<a class="btn btn-xs btn-success"  href="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $file) . '" ><i class="fa fa-download"></i> {{Télécharger}}</a> ';
 	echo substr($date, 6, 2).'/'.substr($date, 4, 2).'/'.substr($date, 0, 4);
 	echo ' <a class="btn btn-xs btn-default toggleList"><i class="fa fa-chevron-down"></i></a> ';
 	echo '</legend>';

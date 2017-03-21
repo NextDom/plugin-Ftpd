@@ -352,10 +352,10 @@ class ftpd extends eqLogic {
 
 	public static function compilationOk() { 
 		$ftpd_path = dirname(__FILE__) . '/../../ressources';
-		$cmd = "cd ".$ftpd_path.";python ./ftpd.py test";
+		$cmd = "cd ".$ftpd_path.";python ./ftpd.py test 2>/dev/null 1>&2";
 		system($cmd,$code);
-		log::add('ftpd','debug','daemon test');
-		if ($code == 0 )
+		log::add('ftpd','debug','daemon test return '.$code);
+		if ( $code == 0 )
 			return true; 
 		else
 			return false;
@@ -374,7 +374,7 @@ class ftpd extends eqLogic {
 			return; 
 		} 
 		log::remove('ftpd_update'); 
-		$cmd = 'sudo /bin/bash ' . dirname(__FILE__) . '/../../resources/install.sh'; 
+		$cmd = 'sudo /bin/bash ' . dirname(__FILE__) . '/../../ressources/install.sh'; 
 		$cmd .= ' >> ' . log::getPathToLog('ftpd_update') . ' 2>&1 &'; 
 		exec($cmd); 
 	} 
