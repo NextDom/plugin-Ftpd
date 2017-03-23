@@ -100,11 +100,11 @@ class ftpd extends eqLogic {
 		}
 		if ( ! isset($daemon->log_file) )
 		{
-			$daemon->addChild('log_file', dirname(__FILE__) . '/../../../../log/ftpd-daemon');
+			$daemon->addChild('log_file', dirname(__FILE__) . '/../../../../log/ftpd_daemon');
 		}
 		else
 		{
-			$daemon->log_file = dirname(__FILE__) . '/../../../../log/ftpd-daemon';
+			$daemon->log_file = dirname(__FILE__) . '/../../../../log/ftpd_daemon';
 		}
 		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
 		if ( ! isset($daemon->ftp_dir) )

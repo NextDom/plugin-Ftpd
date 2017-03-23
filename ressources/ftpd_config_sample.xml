@@ -4,7 +4,7 @@
 		<port>8888</port>
 		<local_ip>0.0.0.0</local_ip>
 		<authorized_ip></authorized_ip>
-		<log_file>/var/www/html/plugins/ftpd/core/class/../../../../log/ftpd-daemon</log_file>
+		<log_file>/var/www/html/plugins/ftpd/core/class/../../../../log/ftpd_daemon</log_file>
 		<ftp_dir>/var/www/html/plugins/ftpd/core/class/../../capture/</ftp_dir>
 		<pid_file>/var/www/html/plugins/ftpd/core/class/../../ressources/ftpd.pid</pid_file>
 		<debug>1</debug>
