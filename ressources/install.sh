@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export DEBIAN_FRONTEND=noninteractive
 touch /tmp/ftpd_in_progress
 echo 0 > /tmp/ftpd_in_progress
 echo "Install dependances ftpd"
@@ -21,8 +22,8 @@ cd $BASEDIR
 python ./ftpd.py test 1>/dev/null 
 if [ $? -ne 0 ]
 then
-	echo "Installation of python-pip"
-	apt_install python-pip
+	echo "Installation of python-daemon"
+	apt_install python-daemon
 	echo 33 > /tmp/ftpd_in_progress
 
 	echo "Installation of python-lxml"
@@ -32,6 +33,12 @@ then
 	echo "Installation of python-requests"
 	apt_install python-requests
 	echo 99 > /tmp/ftpd_in_progress
+
+	python ./ftpd.py test
+	if [ $? -ne 0 ]
+	then
+		echo "Some dependencies missing"
+	fi
 else
 	echo 99 > /tmp/ftpd_in_progress
 	echo "No necessity of dependencies"

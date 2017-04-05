@@ -108,7 +108,7 @@ class FTPserverThread(threading.Thread):
                 clientdns=client[0]
             except Exception,e:
                 clientdns="Addr_" + addr[0]
-                log('ERROR', "unable to solve: " + addr[0] + " " +str(e))
+                log('DEBUG', "unable to solve: " + addr[0] + " " +str(e))
             log('DEBUG', "identify as: " + clientdns)
             self.cwd=os.path.join(self.basewd,clientdns)
             if not os.path.isdir(self.cwd):
@@ -295,7 +295,7 @@ class FTPserverThread(threading.Thread):
             clientdns=client[0]
         except Exception,e:
             clientdns="Addr_" + clientip
-            log('ERROR', "unable to solve: " + clientip + " " +str(e))
+            log('DEBUG', "unable to solve: " + clientip + " " +str(e))
         log('DEBUG', "identify as: " + clientdns)
         self.cwd=os.path.join(self.basewd,clientdns)
         if not os.path.isdir(self.cwd):

@@ -30,9 +30,41 @@ class ftpd extends eqLogic {
 		$return = array();
 		$return['log'] = '';
 		$return['state'] = 'nok';
-		$cron = cron::byClassAndFunction('ftpd', 'daemon');
-		if (is_object($cron) && $cron->running()) {
-			$return['state'] = 'ok';
+		$ftpd_path = dirname(__FILE__) . '/../../ressources';
+		$pid_file = $ftpd_path."/ftpd.pid";
+		log::add('ftpd','debug',__('PID file : ', __FILE__).$pid_file);
+		if (file_exists($pid_file))
+		{
+			log::add('ftpd','debug',__('PID file exist, PID : ', __FILE__).trim(file_get_contents($pid_file)));
+			if (posix_getsid(trim(file_get_contents($pid_file))))
+			{
+				log::add('ftpd','debug',__('Process exist', __FILE__));
+				$return['state'] = 'ok';
+			}
+			else
+			{
+				log::add('ftpd','debug',__('Process not found', __FILE__));
+				exec('rm -rf ' . $pid_file . '');
+			}
+		}
+		else
+		{
+			$processlist = system::ps("python ./ftpd.py start");
+			if ( count($processlist) > 0 )
+			{
+				foreach ($processlist as $value)
+				{
+					log::add('ftpd','debug',__('Retrieve ftpd.py process with PID : ', __FILE__).$value["pid"]);
+					$fp = fopen($pid_file, 'w');
+						fwrite($fp, $value["pid"]);
+					fclose($fp);
+					$return['state'] = 'ok';
+				}
+			}
+			else
+			{
+				log::add('ftpd','debug',__('PID file doesn\'t exist', __FILE__));
+			}
 		}
 		$return['launchable'] = 'ok';
 		return $return;
@@ -167,8 +199,10 @@ class ftpd extends eqLogic {
 
 		file_put_contents(dirname(__FILE__) . '/../../ressources/ftpd.xml', $xml->asXML());
 		$cmd = "cd ".$ftpd_path.";python ./ftpd.py start";
-		exec($cmd . ' &');
+		exec($cmd . ' >> ' . log::getPathToLog('ftpd') . ' 2>&1 &');
 		log::add('ftpd','debug',__('daemon start : ', __FILE__).$cmd);
+		sleep(5);
+		$deamon_info = self::deamon_info();
 	}
 
 	public static function deamon_stop() {
