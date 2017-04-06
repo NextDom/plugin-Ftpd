@@ -10,6 +10,11 @@ Si vous activez le debug vous devriez avoir le message suivant qui indique que l
 Votre configuration DNS ne permet pas à Jeedom de retrouver un nom dns de votre équipement. Ce n'est pas grave.
 --
 
+.Je n'arrive pas à créer mes équipements
+--
+Les équipements sont créés automatique à la reception de la première image.
+--
+
 .Pourquoi le plugin est gratuit ?
 --
 Ce plugin est gratuit pour que chacun puisse en profiter simplement. Si vous souhaitez tout de même faire un don au développeur du plugin, utilisez le lien suivant.
