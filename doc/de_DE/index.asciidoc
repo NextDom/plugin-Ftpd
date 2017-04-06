@@ -23,6 +23,24 @@ image::../images/ftpd_screenshot6.jpg[align="center"]
 === Konfiguration
 include::configuration.asciidoc[]
 
+==== Configuration Foscam
+include::configuration_foscam.asciidoc[]
+
+==== Configuration Wanscam
+include::configuration_wanscam.asciidoc[]
+
+==== Configuration Axis
+include::configuration_axis.asciidoc[]
+
+==== Configuration autres modèles
+Il faut mettre l'adresse IP de votre jeedom comme serveur FTP..
+
+Comme port (généralement 21), il faut mettre le port ftpd qui a été renseigné dans la page de configuration du plugin (8888 par defaut).
+
+Il n'est pas nécessaire de renseigner de compte, de mot de passe, ni de répertoire.
+
+link:https://www.cameraftp.com/CameraFTP/Support/SupportedCameras.aspx[Documentation générale]
+
 === FAQ
 include::faq.asciidoc[]
 
