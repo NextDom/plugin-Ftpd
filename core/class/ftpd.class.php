@@ -32,19 +32,15 @@ class ftpd extends eqLogic {
 		$return['state'] = 'nok';
 		$ftpd_path = dirname(__FILE__) . '/../../ressources';
 		$pid_file = $ftpd_path."/ftpd.pid";
-		log::add('ftpd','debug',__('PID file : ', __FILE__).$pid_file);
 		if (file_exists($pid_file))
 		{
-			log::add('ftpd','debug',__('PID file exist, PID : ', __FILE__).trim(file_get_contents($pid_file)));
 			if (posix_getsid(trim(file_get_contents($pid_file))))
 			{
-				log::add('ftpd','debug',__('Process exist', __FILE__));
 				$return['state'] = 'ok';
 			}
 			else
 			{
 				log::add('ftpd','debug',__('Process not found', __FILE__));
-				exec('rm -rf ' . $pid_file . '');
 			}
 		}
 		else
@@ -55,15 +51,8 @@ class ftpd extends eqLogic {
 				foreach ($processlist as $value)
 				{
 					log::add('ftpd','debug',__('Retrieve ftpd.py process with PID : ', __FILE__).$value["pid"]);
-					$fp = fopen($pid_file, 'w');
-						fwrite($fp, $value["pid"]);
-					fclose($fp);
 					$return['state'] = 'ok';
 				}
-			}
-			else
-			{
-				log::add('ftpd','debug',__('PID file doesn\'t exist', __FILE__));
 			}
 		}
 		$return['launchable'] = 'ok';
@@ -199,8 +188,8 @@ class ftpd extends eqLogic {
 
 		file_put_contents(dirname(__FILE__) . '/../../ressources/ftpd.xml', $xml->asXML());
 		$cmd = "cd ".$ftpd_path.";python ./ftpd.py start";
-		exec($cmd . ' >> ' . log::getPathToLog('ftpd') . ' 2>&1 &');
-		log::add('ftpd','debug',__('daemon start : ', __FILE__).$cmd);
+		log::add('ftpd','info',__('daemon start : ', __FILE__).$cmd);
+		ftpd::exec($cmd);
 		sleep(5);
 		$deamon_info = self::deamon_info();
 	}
@@ -208,14 +197,50 @@ class ftpd extends eqLogic {
 	public static function deamon_stop() {
 		// Initialisation de la connexion
 		$ftpd_path = dirname(__FILE__) . '/../../ressources';
+		$pid_file = $ftpd_path."/ftpd.pid";
+		if ( !posix_getsid(trim(file_get_contents($pid_file))))
+		{
+			log::add('ftpd','debug',__('Process not found', __FILE__));
+		}
 		$cmd = "cd ".$ftpd_path.";python ./ftpd.py stop";
-		exec($cmd . ' >> ' . log::getPathToLog('ftpd') . ' 2>&1 &');
-		log::add('ftpd','debug','daemon stop');
+		log::add('ftpd','info','daemon stop');
+		ftpd::exec($cmd);
+		sleep(6);
+	}
+
+	public static function exec($commande) {
+		$descriptorspec = array(
+		   0 => array("pipe", "r"),  // stdin
+		   1 => array("pipe", "w"),  // stdout
+		   2 => array("pipe", "w"),  // stderr
+		);
+		$ftpd_path = dirname(__FILE__) . '/../../ressources';
+		$process = proc_open($commande, $descriptorspec, $pipes, $ftpd_path, null);
+		$stdout = stream_get_contents($pipes[1]);
+		foreach(explode ("\n", $stdout) as $line)
+		{
+			if ( $line != "" )
+			{
+				log::add('ftpd','debug','daemon stdout : '.$line);
+			}
+		}
+		fclose($pipes[1]);
+
+		$stderr = stream_get_contents($pipes[2]);
+		foreach(explode ("\n", $stderr) as $line)
+		{
+			if ( $line != "" )
+			{
+				log::add('ftpd','debug','daemon stderr : '.$line);
+			}
+		}
+		fclose($pipes[2]);
+		return proc_close($process);
 	}
 
 	public static function force_detect_ftpd() {
 		// Initialisation de la connexion
-		log::add('ftpd','debug','force_detect_ftpd');
+		log::add('ftpd','info','force_detect_ftpd');
 		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
 		$new_ftpd = false;
 		if ( is_dir($_CaptureDir)) {

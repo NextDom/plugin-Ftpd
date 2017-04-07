@@ -10,10 +10,6 @@ import requests
 #import traceback
 DEBUG = False
 
-if sys.argv[1] == "test":
-	print("ftpd startable")
-	sys.exit(0)
-
 def iptoint(ip):
     return int(socket.inet_aton(ip).encode('hex'),16)
     
@@ -23,43 +19,6 @@ def inttoip(ip):
 def log(mode,message):
     if DEBUG or mode != 'DEBUG' :
         open(log_file,"a+").write("[{}][{}] : {}\n".format(time.strftime('%Y-%m-%d %H:%M:%S'), mode, message))
-
-configfile = os.path.dirname(os.path.realpath(__file__)) + '/ftpd.xml'
-
-dataconfig = etree.parse(configfile)
-for config in dataconfig.xpath("/config/daemon/log_file"):
-  log_file = config.text
-for config in dataconfig.xpath("/config/daemon/pid_file"):
-  pid_file = config.text
-
-for config in dataconfig.xpath("/config/daemon/debug"):
-  if config.text != '0':
-    std_log_file = log_file
-    DEBUG = True
-  else:
-    DEBUG = False
-for config in dataconfig.xpath("/config/daemon/local_ip"):
-  local_ip = config.text
-
-if not local_ip:
-  log('ERROR', "local_ip not found in config file")
-  sys.exit()
-
-for config in dataconfig.xpath("/config/daemon/port"):
-  local_port = config.text
-if not local_port:
-  log('ERROR', "local_port not found in config file")
-  sys.exit()
-for config in dataconfig.xpath("/config/daemon/ftp_dir"):
-  ftp_dir = config.text
-if not ftp_dir:
-  log('ERROR', "ftp_dir not found in config file")
-  sys.exit()
-
-for config in dataconfig.xpath("/config/daemon/url_force_scan"):
-  url_force_scan = config.text
-for config in dataconfig.xpath("/config/daemon/authorized_ip"):
-  authorized_ip_list = config.text
 
 class FTPserverThread(threading.Thread):
     def __init__(self,(conn,addr)):
@@ -78,7 +37,7 @@ class FTPserverThread(threading.Thread):
         new_camera=False
         self.conn.send('220 Welcome!\r\n')
         addr=self.conn.getpeername()
-        log('DEBUG', "connect: " + addr[0])
+        log('INFO', "connect: " + addr[0])
         authorized_camera=False
         if not authorized_ip_list or authorized_ip_list != "":
             log('DEBUG', "authorized : restriction " + authorized_ip_list)
@@ -271,7 +230,7 @@ class FTPserverThread(threading.Thread):
         self.conn.send('226 Transfer complete.\r\n')
 
     def STOR(self,cmd):
-        log('DEBUG', "Uploading: " +cmd[5:-2])
+        log('INFO', "Uploading: " +cmd[5:-2])
         words=cmd[5:-2].split("/")
 
         for word in words:
@@ -327,14 +286,18 @@ class FTPserver(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
+        log('DEBUG', "ftpd starting")
         self.sock.listen(5)
+        log('INFO', "ftpd started")
         while True:
             th=FTPserverThread(self.sock.accept())
             th.daemon=True
             th.start()
 
     def stop(self):
+        log('DEBUG', "ftpd stoping")
         self.sock.close()
+        log('INFO', "ftpd stoped")
 
 def handler(signum, frame):
     log('INFO', "Signal handler called with signal " + signum)
@@ -357,8 +320,55 @@ class App():
 #        raw_input('Enter to end...\n')
         ftp.stop()
 
+if sys.argv[1] == "test":
+	print("ftpd startable")
+	sys.exit(0)
+
+configfile = os.path.dirname(os.path.realpath(__file__)) + '/ftpd.xml'
+
+dataconfig = etree.parse(configfile)
+for config in dataconfig.xpath("/config/daemon/log_file"):
+  log_file = config.text
+
+log('INFO', "Do " + sys.argv[1])
+
+for config in dataconfig.xpath("/config/daemon/pid_file"):
+  pid_file = config.text
+
+for config in dataconfig.xpath("/config/daemon/debug"):
+  if config.text != '0':
+    std_log_file = log_file
+    DEBUG = True
+  else:
+    DEBUG = False
+for config in dataconfig.xpath("/config/daemon/local_ip"):
+  local_ip = config.text
+
+if not local_ip:
+  log('ERROR', "local_ip not found in config file")
+  sys.exit()
+
+for config in dataconfig.xpath("/config/daemon/port"):
+  local_port = config.text
+if not local_port:
+  log('ERROR', "local_port not found in config file")
+  sys.exit()
+for config in dataconfig.xpath("/config/daemon/ftp_dir"):
+  ftp_dir = config.text
+if not ftp_dir:
+  log('ERROR', "ftp_dir not found in config file")
+  sys.exit()
+
+for config in dataconfig.xpath("/config/daemon/url_force_scan"):
+  url_force_scan = config.text
+for config in dataconfig.xpath("/config/daemon/authorized_ip"):
+  authorized_ip_list = config.text
+
 if __name__ == '__main__':
   log('DEBUG', "Debug actif")
   app = App()
   daemon_runner = runner.DaemonRunner(app)
-  daemon_runner.do_action()
+  try:
+    daemon_runner.do_action()
+  except Exception,e:
+    log('ERROR', "Unable to do " + sys.argv[1] + " : " + str(e))
