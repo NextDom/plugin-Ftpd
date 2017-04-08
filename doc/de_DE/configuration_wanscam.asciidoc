@@ -1,13 +1,13 @@
-Il faut se connecter en http sur la camera et aller dans le menu FTP Service Settings.
+Man muss sich über http mit der Kamera verbinden und dann ins Menü FTP-Dienst Einstellungen gehen.
 
-Voici une copie d'écran de ce qu'il faut paramétrer :
+Hier ist eine Kopie vom Bildschirm, die zeigt, was man einstellen muss :
 
 image::../images/configuration_wanscam.jpg[align="center"]
 
-<IP_JEEDOM> Correspond à l'adresse IP de votre jeedom.
+<IP_JEEDOM> Ist die IP-Adresse von Ihrem jeedom.
 
-<PORT_PLUGIN> Correspond au port ftpd qui a été renseigné dans la page de configuration du plugin (8888 par defaut).
+<PORT_PLUGIN> Entspricht dem ftpd Port, der auf der Plugin-Konfigurationsseite eingegeben wurde (standardmäßig 8888).
 
-Il n'est pas nécessaire de renseigner de compte, de mot de passe, ni de répertoire.
+Es ist nicht notwendig, Konto, Passwort oder Verzeichnis abzufragen. 
 
-Il faut ensuite aller dans le menu Alarm Service Settings pour définir quand envoyer des images.
+Man muss danach ins Menü Alarm-Service Einstellungen gehen, um zu definieren, wenn Bilder gesendet werden.
