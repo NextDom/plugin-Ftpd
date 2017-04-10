@@ -35,11 +35,11 @@ class FTPserverThread(threading.Thread):
 
     def run(self):
         new_camera=False
-        self.conn.send('220 Welcome!\r\n')
         addr=self.conn.getpeername()
         log('INFO', "connect: " + addr[0])
         authorized_camera=False
-        if not authorized_ip_list or authorized_ip_list != "":
+        log('DEBUG', "test authorized_ip_list #" + str(authorized_ip_list) + "#")
+        if authorized_ip_list and authorized_ip_list != "":
             log('DEBUG', "authorized : restriction " + authorized_ip_list)
             for authorized_ip_rang in authorized_ip_list.split(','):
                 log('DEBUG', "authorized : try " + authorized_ip_rang)
@@ -62,6 +62,7 @@ class FTPserverThread(threading.Thread):
             authorized_camera=True
 
         if authorized_camera:
+            log('DEBUG', "authorized camera")
             try:
                 client=socket.gethostbyaddr(addr[0])
                 clientdns=client[0]
@@ -74,6 +75,7 @@ class FTPserverThread(threading.Thread):
                 log('DEBUG', "mkdir: " + self.cwd)
                 os.mkdir(self.cwd)
                 new_camera=True
+            self.conn.send('220 Welcome!\r\n')
             while True:
                 cmd=self.conn.recv(256)
                 if not cmd: break
@@ -87,6 +89,7 @@ class FTPserverThread(threading.Thread):
                         #traceback.print_exc()
                         self.conn.send('500 Sorry.\r\n')
             if new_camera:
+                time.sleep(2)
                 r = requests.get(url_force_scan)
         else:
             log('ERROR', "connexion refuser from " + addr[0])
@@ -118,11 +121,11 @@ class FTPserverThread(threading.Thread):
         #    self.cwd=os.path.abspath(os.path.join(self.cwd,'..'))
         self.conn.send('200 OK.\r\n')
     def PWD(self,cmd):
-        #cwd=os.path.relpath(self.cwd,self.basewd)
-        #if cwd=='.':
-        #    cwd='/'
-        #else:
-        #    cwd='/'+cwd
+        cwd=os.path.relpath(self.cwd,self.basewd)
+        if cwd=='.':
+            cwd='/'
+        else:
+            cwd='/'+cwd
         self.conn.send('257 \"%s\"\r\n' % cwd)
     def CWD(self,cmd):
         # chwd=cmd[4:-2]

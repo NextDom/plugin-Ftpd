@@ -34,7 +34,7 @@ krsort($files);
 ?>
 <div id='div_ftpdRecordAlert' style="display: none;"></div>
 <?php
-echo '<a class="btn btn-danger bt_removeftpdFile pull-right" data-all="1" data-filename="' . $EqLogic->getId() . '/*"><i class="fa fa-trash-o"></i> {{Tout supprimer}}</a>';
+echo '<a class="btn btn-danger bt_removeftpdFile pull-right" data-all="1" data-filtre="' . $EqLogic->getId() . '"><i class="fa fa-trash-o"></i> {{Tout supprimer}}</a>';
 echo '<a class="btn btn-success  pull-right" href="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/*') .'" ><i class="fa fa-download"></i> {{Tout télécharger}}</a>';
 ?>
 <?php
@@ -69,7 +69,7 @@ foreach ($files as $date => $file) {
 			echo '<center><img class="img-responsive cursor displayImage lazy" src="plugins/ftpd/core/img/no-image.png" data-original="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $filename) . '" width="150"/></center>';
 		}
 		echo '<center style="margin-top:5px;"><a href="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $filename) . '" class="btn btn-success btn-xs" style="color : white"><i class="fa fa-download"></i></a>';
-		echo ' <a class="btn btn-danger bt_removeftpdFile btn-xs" style="color : white" data-filename="' . $EqLogic->getLogicalId() . '/' . $filename . '"><i class="fa fa-trash-o"></i></a></center>';
+		echo ' <a class="btn btn-danger bt_removeftpdFile btn-xs" style="color : white" data-filtre="' . $EqLogic->getLogicalId() . '/' . $filename . '"><i class="fa fa-trash-o"></i></a></center>';
 		echo '</div>';
 	}
 	echo '</div>';
@@ -87,20 +87,22 @@ foreach ($files as $date => $file) {
         $('#md_modal2').load('index.php?v=d&plugin=ftpd&modal=ftpd.displayVideo&src='+ $(this).attr('data-src')).dialog('open');
     });
     $('.bt_removeftpdFile').on('click', function() {
-        var filename = $(this).attr('data-filename');
+        var filtre = $(this).attr('data-filtre');
         var card = $(this).closest('.ftpdDisplayCard');
+		action = 'removeRecord';
         if($(this).attr('data-day') == 1){
             card = $(this).closest('.div_dayContainer');
         }
         if($(this).attr('data-all') == 1){
+            action = 'removeAllSnapshot';
             card = $('.div_dayContainer');
         }
         $.ajax({// fonction permettant de faire de l'ajax
             type: "POST", // methode de transmission des données au fichier php
             url: "plugins/ftpd/core/ajax/ftpd.ajax.php", // url du fichier php
             data: {
-                action: "removeRecord",
-                file: filename,
+                action: action,
+                filtre: filtre,
             },
             dataType: 'json',
             error: function(request, status, error) {

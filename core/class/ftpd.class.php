@@ -128,6 +128,10 @@ class ftpd extends eqLogic {
 			$daemon->log_file = dirname(__FILE__) . '/../../../../log/ftpd_daemon';
 		}
 		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
+		if ( ! is_dir($_CaptureDir) )
+		{
+			mkdir($_CaptureDir);
+		}
 		if ( ! isset($daemon->ftp_dir) )
 		{
 			$daemon->addChild('ftp_dir', $_CaptureDir.'/');
@@ -159,6 +163,10 @@ class ftpd extends eqLogic {
 		if ( substr($pathjeedom, -1) != "/" ) {
 			$pathjeedom = $pathjeedom."/";
 		}
+		if ( config::byKey("internalAddr") == '' || config::byKey("internalPort") == "") {
+			log::add('ftpd','error',__('Adresse ou port interne non défini : Configuration => Configuration réseaux.', __FILE__));
+			throw new Exception(__('Veuillez vérifier la configuration réseau de Jeedom', __FILE__));
+		}
 		$url = "http://".config::byKey("internalAddr").":".config::byKey("internalPort")."/plugins/ftpd/core/ajax/ftpd.ajax.php?action=force_detect_ftpd";
 		if ( ! isset($daemon->url_force_scan) )
 		{
@@ -174,6 +182,10 @@ class ftpd extends eqLogic {
 			unset($xml->ftpd_client);
 		}
 		$xml->addChild('ftpd_client');
+		if ( config::byKey('api') == "") {
+			log::add('ftpd','error',__('Clef API non défini : Configuration => Configuration générale.', __FILE__));
+			throw new Exception(__('Veuillez vérifier la configuration de la clef API de Jeedom', __FILE__));
+		}
 		foreach (self::byType('ftpd') as $eqLogic) {
 			if ( $eqLogic->getIsEnable() ) {
 				$state = $eqLogic->getCmd(null, 'state');
@@ -250,7 +262,7 @@ class ftpd extends eqLogic {
 					{
 						log::add('ftpd','debug','Find ftpd : '.$file);
 						if ( ! is_object(self::byLogicalId($file, 'ftpd')) ) {
-							log::add('ftpd','debug','Creation ftpd : '.$file);
+							log::add('ftpd','info','Creation ftpd : '.$file);
 							$eqLogic = new ftpd();
 							$eqLogic->setLogicalId($file);
 							$eqLogic->setName($file);

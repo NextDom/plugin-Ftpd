@@ -32,14 +32,14 @@ try {
 	ajax::init();
 
 	if (init('action') == 'removeRecord') {
-		ftpd::removeSnapshot($file);
+		ftpd::removeSnapshot(init('filtre'));
 		ajax::success();
 	}
 
 	if (init('action') == 'removeAllSnapshot') {
-		$ftpd = ftpd::byId(init('id'));
+		$ftpd = ftpd::byId(init('filtre'));
 		if (!is_object($ftpd)) {
-			throw new Exception(__('Impossible de trouver la ftpd : ' . init('id'), __FILE__));
+			throw new Exception(__('Impossible de trouver la ftpd : ' . init('filtre'), __FILE__));
 		}
 		$ftpd->removeAllSnapshot();
 		ajax::success();

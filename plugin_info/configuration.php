@@ -28,11 +28,17 @@ if (!isConnect('admin')) {
         <div class="col-lg-3">
             <input class="configKey form-control" data-l1key="port"/>
         </div>
+        <div class="col-lg-3">
+			Doit être supérieur à 1024.
+        </div>
     </div>
     <div class="form-group">
         <label class="col-lg-4 control-label">{{Local IP}}</label>
         <div class="col-lg-3">
             <input class="configKey form-control" data-l1key="local_ip"/>
+        </div>
+        <div class="col-lg-3">
+			Adresse IP local sur laquelle le daemon écoute. Laisser 0.0.0.0 pour écouter sur toutes les interfaces réseaux de Jeedom.
         </div>
     </div>
     <div class="form-group">
@@ -49,11 +55,17 @@ if (!isConnect('admin')) {
         <div class="col-lg-3">
             <input class="configKey form-control" data-l1key="recordDir"/>
         </div>
+        <div class="col-lg-3">
+			Ne pas modifier sauf besoin spécifique.
+        </div>
     </div>
     <div class="form-group">
         <label class="col-lg-4 control-label">{{Debug daemon}}</label>
         <div class="col-lg-3">
             <input type="checkbox" class="configKey form-control" data-l1key="debug"/>
+        </div>
+        <div class="col-lg-3">
+			Permet d'avoir plus de message dans la log du daemon.
         </div>
     </div>
 	<div class="form-group">
