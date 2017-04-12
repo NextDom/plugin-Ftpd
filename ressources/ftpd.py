@@ -257,7 +257,7 @@ class FTPserverThread(threading.Thread):
         self.conn.send('550 Can\'t check for file existence.\r\n')
 
     def APPE(self,cmd):
-        STOR(self,cmd)
+        self.STOR(cmd)
 
     def STOR(self,cmd):
         log('INFO', "Uploading: " +cmd[5:-2])
