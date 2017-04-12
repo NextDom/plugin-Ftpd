@@ -15,6 +15,11 @@ Votre configuration DNS ne permet pas à Jeedom de retrouver un nom dns de votre
 Les équipements sont créés automatique à la reception de la première image.
 --
 
+.Je souhaite mettre 21 pour le port
+--
+Le daemon ne peut écouter sur le port standard ftp (21) car il n'est pas lancé en tant que root.
+--
+
 .Warum ist das Plugin kostenlos?
 --
 Dieses Plugin ist kostenlos, damit jeder davon einfach profitieren kann. Wenn Sie dennoch für den Plugin-Entwickler spenden möchten, verwenden Sie den folgenden Link.
