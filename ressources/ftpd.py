@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import os,socket,threading,time,signal,getopt,re
+import atexit
 import sys
 import logging
 from lxml import etree
@@ -19,6 +20,9 @@ def inttoip(ip):
 def log(mode,message):
     if DEBUG or mode != 'DEBUG' :
         open(log_file,"a+").write("[{}][{}] : {}\n".format(time.strftime('%Y-%m-%d %H:%M:%S'), mode, message))
+
+def close():
+    log('INFO', "ftpd stoped")
 
 class FTPserverThread(threading.Thread):
     def __init__(self,(conn,addr)):
@@ -256,11 +260,11 @@ class FTPserverThread(threading.Thread):
     def SIZE(self,cmd):
         self.conn.send('550 Can\'t check for file existence.\r\n')
 
-    def APPE(self,cmd):
-        self.STOR(cmd)
-
     def STOR(self,cmd):
-        log('INFO', "Uploading: " +cmd[5:-2])
+        self.APPE(cmd)
+
+    def APPE(self,cmd):
+        log('INFO', "Uploading: " + cmd[5:-2])
         words=cmd[5:-2].split("/")
 
         for word in words:
@@ -300,9 +304,9 @@ class FTPserverThread(threading.Thread):
         self.datasock.close()
         if self.pasv_mode:
             self.servsock.close()
+        self.conn.send('226 Transfer complete.\r\n')
         log('DEBUG', clientdns + " Notify capture " + url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + cmd[5:-2])
         r = requests.get(url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + cmd[5:-2])
-        self.conn.send('226 Transfer complete.\r\n')
 
 class FTPserver(threading.Thread):
     def __init__(self):
@@ -313,22 +317,24 @@ class FTPserver(threading.Thread):
           local_port = int(config.text)
         time.sleep(1)
         self.sock.bind((local_ip,local_port))
-        log('DEBUG', "Listen " + local_ip + ":" + str(local_port))
         threading.Thread.__init__(self)
 
     def run(self):
+        log('DEBUG', "Debug actif")
         log('DEBUG', "ftpd starting")
+        log('DEBUG', "Listen " + local_ip + ":" + str(local_port))
         self.sock.listen(5)
         log('INFO', "ftpd started")
+        atexit.register(close)
         while True:
             th=FTPserverThread(self.sock.accept())
             th.daemon=True
             th.start()
 
-    def stop(self):
-        log('DEBUG', "ftpd stoping")
+    def close(self):
+        log('DEBUG', "ftpd stopping")
         self.sock.close()
-        log('INFO', "ftpd stoped")
+        log('INFO', "ftpd stopped")
 
 def handler(signum, frame):
     log('INFO', "Signal handler called with signal " + signum)
@@ -341,6 +347,7 @@ class App():
         self.stderr_path = '/dev/null'
         self.pidfile_path =  pid_file
         self.pidfile_timeout = 5
+
     def run(self):
         ftp=FTPserver()
         ftp.daemon=True
@@ -361,7 +368,7 @@ dataconfig = etree.parse(configfile)
 for config in dataconfig.xpath("/config/daemon/log_file"):
   log_file = config.text
 
-log('INFO', "Do " + sys.argv[1])
+log('INFO', "Ask ftpd " + sys.argv[1])
 
 for config in dataconfig.xpath("/config/daemon/pid_file"):
   pid_file = config.text
@@ -398,10 +405,9 @@ for config in dataconfig.xpath("/config/daemon/authorized_ip"):
   authorized_ip_list = config.text
 
 if __name__ == '__main__':
-  log('DEBUG', "Debug actif")
   app = App()
   daemon_runner = runner.DaemonRunner(app)
   try:
     daemon_runner.do_action()
   except Exception,e:
-    log('ERROR', "Unable to do " + sys.argv[1] + " : " + str(e))
+    log('ERROR', "Unable to do " + sys.argv[1] + " " + str(e))
