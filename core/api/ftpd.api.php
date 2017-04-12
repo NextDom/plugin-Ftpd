@@ -16,37 +16,26 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+include_file('core', 'ftpd', 'class', 'ftpd');
+
 try {
-    require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
-    include_file('core', 'authentification', 'php');
-
-    if (!isConnect('admin')) {
-        throw new Exception(__('401 - Accès non autorisé', __FILE__));
-    }
-
-	ajax::init();
-
     if (init('action') == 'force_detect_ftpd') {
-		$ftpdCmd = ftpd::force_detect_ftpd();
-		ajax::success($ftpdCmd);
+		ftpd::force_detect_ftpd();
+		exit;
     }
 
-	if (init('action') == 'removeRecord') {
-		ftpd::removeSnapshot(init('filtre'));
-		ajax::success();
-	}
-
-	if (init('action') == 'removeAllSnapshot') {
-		$ftpd = ftpd::byId(init('filtre'));
+	if (init('action') == 'newcapture') {
+		$ftpd = eqlogic::byLogicalId(init('LogicalId'), 'ftpd');
 		if (!is_object($ftpd)) {
-			throw new Exception(__('Impossible de trouver la ftpd : ' . init('filtre'), __FILE__));
+			throw new Exception(__('Impossible de trouver la ftpd : ' . init('LogicalId'), __FILE__));
 		}
-		$ftpd->removeAllSnapshot();
-		ajax::success();
+		$ftpd->newcapture(init('lastfilename'));
+		exit;
 	}
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
-    ajax::error(displayExeption($e), $e->getCode());
+    throw new Exception(displayExeption($e), $e->getCode());
 }
 ?>

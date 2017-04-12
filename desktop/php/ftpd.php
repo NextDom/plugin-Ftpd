@@ -111,6 +111,18 @@ sendVarToJS('eqType', 'ftpd');
                     <div class="col-md-1">
                         <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="nbfilemax" placeholder="{{Nombre max de fichier}}"/>
                     </div>
+                    <div class="col-md-3">
+                        10 par défaut
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" >{{Délai reset status}}</label>
+                    <div class="col-md-1">
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="delairesetstatus" placeholder="{{Délai reset status}}"/>
+                    </div>
+                    <div class="col-md-3">
+                        10 secondes par défaut
+                    </div>
                 </div>
             </fieldset> 
         </form>

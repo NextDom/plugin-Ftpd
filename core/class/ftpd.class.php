@@ -167,7 +167,7 @@ class ftpd extends eqLogic {
 			log::add('ftpd','error',__('Adresse ou port interne non défini : Configuration => Configuration réseaux.', __FILE__));
 			throw new Exception(__('Veuillez vérifier la configuration réseau de Jeedom', __FILE__));
 		}
-		$url = "http://".config::byKey("internalAddr").":".config::byKey("internalPort")."/plugins/ftpd/core/ajax/ftpd.ajax.php?action=force_detect_ftpd";
+		$url = "http://".config::byKey("internalAddr").":".config::byKey("internalPort")."/plugins/ftpd/core/api/ftpd.api.php?action=force_detect_ftpd";
 		if ( ! isset($daemon->url_force_scan) )
 		{
 			$daemon->addChild('url_force_scan', $url);
@@ -181,21 +181,14 @@ class ftpd extends eqLogic {
 		{
 			unset($xml->ftpd_client);
 		}
-		$xml->addChild('ftpd_client');
-		if ( config::byKey('api') == "") {
-			log::add('ftpd','error',__('Clef API non défini : Configuration => Configuration générale.', __FILE__));
-			throw new Exception(__('Veuillez vérifier la configuration de la clef API de Jeedom', __FILE__));
+		$url = "http://".config::byKey("internalAddr").":".config::byKey("internalPort")."/plugins/ftpd/core/api/ftpd.api.php?action=newcapture";
+		if ( ! isset($daemon->url_new_capture) )
+		{
+			$daemon->addChild('url_new_capture', $url);
 		}
-		foreach (self::byType('ftpd') as $eqLogic) {
-			if ( $eqLogic->getIsEnable() ) {
-				$state = $eqLogic->getCmd(null, 'state');
-				if ( is_object($state) )
-				{
-					$url = "http://".config::byKey("internalAddr").":".config::byKey("internalPort")."/core/api/jeeApi.php?api=".config::byKey('api')."&type=ftpd&id=".$state->getId()."&value=1";
-					$xml->ftpd_client->addChild($eqLogic->getLogicalId());
-					$xml->ftpd_client->{$eqLogic->getLogicalId()} = $url;
-				}
-			}
+		else
+		{
+			$daemon->url_new_capture = $url;
 		}
 
 		file_put_contents(dirname(__FILE__) . '/../../ressources/ftpd.xml', $xml->asXML());
@@ -254,7 +247,6 @@ class ftpd extends eqLogic {
 		// Initialisation de la connexion
 		log::add('ftpd','info','force_detect_ftpd');
 		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
-		$new_ftpd = false;
 		if ( is_dir($_CaptureDir)) {
 			if ($dh = opendir($_CaptureDir)) {
 				while (($file = readdir($dh)) !== false) {
@@ -269,16 +261,11 @@ class ftpd extends eqLogic {
 							$eqLogic->setEqType_name('ftpd');
 							$eqLogic->setIsEnable(1);
 							$eqLogic->save();
-							$new_ftpd = true;
 						}
 					}
 				}
 				closedir($dh);
 			}
-		}
-		if ( $new_ftpd )
-		{
-			ftpd::deamon_start();
 		}
 	}
 
@@ -350,11 +337,8 @@ class ftpd extends eqLogic {
 		$this->removeAllSnapshot(true);
 	}
 
-	public function postRemove() {
-		ftpd::deamon_start();
-	}
-
 	public function removeAllSnapshot($anddir = false) {
+		log::add('ftpd','debug',"Remove All Snapshot");
 		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId();
 		if ($handle = opendir($_CaptureDir))
 		{
@@ -372,21 +356,21 @@ class ftpd extends eqLogic {
 	}
 
 	public static function removeSnapshot($file) {
+		log::add('ftpd','debug',"Remove Snapshot ".$file);
 		$record_dir = calculPath(config::byKey('recordDir', 'ftpd'));
 		unlink ($record_dir . '/' . $file);
 	}
 
-	public static function event() {
-        $cmd = ftpdCmd::byId(init('id'));
-        if (!is_object($cmd)) {
-            throw new Exception('Commande ID virtuel inconnu : ' . init('id'));
-        }
-		$EqLogic = $cmd->getEqLogic();
-		log::add('ftpd','debug',"Receive push notification for ".$EqLogic->getLogicalId()." ".$cmd->getName()." (". init('id')."-".init('file').")");
-		$cmd->setCollectDate('');
-		$cmd->event(1);
+	public function newcapture($filename) {
+        $state = $this->getCmd(null, 'state');
+		log::add('ftpd','debug',"Receive push notification for ".$this->getLogicalId()." ".$filename);
+        $lastfilename = $this->getCmd(null, 'lastfilename');
+		$lastfilename->setCollectDate('');
+		$lastfilename->event(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename);
+		$state->setCollectDate('');
+		$state->event(1);
 		$files = array();
-		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$EqLogic->getLogicalId();
+		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId();
 		if ($handle = opendir($_CaptureDir))
 		{
 			while (false !== ($file = readdir($handle)))
@@ -398,11 +382,11 @@ class ftpd extends eqLogic {
 			}
 			closedir($handle);
 		}
-		if ( count($files) > $EqLogic->getConfiguration('nbfilemax', 10) )
+		if ( count($files) > $this->getConfiguration('nbfilemax', 10) )
 		{
 			// sort
 			ksort($files);
-			$filetodelete = count($files) - $EqLogic->getConfiguration('nbfilemax', 10);
+			$filetodelete = count($files) - $this->getConfiguration('nbfilemax', 10);
 			foreach($files as $file)
 			{
 				if ( $filetodelete > 0 )
@@ -413,12 +397,9 @@ class ftpd extends eqLogic {
 				$filetodelete--;
 			}
 		}
-        $lastfilename = $EqLogic->getCmd(null, 'lastfilename');
-		$lastfilename->setCollectDate('');
-		$lastfilename->event(config::byKey('recordDir', 'ftpd').'/'.$EqLogic->getLogicalId()."/".init('file'));
- 		sleep(10);
-		$cmd->setCollectDate('');
-		$cmd->event(0);
+ 		sleep($this->getConfiguration('delairesetstatus', 10));
+		$state->setCollectDate('');
+		$state->event(0);
     }
 
 	public static function compilationOk() { 
