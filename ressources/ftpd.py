@@ -34,11 +34,9 @@ class FTPserverThread(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        new_camera=False
         addr=self.conn.getpeername()
         log('INFO', "connect: " + addr[0])
         authorized_camera=False
-        log('DEBUG', "test authorized_ip_list #" + str(authorized_ip_list) + "#")
         if authorized_ip_list and authorized_ip_list != "":
             log('DEBUG', "authorized : restriction " + authorized_ip_list)
             for authorized_ip_rang in authorized_ip_list.split(','):
@@ -72,25 +70,27 @@ class FTPserverThread(threading.Thread):
             log('DEBUG', "identify as: " + clientdns)
             self.cwd=os.path.join(self.basewd,clientdns)
             if not os.path.isdir(self.cwd):
-                log('DEBUG', "mkdir: " + self.cwd)
+                log('DEBUG', clientdns + " mkdir: " + self.cwd)
                 os.mkdir(self.cwd)
-                new_camera=True
+                log('DEBUG', clientdns + " Force detect")
+                r = requests.get(url_force_scan)
             self.conn.send('220 Welcome!\r\n')
             while True:
                 cmd=self.conn.recv(256)
                 if not cmd: break
+                if cmd.rstrip().upper() == "QUIT":
+                    self.conn.send('221 Goodbye.\r\n')
+                    self.conn.close()
+                    break
                 else:
-                    log('DEBUG', "Recieved: " + cmd.rstrip())
+                    log('DEBUG', clientdns + " Recieved: " + cmd.rstrip())
                     try:
                         func=getattr(self,cmd[:4].strip().upper())
                         func(cmd)
                     except Exception,e:
-                        log('ERROR', str(e))
+                        log('ERROR', clientdns + " " +str(e))
                         #traceback.print_exc()
                         self.conn.send('500 Sorry.\r\n')
-            if new_camera:
-                time.sleep(2)
-                r = requests.get(url_force_scan)
         else:
             log('ERROR', "connexion refuser from " + addr[0])
             self.conn.send('223 Sorry\r\n')
@@ -104,11 +104,30 @@ class FTPserverThread(threading.Thread):
             self.conn.send('451 Sorry.\r\n')
     def USER(self,cmd):
         self.conn.send('331 OK.\r\n')
+    def FEAT(self,cmd):
+        self.conn.send('211 Extensions supported:\r\n')
+        #self.conn.send('EPRT')
+        #self.conn.send('IDLE')
+        #self.conn.send('MDTM')
+        self.conn.send('SIZE')
+        #self.conn.send('MFMT')
+        #self.conn.send('REST STREAM')
+        #self.conn.send('MLST type*;size*;sizd*;modify*;UNIX.mode*;UNIX.uid*;UNIX.gid*;unique*;')
+        #self.conn.send('MLSD')
+        #self.conn.send('AUTH TLS')
+        #self.conn.send('PBSZ')
+        #self.conn.send('PROT')
+        #self.conn.send('UTF8')
+        #self.conn.send('TVFS')
+        #self.conn.send('ESTA')
+        self.conn.send('PASV')
+        #self.conn.send('EPSV')
+        #self.conn.send('SPSV')
+        #self.conn.send('ESTP\r\n')
+        self.conn.send('211 End.\r\n')
     def PASS(self,cmd):
         self.conn.send('230 OK.\r\n')
         #self.conn.send('530 Incorrect.\r\n')
-    def QUIT(self,cmd):
-        self.conn.send('221 Goodbye.\r\n')
     def NOOP(self,cmd):
         self.conn.send('200 OK.\r\n')
     def TYPE(self,cmd):
@@ -120,6 +139,7 @@ class FTPserverThread(threading.Thread):
             #learn from stackoverflow
         #    self.cwd=os.path.abspath(os.path.join(self.cwd,'..'))
         self.conn.send('200 OK.\r\n')
+
     def PWD(self,cmd):
         cwd=os.path.relpath(self.cwd,self.basewd)
         if cwd=='.':
@@ -127,6 +147,7 @@ class FTPserverThread(threading.Thread):
         else:
             cwd='/'+cwd
         self.conn.send('257 \"%s\"\r\n' % cwd)
+
     def CWD(self,cmd):
         # chwd=cmd[4:-2]
         # if chwd=='/':
@@ -232,6 +253,12 @@ class FTPserverThread(threading.Thread):
         #self.stop_datasock()
         self.conn.send('226 Transfer complete.\r\n')
 
+    def SIZE(self,cmd):
+        self.conn.send('550 Can\'t check for file existence.\r\n')
+
+    def APPE(self,cmd):
+        STOR(self,cmd)
+
     def STOR(self,cmd):
         log('INFO', "Uploading: " +cmd[5:-2])
         words=cmd[5:-2].split("/")
@@ -263,6 +290,8 @@ class FTPserverThread(threading.Thread):
         if not os.path.isdir(self.cwd):
             log('DEBUG', "mkdir:" + self.cwd)
             os.mkdir(self.cwd)
+            log('DEBUG', clientdns + " Force detect")
+            r = requests.get(url_force_scan)
         while True:
             data=self.datasock.recv(1024)
             if not data: break
@@ -271,9 +300,8 @@ class FTPserverThread(threading.Thread):
         self.datasock.close()
         if self.pasv_mode:
             self.servsock.close()
-        for config in dataconfig.xpath("/config/ftpd_client/" + clientdns):
-            if config.text != '':
-                r = requests.get(config.text + '&file=' + cmd[5:-2])
+        log('DEBUG', clientdns + " Notify capture " + url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + cmd[5:-2])
+        r = requests.get(url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + cmd[5:-2])
         self.conn.send('226 Transfer complete.\r\n')
 
 class FTPserver(threading.Thread):
@@ -324,8 +352,8 @@ class App():
         ftp.stop()
 
 if sys.argv[1] == "test":
-	print("ftpd startable")
-	sys.exit(0)
+    print("ftpd startable")
+    sys.exit(0)
 
 configfile = os.path.dirname(os.path.realpath(__file__)) + '/ftpd.xml'
 
@@ -364,6 +392,8 @@ if not ftp_dir:
 
 for config in dataconfig.xpath("/config/daemon/url_force_scan"):
   url_force_scan = config.text
+for config in dataconfig.xpath("/config/daemon/url_new_capture"):
+  url_new_capture = config.text
 for config in dataconfig.xpath("/config/daemon/authorized_ip"):
   authorized_ip_list = config.text
 
