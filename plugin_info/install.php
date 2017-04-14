@@ -19,18 +19,6 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 function ftpd_install() {
-	$daemon = cron::byClassAndFunction('ftpd', 'daemon');
-	if (!is_object($daemon)) {
-		$daemon = new cron();
-		$daemon->setClass('ftpd');
-		$daemon->setFunction('daemon');
-		$daemon->setEnable(1);
-		$daemon->setDeamon(1);
-		$daemon->setTimeout(1440);
-		$daemon->setSchedule('* * * * *');
-		$daemon->save();
-	}
-	$daemon->start();
 	config::save('port', 8888, 'ftpd');
 	config::save('local_ip', '0.0.0.0', 'ftpd');
 	config::save('authorized_ip', '', 'ftpd');
@@ -42,21 +30,11 @@ function ftpd_update() {
 		$eqLogic->save();
 	}
 	$daemon = cron::byClassAndFunction('ftpd', 'daemon');
-	if (!is_object($daemon)) {
-		$daemon = new cron();
-		$daemon->setClass('ftpd');
-		$daemon->setFunction('daemon');
-		$daemon->setEnable(1);
-		$daemon->setDeamon(1);
-		$daemon->setTimeout(1440);
-		$daemon->setSchedule('* * * * *');
-		$daemon->save();
-		$daemon->start();
+	if (is_object($daemon)) {
+        $daemon->remove();
 	}
-	else
-	{
-		ftpd::deamon_start();
-	}
+	ftpd::deamon_stop();
+	ftpd::deamon_start();
 }
 
 function ftpd_remove() {
@@ -64,5 +42,6 @@ function ftpd_remove() {
     if (is_object($daemon)) {
         $daemon->remove();
     }
+	ftpd::deamon_stop();
 }
 ?>

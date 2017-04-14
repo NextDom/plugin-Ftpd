@@ -30,6 +30,7 @@ class ftpd extends eqLogic {
 		$return = array();
 		$return['log'] = '';
 		$return['state'] = 'nok';
+		$return['launchable'] = 'ok';
 		$ftpd_path = dirname(__FILE__) . '/../../ressources';
 		$pid_file = $ftpd_path."/ftpd.pid";
 		if (file_exists($pid_file))
@@ -55,7 +56,9 @@ class ftpd extends eqLogic {
 				}
 			}
 		}
-		$return['launchable'] = 'ok';
+		if ( config::byKey("internalAddr") == '' || config::byKey("internalPort") == "") {
+			$return['launchable'] = 'nok';
+		}
 		return $return;
 	}
 
@@ -203,14 +206,25 @@ class ftpd extends eqLogic {
 		// Initialisation de la connexion
 		$ftpd_path = dirname(__FILE__) . '/../../ressources';
 		$pid_file = $ftpd_path."/ftpd.pid";
-		if ( !posix_getsid(trim(file_get_contents($pid_file))))
+		if ( ! file_exists($pid_file) )
 		{
-			log::add('ftpd','debug',__('Process not found', __FILE__));
+			log::add('ftpd','debug',__('Pid file not found', __FILE__));
 		}
-		$cmd = "cd ".$ftpd_path.";python ./ftpd.py stop";
-		log::add('ftpd','info','daemon stop');
-		ftpd::exec($cmd);
-		sleep(6);
+		else
+		{
+			$pid = trim(file_get_contents($pid_file));
+			if ( ! posix_getsid($pid) )
+			{
+				log::add('ftpd','debug',__('Process not found', __FILE__)." (".$pid.")");
+			}
+			else
+			{
+				$cmd = "cd ".$ftpd_path.";python ./ftpd.py stop";
+				log::add('ftpd','info','daemon stop');
+				ftpd::exec($cmd);
+				sleep(6);
+			}
+		}
 	}
 
 	public static function exec($commande) {
