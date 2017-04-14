@@ -12,4 +12,5 @@
     <category>security</category>
 	<hasDependency>1</hasDependency>
     <hasOwnDeamon>1</hasOwnDeamon>
+    <maxDependancyInstallTime>45</maxDependancyInstallTime>
 </info>
