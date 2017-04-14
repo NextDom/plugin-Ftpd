@@ -33,7 +33,7 @@ class ftpd extends eqLogic {
 		$return['launchable'] = 'ok';
 		$ftpd_path = dirname(__FILE__) . '/../../ressources';
 		$pid_file = $ftpd_path."/ftpd.pid";
-		if (file_exists($pid_file))
+		if ( file_exists($pid_file) )
 		{
 			if (posix_getsid(trim(file_get_contents($pid_file))))
 			{

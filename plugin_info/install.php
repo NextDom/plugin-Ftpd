@@ -33,8 +33,9 @@ function ftpd_update() {
 	if (is_object($daemon)) {
         $daemon->remove();
 	}
-	ftpd::deamon_stop();
-	ftpd::deamon_start();
+	$plugin = plugin::byId('ftpd');
+	$plugin->deamon_stop();
+	$plugin->deamon_start();
 }
 
 function ftpd_remove() {
@@ -42,6 +43,7 @@ function ftpd_remove() {
     if (is_object($daemon)) {
         $daemon->remove();
     }
-	ftpd::deamon_stop();
+	$plugin = plugin::byId('ftpd');
+	$plugin->deamon_stop();
 }
 ?>
