@@ -32,6 +32,9 @@ include::configuration_wanscam.asciidoc[]
 ==== Configuration Axis
 include::configuration_axis.asciidoc[]
 
+==== Configuration Escam (chinoises sur soc Hisilicon)
+include::configuration_escam.asciidoc[]
+
 ==== Configuration autres modèles
 Il faut mettre l'adresse IP de votre jeedom comme serveur FTP..
 
