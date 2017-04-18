@@ -294,6 +294,7 @@ class ftpd extends eqLogic {
 			$state->setSubType('binary');
 			$state->setLogicalId('state');
 			$state->setDisplay('generic_type','PRESENCE');
+			$state->setDisplay('invertBinary',1);
 			$state->setTemplate('dashboard', 'presence');
 			$state->setTemplate('mobile', 'presence');
 			$state->save();
@@ -322,6 +323,7 @@ class ftpd extends eqLogic {
 			$state->setType('info');
 			$state->setSubType('binary');
 			$state->setLogicalId('state');
+			$state->setDisplay('invertBinary',1);
 			$state->setDisplay('generic_type','PRESENCE');
 			$state->setTemplate('dashboard', 'presence');
 			$state->setTemplate('mobile', 'presence');

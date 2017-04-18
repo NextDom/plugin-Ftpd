@@ -25,6 +25,8 @@ def close():
     log('INFO', "ftpd stoped")
 
 class FTPserverThread(threading.Thread):
+    global cwd
+
     def __init__(self,(conn,addr)):
         self.conn=conn
         self.addr=addr
