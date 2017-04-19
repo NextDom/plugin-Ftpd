@@ -66,7 +66,7 @@ foreach ($files as $date => $file) {
 	Your browser does not support the video tag.
 	</video>';
 		}else{
-			echo '<center><img class="img-responsive cursor displayImage lazy" src="plugins/ftpd/core/img/no-image.png" data-original="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $filename) . '" width="150"/></center>';
+			echo '<center><img class="img-responsive cursor displayImage lazy" src="plugins/ftpd/core/img/no-image.png" data-original="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $filename) . '" data-id='.init('id').' width="150"/></center>';
 		}
 		echo '<center style="margin-top:5px;"><a href="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $filename) . '" class="btn btn-success btn-xs" style="color : white"><i class="fa fa-download"></i></a>';
 		echo ' <a class="btn btn-danger bt_removeftpdFile btn-xs" style="color : white" data-filtre="' . $EqLogic->getLogicalId() . '/' . $filename . '"><i class="fa fa-trash-o"></i></a></center>';
@@ -80,7 +80,7 @@ foreach ($files as $date => $file) {
     $('.ftpdThumbnailContainer').packery({gutter : 5});
     $('.displayImage').on('click', function() {
         $('#md_modal2').dialog({title: "Image"});
-        $('#md_modal2').load('index.php?v=d&plugin=ftpd&modal=ftpd.displayImage&src='+ $(this).attr('src')).dialog('open');
+        $('#md_modal2').load('index.php?v=d&plugin=ftpd&modal=ftpd.displayImage&src='+ $(this).attr('src')+'&id='+ $(this).attr('data-id')).dialog('open');
     });
 	$('.displayVideo').on('click', function() {
         $('#md_modal2').dialog({title: "Vidéo"});
