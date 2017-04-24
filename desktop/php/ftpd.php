@@ -64,6 +64,12 @@ sendVarToJS('eqType', 'ftpd');
 				   <i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i>
 			   </legend>
                 <div class="form-group">
+                    <label class="col-lg-2 control-label">{{Identifiant de l'équipement}}</label>
+                    <div class="col-lg-3">
+                        <input type="text" class="eqLogicAttr form-control" data-l1key="logicalId" readonly/>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-lg-2 control-label">{{Nom de l'équipement}}</label>
                     <div class="col-lg-3">
                         <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />

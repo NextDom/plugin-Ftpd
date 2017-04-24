@@ -94,22 +94,25 @@ class FTPserverThread(threading.Thread):
                         func=getattr(self,cmd[:4].strip().upper())
                         func(cmd)
                     except Exception,e:
-                        log('ERROR', clientdns + " " +str(e))
+                        log('ERROR', clientdns + " " +str(e) + " : " + cmd)
                         #traceback.print_exc()
-                        self.conn.send('500 Sorry.\r\n')
+                        self.conn.send("500 '" + str(e) + "': command not understood.")
         else:
             log('ERROR', "connexion refuser from " + addr[0])
             self.conn.send('223 Sorry\r\n')
 
     def SYST(self,cmd):
         self.conn.send('215 Jeedom Type: L8\r\n')
+
     def OPTS(self,cmd):
         if cmd[5:-2].upper()=='UTF8 ON':
             self.conn.send('200 OK.\r\n')
         else:
             self.conn.send('451 Sorry.\r\n')
+
     def USER(self,cmd):
         self.conn.send('331 OK.\r\n')
+
     def FEAT(self,cmd):
         self.conn.send('211 Extensions supported:\r\n')
         #self.conn.send('EPRT')
@@ -131,11 +134,14 @@ class FTPserverThread(threading.Thread):
         #self.conn.send('SPSV')
         #self.conn.send('ESTP\r\n')
         self.conn.send('211 End.\r\n')
+
     def PASS(self,cmd):
         self.conn.send('230 OK.\r\n')
         #self.conn.send('530 Incorrect.\r\n')
+
     def NOOP(self,cmd):
         self.conn.send('200 OK.\r\n')
+
     def TYPE(self,cmd):
         self.mode=cmd[5]
         self.conn.send('200 Binary mode.\r\n')
@@ -164,6 +170,16 @@ class FTPserverThread(threading.Thread):
             # self.cwd=os.path.join(self.cwd,chwd)
         self.conn.send('250 OK.\r\n')
 
+    def ALLO(self,cmd):
+        # chwd=cmd[4:-2]
+        # if chwd=='/':
+            # self.cwd=self.basewd
+        # elif chwd[0]=='/':
+            # self.cwd=os.path.join(self.basewd,chwd[1:])
+        # else:
+            # self.cwd=os.path.join(self.cwd,chwd)
+        self.conn.send('250 OK.\r\n')
+
     def PORT(self,cmd):
         if self.pasv_mode:
             self.servsock.close()
@@ -182,6 +198,16 @@ class FTPserverThread(threading.Thread):
         log('DEBUG', "open " + ip + " " + str(port))
         self.conn.send('227 Entering Passive Mode (%s,%u,%u).\r\n' %
                 (','.join(ip.split('.')), port>>8&0xFF, port&0xFF))
+
+    def EPSV(self,cmd): # from http://goo.gl/3if2U
+        self.pasv_mode = True
+        self.servsock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        self.servsock.bind((local_ip,0))
+        self.servsock.listen(1)
+        ip, port = self.servsock.getsockname()
+        log('DEBUG', "open " + ip + " " + str(port))
+        self.conn.send('229 Entering Extended Passive Mode (|||%u|).\r\n' %
+                (port&0xFF))
 
     def LIST(self,cmd):
         #self.conn.send('150 Here comes the directory listing.\r\n')
@@ -220,9 +246,9 @@ class FTPserverThread(threading.Thread):
         #fn=os.path.join(self.cwd,cmd[5:-2])
         #if allow_delete:
         #    os.remove(fn)
-        self.conn.send('250 File deleted.\r\n')
+        #self.conn.send('250 File deleted.\r\n')
         #else:
-        #    self.conn.send('450 Not allowed.\r\n')
+            self.conn.send('450 Not allowed.\r\n')
 
     def RNFR(self,cmd):
         #self.rnfn=os.path.join(self.cwd,cmd[5:-2])
