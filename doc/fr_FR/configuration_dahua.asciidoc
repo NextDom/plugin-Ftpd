@@ -2,7 +2,7 @@ Il faut se connecter en http sur la camera et aller dans le menu Storage => Dest
 
 Voici une copie d'écran de ce qu'il faut paramétrer :
 
-image::../images/configuration_dahau.jpg[align="center"]
+image::../images/configuration_dahua.jpg[align="center"]
 
 <IP_JEEDOM> Correspond à l'adresse IP de votre jeedom.
 
@@ -12,8 +12,8 @@ Il n'est pas nécessaire de renseigner de User Name, Password, ni Remote Directo
 
 Il faut ensuite aller dans le menu Storage => Destination => Path pour activer l'envoi de photo en cas de Motion Detection (detection de mouvement) pour définir quand envoyer des images.
 
-image::../images/configuration_dahau2.jpg[align="center"]
+image::../images/configuration_dahua2.jpg[align="center"]
 
 Enfin, il faut  aller dans le menu Event => Video Detection => Motion Detection pour configurer les critères de Motion Detection (detection de mouvement).
 
-image::../images/configuration_dahau3.jpg[align="center"]
+image::../images/configuration_dahua3.jpg[align="center"]
