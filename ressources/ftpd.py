@@ -96,10 +96,11 @@ class FTPserverThread(threading.Thread):
                     except Exception,e:
                         log('ERROR', clientdns + " " +str(e) + " : " + cmd)
                         #traceback.print_exc()
-                        self.conn.send("500 '" + str(e) + "': command not understood.")
+                        self.conn.send("500 '" + cmd + "': command not understood.\r\n")
         else:
             log('ERROR', "connexion refuser from " + addr[0])
             self.conn.send('223 Sorry\r\n')
+            self.conn.close()
 
     def SYST(self,cmd):
         self.conn.send('215 Jeedom Type: L8\r\n')
@@ -210,7 +211,7 @@ class FTPserverThread(threading.Thread):
                 (port&0xFF))
 
     def LIST(self,cmd):
-        #self.conn.send('150 Here comes the directory listing.\r\n')
+        self.conn.send('150 Here comes the directory listing.\r\n')
         #print 'list:', self.cwd
         #self.start_datasock()
         #for t in os.listdir(self.cwd):
@@ -293,10 +294,9 @@ class FTPserverThread(threading.Thread):
 
     def APPE(self,cmd):
         log('INFO', "Uploading: " + cmd[5:-2])
-        words=cmd[5:-2].split("/")
-
-        for word in words:
-            fn=os.path.join(self.cwd, word)
+        orginalfilname=cmd[5:-2]
+        newfilname=time.strftime('%Y-%m-%d_%H-%M-%S') + "." + orginalfilname.split(".")[-1]
+        fn=os.path.join(self.cwd, newfilname)
         log('DEBUG', "Uploading to: " + fn)
         if self.mode=='I':
             fo=open(fn,'wb')
@@ -333,8 +333,8 @@ class FTPserverThread(threading.Thread):
         if self.pasv_mode:
             self.servsock.close()
         self.conn.send('226 Transfer complete.\r\n')
-        log('DEBUG', clientdns + " Notify capture " + url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + cmd[5:-2])
-        r = requests.get(url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + cmd[5:-2])
+        log('DEBUG', clientdns + " Notify capture " + url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + newfilname)
+        r = requests.get(url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + newfilname)
 
 class FTPserver(threading.Thread):
     def __init__(self):
@@ -430,7 +430,7 @@ for config in dataconfig.xpath("/config/daemon/url_force_scan"):
 for config in dataconfig.xpath("/config/daemon/url_new_capture"):
   url_new_capture = config.text
 for config in dataconfig.xpath("/config/daemon/authorized_ip"):
-  authorized_ip_list = config.text
+  authorized_ip_list = config.text.replace(" ", "")
 
 if __name__ == '__main__':
   app = App()
