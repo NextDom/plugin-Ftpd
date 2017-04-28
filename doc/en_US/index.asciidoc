@@ -35,6 +35,15 @@ include::configuration_axis.asciidoc[]
 ==== Configuration Escam (chinoises sur soc Hisilicon)
 include::configuration_escam.asciidoc[]
 
+==== Configuration Dahua
+include::configuration_dahua.asciidoc[]
+
+==== Configuration Vivotek
+include::configuration_vivotek.asciidoc[]
+
+==== Configuration Hik
+include::configuration_hik.asciidoc[]
+
 ==== Configuration autres modèles
 Il faut mettre l'adresse IP de votre jeedom comme serveur FTP..
 
