@@ -1,7 +1,7 @@
 <div style="width:90px;min-height:62px;" class="cmd #history# tooltips cmd-widget"data-type="info" data-subtype="string" data-cmd_id="#id#" data-cmd_uid="#uid#" title="Valeur du #valueDate#, collectée le #collectDate#">
 <center>
 	<input type="text" class="state iconCmd#uid#" value="#state#" style="display:none;"/>
-	<div class="display ftpd_history"><img class="img-responsive ftpd_history imgCmd#uid#" data-eqLogic_id="#id#" src="core/php/downloadFile.php?pathfile=#state#"/></div>
+	<div class="display ftpd_history"><img class="img-responsive ftpd_history imgCmd#uid#" data-eqLogic_id="#id#" src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=#state#"/></div>
 </center>
 <script>
 $('.ftpd_history[data-eqLogic_id=#id#]').off().on('click', function () {
@@ -9,7 +9,7 @@ $('.ftpd_history[data-eqLogic_id=#id#]').off().on('click', function () {
     $('#md_modal').load('index.php?v=d&plugin=ftpd&modal=ftpd.history&id=#id#&_t=' + new Date().getTime()).dialog('open');
 });
 $('.iconCmd#uid#').change(function() {
-	$('.imgCmd#uid#').src('core/php/downloadFile.php?pathfile=' + $('.iconCmd#uid#').value);
+	$('.imgCmd#uid#').src('plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' + $('.iconCmd#uid#').value);
 });
 </script>
 </div>
