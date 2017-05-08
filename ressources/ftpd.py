@@ -430,7 +430,9 @@ for config in dataconfig.xpath("/config/daemon/url_force_scan"):
 for config in dataconfig.xpath("/config/daemon/url_new_capture"):
   url_new_capture = config.text
 for config in dataconfig.xpath("/config/daemon/authorized_ip"):
-  authorized_ip_list = config.text.replace(" ", "")
+  authorized_ip_list = config.text
+if authorized_ip_list != "":
+  authorized_ip_list = authorized_ip_list.replace(" ", "")
 
 if __name__ == '__main__':
   app = App()

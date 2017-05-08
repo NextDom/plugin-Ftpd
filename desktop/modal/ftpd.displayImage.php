@@ -49,9 +49,9 @@ foreach ($files as $date => $file) {
 
 echo '<center>';
 if ( $previous != "" )
-	echo '<button type="button" data-role="none" class="previousImage" aria-label="{{Précédente}}" role="button" style="" data-src="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $previous) . '" data-id='.init('id').'>{{Précédente}}</button>';
+	echo '<button type="button" data-role="none" class="previousImage" aria-label="{{Précédente}}" role="button" style="" data-src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $previous) . '" data-id='.init('id').'>{{Précédente}}</button>';
 if ( $next != "" )
-	echo '<button type="button" data-role="none" class="nextImage" aria-label="{{Suivante}}" role="button" style="" data-src="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $next) . '" data-id='.init('id').'>{{Suivante}}</button>';
+	echo '<button type="button" data-role="none" class="nextImage" aria-label="{{Suivante}}" role="button" style="" data-src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $next) . '" data-id='.init('id').'>{{Suivante}}</button>';
 echo '<img class="img-responsive" src="' . init('src') . '"/>';
 echo '</center>';
 ?>

@@ -35,7 +35,7 @@ krsort($files);
 <div id='div_ftpdRecordAlert' style="display: none;"></div>
 <?php
 echo '<a class="btn btn-danger bt_removeftpdFile pull-right" data-all="1" data-filtre="' . $EqLogic->getId() . '"><i class="fa fa-trash-o"></i> {{Tout supprimer}}</a>';
-echo '<a class="btn btn-success  pull-right" href="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/*') .'" ><i class="fa fa-download"></i> {{Tout télécharger}}</a>';
+echo '<a class="btn btn-success  pull-right" href="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/*') .'" ><i class="fa fa-download"></i> {{Tout télécharger}}</a>';
 ?>
 <?php
 $i=0;
@@ -61,14 +61,14 @@ foreach ($files as $date => $file) {
 			} else {
 				$autoplay = '';
 			}
-			echo '<video class="displayVideo" width="150" height="100" controls'. $autoplay . ' loop data-src="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $filename) . '" style="cursor:pointer">
-	<source src="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $filename) . '">
+			echo '<video class="displayVideo" width="150" height="100" controls'. $autoplay . ' loop data-src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" style="cursor:pointer">
+	<source src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '">
 	Your browser does not support the video tag.
 	</video>';
 		}else{
-			echo '<center><img class="img-responsive cursor displayImage lazy" src="plugins/ftpd/core/img/no-image.png" data-original="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $filename) . '" data-id='.init('id').' width="150"/></center>';
+			echo '<center><img class="img-responsive cursor displayImage lazy" src="plugins/ftpd/core/img/no-image.png" data-original="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" data-id='.init('id').' width="150"/></center>';
 		}
-		echo '<center style="margin-top:5px;"><a href="core/php/downloadFile.php?pathfile=' . urlencode($dir . '/' . $filename) . '" class="btn btn-success btn-xs" style="color : white"><i class="fa fa-download"></i></a>';
+		echo '<center style="margin-top:5px;"><a href="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" class="btn btn-success btn-xs" style="color : white"><i class="fa fa-download"></i></a>';
 		echo ' <a class="btn btn-danger bt_removeftpdFile btn-xs" style="color : white" data-filtre="' . $EqLogic->getLogicalId() . '/' . $filename . '"><i class="fa fa-trash-o"></i></a></center>';
 		echo '</div>';
 	}

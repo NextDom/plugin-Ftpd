@@ -33,6 +33,25 @@ try {
 		$ftpd->newcapture(init('lastfilename'));
 		exit;
 	}
+
+	if (init('action') == 'downloadcapture') {
+		include_file('core', 'authentification', 'php');
+		if (!isConnect()) {
+			if (!jeedom::apiAccess(init('apikey'))) {
+				throw new Exception(__('401 - Accès non autorisé', __FILE__));
+			}
+		}
+		$pathfile = calculPath(urldecode(init('pathfile')));
+		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
+		if (strpos($pathfile, $_CaptureDir) === false) {
+			throw new Exception(__('401 - Accès non autorisé', __FILE__));
+		}
+		$path_parts = pathinfo($pathfile);
+		header('Content-Type: application/octet-stream');
+		header('Content-Disposition: attachment; filename=' . $path_parts['basename']);
+		readfile($pathfile);
+		exit;
+	}
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
