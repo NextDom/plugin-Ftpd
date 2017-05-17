@@ -7,7 +7,8 @@ import sys
 import logging
 from lxml import etree
 from daemon import runner
-import requests
+#from requests import async
+import grequests
 #import traceback
 DEBUG = False
 
@@ -79,7 +80,7 @@ class FTPserverThread(threading.Thread):
                 log('DEBUG', clientdns + " mkdir: " + self.cwd)
                 os.mkdir(self.cwd)
                 log('DEBUG', clientdns + " Force detect")
-                r = requests.get(url_force_scan)
+                r = grequests.get(url_force_scan)
             self.conn.send('220 Welcome!\r\n')
             while True:
                 cmd=self.conn.recv(256)
@@ -323,7 +324,7 @@ class FTPserverThread(threading.Thread):
             log('DEBUG', "mkdir:" + self.cwd)
             os.mkdir(self.cwd)
             log('DEBUG', clientdns + " Force detect")
-            r = requests.get(url_force_scan)
+            r = grequests.get(url_force_scan)
         while True:
             data=self.datasock.recv(1024)
             if not data: break
@@ -335,7 +336,7 @@ class FTPserverThread(threading.Thread):
         self.conn.send('226 Transfer complete.\r\n')
         url = url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + newfilname + '&orginalfilname=' + orginalfilname
         log('DEBUG', clientdns + " Notify capture " + url)
-        r = requests.get(url)
+        r = grequests.get(url)
 
 class FTPserver(threading.Thread):
     def __init__(self):
