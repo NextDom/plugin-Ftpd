@@ -30,7 +30,7 @@ try {
 		if (!is_object($ftpd)) {
 			throw new Exception(__('Impossible de trouver la ftpd : ' . init('LogicalId'), __FILE__));
 		}
-		$ftpd->newcapture(init('lastfilename'));
+		$ftpd->newcapture(init('lastfilename'), init('orginalfilname'));
 		exit;
 	}
 

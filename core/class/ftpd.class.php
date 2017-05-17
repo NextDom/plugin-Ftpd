@@ -377,14 +377,24 @@ class ftpd extends eqLogic {
 		unlink ($record_dir . '/' . $file);
 	}
 
-	public function newcapture($filename) {
+	public function newcapture($filename, $orginalfilname) {
         $state = $this->getCmd(null, 'state');
-		log::add('ftpd','debug',"Receive push notification for ".$this->getLogicalId()." ".$filename);
+		log::add('ftpd','info',"Receive push notification for ".$this->getLogicalId()." ".$filename." ".$orginalfilname);
         $lastfilename = $this->getCmd(null, 'lastfilename');
 		$lastfilename->setCollectDate('');
 		$lastfilename->event(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename);
 		$state->setCollectDate('');
 		$state->event(1);
+		foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
+		{
+			log::add('ftpd','debug',$cmd->getName()." : ".$cmd->getConfiguration('pattern'). " match ? ".$orginalfilname);
+			if ( preg_match ($orginalfilname, $cmd->getConfiguration('pattern')) )
+			{
+				log::add('ftpd','info',"match with ".$cmd->getName());
+				$cmd->setCollectDate('');
+				$cmd->event(1);
+			}
+		}
 		$files = array();
 		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId();
 		if ($handle = opendir($_CaptureDir))
@@ -416,6 +426,14 @@ class ftpd extends eqLogic {
  		sleep($this->getConfiguration('delairesetstatus', 10));
 		$state->setCollectDate('');
 		$state->event(0);
+		foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
+		{
+			if ( preg_match ($orginalfilname, $cmd->getConfiguration('pattern')) )
+			{
+				$cmd->setCollectDate('');
+				$cmd->event(0);
+			}
+		}
     }
 
 	public static function compilationOk() { 
@@ -460,5 +478,10 @@ class ftpdCmd extends cmd
     /*     * *********************Methode d'instance************************* */
 
     /*     * **********************Getteur Setteur*************************** */
+	public function preInsert()
+	{
+		if ( ! defined($this->logicalId) || $this->logicalId == "" )
+			$this->logicalId = 'pattern';
+	}
 }
 ?>

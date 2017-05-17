@@ -333,8 +333,9 @@ class FTPserverThread(threading.Thread):
         if self.pasv_mode:
             self.servsock.close()
         self.conn.send('226 Transfer complete.\r\n')
-        log('DEBUG', clientdns + " Notify capture " + url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + newfilname)
-        r = requests.get(url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + newfilname)
+        url = url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + newfilname + '&orginalfilname=' + orginalfilname
+        log('DEBUG', clientdns + " Notify capture " + url)
+        r = requests.get(url)
 
 class FTPserver(threading.Thread):
     def __init__(self):

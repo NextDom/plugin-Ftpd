@@ -134,10 +134,12 @@ sendVarToJS('eqType', 'ftpd');
         </form>
 
         <legend>{{Indicateurs}}</legend>
+        <a class="btn btn-success btn-sm cmdAction" data-action="add"><i class="fa fa-plus-circle"></i> {{Ajouter une pattern image}}</a><br/><br/>
         <table id="table_cmd" class="table table-bordered table-condensed">
             <thead>
                 <tr>
                     <th>{{Nom}}</th>
+                    <th style="width: 120px;">{{Pattern}}</th>
 					<th style="width: 120px;">{{Icône}}</th>
                     <th style="width: 120px;">{{Sous-Type}}</th>
                     <th style="width: 120px;">{{Paramètres}}</th>
