@@ -26,6 +26,9 @@ Si des erreurs sont présente, les remonter au développeur link:https://www.jee
 Le daemon ne peut écouter sur le port standard ftp (21) car il n'est pas lancé en tant que root.
 --
 
+.J'ai le message de debug : unable to solve: 192.168.1.26 [Errno 1] Unknown host
+En fait si la camera a un nom DNS, je la nomme avec son nom DNS sinon elle a pour nom  Addr_<IP>. Ce n'est pas grave, ça veut juste dire que tu n'as pas configuré de résolution DNS inverse pour l'IP en question.
+
 .Warum ist das Plugin kostenlos?
 --
 Dieses Plugin ist kostenlos, damit jeder davon einfach profitieren kann. Wenn Sie dennoch für den Plugin-Entwickler spenden möchten, verwenden Sie den folgenden Link.

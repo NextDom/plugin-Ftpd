@@ -543,6 +543,10 @@ Très utile pour les cameras IP qui peuvent sur détection de mouvement envoyer 
 <div class="paragraph">
 <p>Et pour finir, cliquer sur Sauvegarder</p>
 </div>
+<div class="paragraph">
+<p>Il est possible de rajouter des commandes types pattern pour distinguer les déclanchements en fonction du nom du fichier.
+<a href="http://php.net/manual/fr/function.preg-match.php">Doc php pattern</a></p>
+</div>
 <div class="sect3">
 <h4 id="_configuration_foscam">1.2.1. Configuration Foscam</h4>
 <div class="paragraph">
@@ -816,6 +820,10 @@ Si des erreurs sont présente, les remonter au développeur <a href="https://www
 </div>
 </div>
 </div>
+<div class="paragraph">
+<div class="title">J&#8217;ai le message de debug : unable to solve: 192.168.1.26 [Errno 1] Unknown host</div>
+<p>En fait si la camera a un nom DNS, je la nomme avec son nom DNS sinon elle a pour nom  Addr_&lt;IP&gt;. Ce n&#8217;est pas grave, ça veut juste dire que tu n&#8217;as pas configuré de résolution DNS inverse pour l&#8217;IP en question.</p>
+</div>
 <div class="openblock">
 <div class="title">Pourquoi le plugin est gratuit ?</div><div class="content">
 <div class="paragraph">
@@ -848,6 +856,17 @@ Detail complet des mises à jour sur <a href="https://github.com/guenneguezt/plu
 </div>
 <div class="dlist">
 <dl>
+<dt class="hdlist1">1.2</dt>
+<dd>
+<p>Ajout de la prise en compte de commande type pattern.</p>
+<div class="paragraph">
+<p>Gestion des get en tache de fond du daemon.</p>
+</div>
+</dd>
+<dt class="hdlist1">1.1</dt>
+<dd>
+<p>Correction lorsque les captures sont hors répertoire Jeedom.</p>
+</dd>
 <dt class="hdlist1">1.0</dt>
 <dd>
 <p>Première version bêta.</p>

@@ -10,3 +10,6 @@ Dann definieren Sie die Eigenschaften :
 image::../images/ftpd_screenshot2.jpg[align="center"]
 
 Klicken Sie abschließend auf Speichern.
+
+Il est possible de rajouter des commandes types pattern pour distinguer les déclanchements en fonction du nom du fichier.
+http://php.net/manual/fr/function.preg-match.php[Doc php pattern]
