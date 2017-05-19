@@ -1,0 +1,14 @@
+{
+	"id" : "ftpd",
+	"name" : "Ftpd",
+	"description" : "Plugin de récupération de photo envoye par camera en ftp sur détection de mouvement",
+	"licence" : "AGPL",
+	"author" : "Thomas Guenneguez",
+	"require" : "1.124.0",
+	"category" : "security",
+	"icon" : "fa fa-download",
+	"version" : "1.2",
+	"hasDependency" : true,
+	"hasOwnDeamon" : true,
+	"maxDependancyInstallTime" : 45
+}

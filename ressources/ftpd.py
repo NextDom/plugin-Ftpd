@@ -7,8 +7,7 @@ import sys
 import logging
 from lxml import etree
 from daemon import runner
-#from requests import async
-import grequests
+import requests
 #import traceback
 DEBUG = False
 
@@ -25,6 +24,16 @@ def log(mode,message):
 def close():
     log('INFO', "ftpd stoped")
 
+class FetchUrl(threading.Thread):
+    def __init__(self, url):
+        threading.Thread.__init__(self)
+        self.url = url
+
+    def run(self):
+        log('DEBUG', "get_url " + self.url)
+        requests.get(self.url)
+        log('DEBUG', "get_url " + self.url + " done")
+     
 class FTPserverThread(threading.Thread):
     global cwd
 
@@ -80,7 +89,7 @@ class FTPserverThread(threading.Thread):
                 log('DEBUG', clientdns + " mkdir: " + self.cwd)
                 os.mkdir(self.cwd)
                 log('DEBUG', clientdns + " Force detect")
-                r = grequests.get(url_force_scan)
+                FetchUrl(url_force_scan).start()
             self.conn.send('220 Welcome!\r\n')
             while True:
                 cmd=self.conn.recv(256)
@@ -324,7 +333,7 @@ class FTPserverThread(threading.Thread):
             log('DEBUG', "mkdir:" + self.cwd)
             os.mkdir(self.cwd)
             log('DEBUG', clientdns + " Force detect")
-            r = grequests.get(url_force_scan)
+            FetchUrl(url_force_scan).start()
         while True:
             data=self.datasock.recv(1024)
             if not data: break
@@ -336,7 +345,7 @@ class FTPserverThread(threading.Thread):
         self.conn.send('226 Transfer complete.\r\n')
         url = url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + newfilname + '&orginalfilname=' + orginalfilname
         log('DEBUG', clientdns + " Notify capture " + url)
-        r = grequests.get(url)
+        FetchUrl(url).start()
 
 class FTPserver(threading.Thread):
     def __init__(self):

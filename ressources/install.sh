@@ -22,25 +22,18 @@ cd $BASEDIR
 python ./ftpd.py test 1>/dev/null 
 if [ $? -ne 0 ]
 then
-	echo "Installation of python-pip"
-	apt_install python-pip
-	echo 10 > /tmp/ftpd_in_progress
-
 	echo "Installation of python-daemon"
 	apt_install python-daemon
-	echo 20 > /tmp/ftpd_in_progress
+	echo 30 > /tmp/ftpd_in_progress
 
 	echo "Installation of python-lxml"
 	apt_install python-lxml
-	echo 40 > /tmp/ftpd_in_progress
+	echo 60 > /tmp/ftpd_in_progress
 
 	echo "Installation of python-requests"
 	apt_install python-requests
-	echo 60 > /tmp/ftpd_in_progress
+	echo 90 > /tmp/ftpd_in_progress
 	
-	echo "Installation of python-grequests"
-	pip install grequests
-	echo 80 > /tmp/ftpd_in_progress
 
 	python ./ftpd.py test
 	if [ $? -ne 0 ]

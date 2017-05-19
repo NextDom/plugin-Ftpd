@@ -34,7 +34,7 @@ krsort($files);
 $previous = "";
 $next = "";
 $find = false;
-$current_file = basename(init('src'));
+$current_file = basename(init('pathfile'));
 foreach ($files as $date => $file) {
 	if ( $find )
 	{
@@ -52,16 +52,16 @@ if ( $previous != "" )
 	echo '<button type="button" data-role="none" class="previousImage" aria-label="{{Précédente}}" role="button" style="" data-src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $previous) . '" data-id='.init('id').'>{{Précédente}}</button>';
 if ( $next != "" )
 	echo '<button type="button" data-role="none" class="nextImage" aria-label="{{Suivante}}" role="button" style="" data-src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $next) . '" data-id='.init('id').'>{{Suivante}}</button>';
-echo '<img class="img-responsive" src="' . init('src') . '"/>';
+echo '<img class="img-responsive" src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . init('pathfile') . '"/>';
 echo '</center>';
 ?>
 <script>
     $('.previousImage').on('click', function() {
         $('#md_modal2').dialog({title: "Image"});
-        $('#md_modal2').load('index.php?v=d&plugin=ftpd&modal=ftpd.displayImage&src='+ $(this).attr('data-src')+'&id='+ $(this).attr('data-id')).dialog('open');
+        $('#md_modal2').load('index.php?v=d&plugin=ftpd&modal=ftpd.displayImage&pathfile='+ $(this).attr('data-src')+'&id='+ $(this).attr('data-id')).dialog('open');
     });
     $('.nextImage').on('click', function() {
         $('#md_modal2').dialog({title: "Image"});
-        $('#md_modal2').load('index.php?v=d&plugin=ftpd&modal=ftpd.displayImage&src='+ $(this).attr('data-src')+'&id='+ $(this).attr('data-id')).dialog('open');
+        $('#md_modal2').load('index.php?v=d&plugin=ftpd&modal=ftpd.displayImage&pathfile='+ $(this).attr('data-src')+'&id='+ $(this).attr('data-id')).dialog('open');
     });
 </script>
