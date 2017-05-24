@@ -1,10 +1,13 @@
-[horizontal]
 WARNING: Detail complet des mises à jour sur https://github.com/guenneguezt/plugin-ftpd/commits/master[Historique Commit]
 
-1.2:: Ajout de la prise en compte de commande type pattern.
-+
-Gestion des get en tache de fond du daemon.
+Liste des évolutions majeures de la version courante :
 
-1.1:: Correction lorsque les captures sont hors répertoire Jeedom.
+- Modification pour compatibilité Jeedom V3
+- Plus de suivi de version
 
-1.0:: Première version bêta.
+Anciennes évolutions :
+
+- Ajout de la prise en compte de commande type pattern.
+- Gestion des get en tache de fond du daemon.
+- Correction lorsque les captures sont hors répertoire Jeedom.
+- Première version bêta.
