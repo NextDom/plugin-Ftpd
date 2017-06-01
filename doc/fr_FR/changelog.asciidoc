@@ -2,11 +2,13 @@ WARNING: Detail complet des mises à jour sur https://github.com/guenneguezt/plu
 
 Liste des évolutions majeures de la version courante :
 
-- Modification pour compatibilité Jeedom V3
-- Plus de suivi de version
+- Correction du rafraichissement des images
+- Correction du problème de sauvegarde : Une commande portant ce nom (Etat) existe déjà pour cet équipement
 
 Anciennes évolutions :
 
+- Modification pour compatibilité Jeedom V3
+- Plus de suivi de version
 - Ajout de la prise en compte de commande type pattern.
 - Gestion des get en tache de fond du daemon.
 - Correction lorsque les captures sont hors répertoire Jeedom.

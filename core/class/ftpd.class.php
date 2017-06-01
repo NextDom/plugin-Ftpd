@@ -209,6 +209,15 @@ class ftpd extends eqLogic {
 		if ( ! file_exists($pid_file) )
 		{
 			log::add('ftpd','debug',__('Pid file not found', __FILE__));
+			$processlist = system::ps("python ./ftpd.py start");
+			if ( count($processlist) > 0 )
+			{
+				foreach ($processlist as $value)
+				{
+					log::add('ftpd','debug',__('Retrieve ftpd.py process and kill with PID : ', __FILE__).$value["pid"]);
+					exec("kill ".$value["pid"]);
+				}
+			}
 		}
 		else
 		{
@@ -315,6 +324,19 @@ class ftpd extends eqLogic {
 
 	public function postUpdate()
 	{
+		foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
+		{
+			if ( $cmd->getName() == 'Etat' )
+			{
+				$cmd->setLogicalId('state');
+				$cmd->save();
+			}
+			if ( $cmd->getName() == 'Nom du dernier fichier' )
+			{
+				$cmd->setLogicalId('lastfilename');
+				$cmd->save();
+			}
+		}
         $state = $this->getCmd(null, 'state');
         if ( ! is_object($state) ) {
             $state = new ftpdCmd();
@@ -478,7 +500,7 @@ class ftpdCmd extends cmd
     /*     * *********************Methode d'instance************************* */
 
     /*     * **********************Getteur Setteur*************************** */
-	public function preInsert()
+	public function postInsert()
 	{
 		if ( ! defined($this->logicalId) || $this->logicalId == "" )
 			$this->logicalId = 'pattern';

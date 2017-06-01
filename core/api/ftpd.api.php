@@ -38,13 +38,30 @@ try {
 		include_file('core', 'authentification', 'php');
 		if (!isConnect()) {
 			if (!jeedom::apiAccess(init('apikey'))) {
-				throw new Exception(__('401 - Accès non autorisé', __FILE__));
+				throw new Exception(__('401 - Utilisateur non autorisé', __FILE__));
 			}
 		}
-		$pathfile = calculPath(urldecode(init('pathfile')));
-		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
-		if (strpos($pathfile, $_CaptureDir) === false) {
-			throw new Exception(__('401 - Accès non autorisé', __FILE__));
+		if ( init('pathfile') == '' )
+		{
+			$pathfile = "../img/no-image.png";
+			log::add('ftpd','debug',__('Pathfile not found', __FILE__));
+		}
+		else
+		{
+			$pathfile = calculPath(urldecode(init('pathfile')));
+			if ( !file_exists($pathfile) )
+			{
+				$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
+				if (strpos($pathfile, $_CaptureDir) === false) {
+					log::add('ftpd','debug',__('Pathfile not in CaptureDir : ', __FILE__).$pathfile." ".$_CaptureDir);
+					$pathfile = "../img/no-image.png";
+				}
+			}
+			else
+			{
+				$pathfile = "../img/no-image.png";
+				log::add('ftpd','debug',__('Pathfile not found : ', __FILE__).$pathfile);
+			}
 		}
 		$path_parts = pathinfo($pathfile);
 		header('Content-Type: application/octet-stream');
