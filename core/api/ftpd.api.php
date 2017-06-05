@@ -25,6 +25,13 @@ try {
 		exit;
     }
 
+    if (init('action') == 'test') {
+		log::add('ftpd','debug',"test sleep");
+		sleep(10);
+		log::add('ftpd','debug',"test sleep done");
+		exit;
+    }
+
 	if (init('action') == 'newcapture') {
 		$ftpd = eqlogic::byLogicalId(init('LogicalId'), 'ftpd');
 		if (!is_object($ftpd)) {
@@ -44,12 +51,12 @@ try {
 		if ( init('pathfile') == '' )
 		{
 			$pathfile = "../img/no-image.png";
-			log::add('ftpd','debug',__('Pathfile not found', __FILE__));
+			log::add('ftpd','debug',__('Pathfile not recieve', __FILE__));
 		}
 		else
 		{
 			$pathfile = calculPath(urldecode(init('pathfile')));
-			if ( !file_exists($pathfile) )
+			if ( file_exists($pathfile) )
 			{
 				$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
 				if (strpos($pathfile, $_CaptureDir) === false) {
@@ -59,8 +66,8 @@ try {
 			}
 			else
 			{
-				$pathfile = "../img/no-image.png";
 				log::add('ftpd','debug',__('Pathfile not found : ', __FILE__).$pathfile);
+				$pathfile = "../img/no-image.png";
 			}
 		}
 		$path_parts = pathinfo($pathfile);

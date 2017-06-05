@@ -31,9 +31,15 @@ class FetchUrl(threading.Thread):
 
     def run(self):
         log('DEBUG', "get_url " + self.url)
-        requests.get(self.url)
-        log('DEBUG', "get_url " + self.url + " done")
-     
+        try:
+            r =requests.get(self.url, False)
+            if r.status_code == 200:
+                log('DEBUG', "get_url " + self.url + " done")
+            else:
+                log('ERROR', "get_url " + self.url + " error code : " + str(r.status_code))
+        except Exception,e:
+            log('ERROR', "unable to get : " +str(e))
+
 class FTPserverThread(threading.Thread):
     global cwd
 
@@ -182,14 +188,14 @@ class FTPserverThread(threading.Thread):
         self.conn.send('250 OK.\r\n')
 
     def ALLO(self,cmd):
-        # chwd=cmd[4:-2]
+        size=cmd[4:-2]
         # if chwd=='/':
             # self.cwd=self.basewd
         # elif chwd[0]=='/':
             # self.cwd=os.path.join(self.basewd,chwd[1:])
         # else:
             # self.cwd=os.path.join(self.cwd,chwd)
-        self.conn.send('250 OK.\r\n')
+        self.conn.send('200 ALLO OK %s bytes available.\r\n' % size)
 
     def PORT(self,cmd):
         if self.pasv_mode:
@@ -303,11 +309,10 @@ class FTPserverThread(threading.Thread):
         self.APPE(cmd)
 
     def APPE(self,cmd):
-        log('INFO', "Uploading: " + cmd[5:-2])
+        log('DEBUG', "Uploading: " + cmd[5:-2])
         orginalfilname=cmd[5:-2]
         newfilname=time.strftime('%Y-%m-%d_%H-%M-%S') + "." + orginalfilname.split(".")[-1]
         fn=os.path.join(self.cwd, newfilname)
-        log('DEBUG', "Uploading to: " + fn)
         if self.mode=='I':
             fo=open(fn,'wb')
         else:
@@ -327,10 +332,10 @@ class FTPserverThread(threading.Thread):
         except Exception,e:
             clientdns="Addr_" + clientip
             log('DEBUG', "unable to solve: " + clientip + " " +str(e))
-        log('DEBUG', "identify as: " + clientdns)
+        log('DEBUG', clientdns + " Uploading: " + cmd[5:-2] + " to: " + fn)
         self.cwd=os.path.join(self.basewd,clientdns)
         if not os.path.isdir(self.cwd):
-            log('DEBUG', "mkdir:" + self.cwd)
+            log('DEBUG', clientdns + " mkdir : " + self.cwd)
             os.mkdir(self.cwd)
             log('DEBUG', clientdns + " Force detect")
             FetchUrl(url_force_scan).start()
@@ -436,10 +441,17 @@ if not ftp_dir:
   log('ERROR', "ftp_dir not found in config file")
   sys.exit()
 
-for config in dataconfig.xpath("/config/daemon/url_force_scan"):
-  url_force_scan = config.text
-for config in dataconfig.xpath("/config/daemon/url_new_capture"):
-  url_new_capture = config.text
+internalProtocol = ""
+internalPort = ""
+internalComplement = ""
+for config in dataconfig.xpath("/config/daemon/internalProtocol"):
+  internalProtocol = config.text
+for config in dataconfig.xpath("/config/daemon/internalPort"):
+  internalPort = config.text
+for config in dataconfig.xpath("/config/daemon/internalComplement"):
+  internalComplement = config.text
+url_force_scan = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=force_detect_ftpd"
+url_new_capture = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=newcapture"
 for config in dataconfig.xpath("/config/daemon/authorized_ip"):
   authorized_ip_list = config.text
 if authorized_ip_list != "":

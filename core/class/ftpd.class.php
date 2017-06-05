@@ -166,32 +166,44 @@ class ftpd extends eqLogic {
 		if ( substr($pathjeedom, -1) != "/" ) {
 			$pathjeedom = $pathjeedom."/";
 		}
-		if ( config::byKey("internalAddr") == '' || config::byKey("internalPort") == "") {
-			log::add('ftpd','error',__('Adresse ou port interne non défini : Configuration => Configuration réseaux.', __FILE__));
-			throw new Exception(__('Veuillez vérifier la configuration réseau de Jeedom', __FILE__));
-		}
-		$url = "http://".config::byKey("internalAddr").":".config::byKey("internalPort")."/plugins/ftpd/core/api/ftpd.api.php?action=force_detect_ftpd";
-		if ( ! isset($daemon->url_force_scan) )
+		if ( ! isset($daemon->internalProtocol) )
 		{
-			$daemon->addChild('url_force_scan', $url);
+			$daemon->addChild('internalProtocol', config::byKey('internalProtocol', 'core', 'http://'));
 		}
 		else
 		{
-			$daemon->url_force_scan = $url;
+			$daemon->internalProtocol = config::byKey('internalProtocol', 'core', 'http://');
 		}
-
-		if ( isset($xml->ftpd_client) )
+		if ( ! isset($daemon->internalPort) )
 		{
-			unset($xml->ftpd_client);
-		}
-		$url = "http://".config::byKey("internalAddr").":".config::byKey("internalPort")."/plugins/ftpd/core/api/ftpd.api.php?action=newcapture";
-		if ( ! isset($daemon->url_new_capture) )
-		{
-			$daemon->addChild('url_new_capture', $url);
+			$daemon->addChild('internalPort', config::byKey('internalPort', 'core', '80'));
 		}
 		else
 		{
-			$daemon->url_new_capture = $url;
+			$daemon->internalPort = config::byKey('internalPort', 'core', '80');
+		}
+		if ( config::byKey("internalComplement") != "" )
+		{
+			if ( ! isset($daemon->internalComplement) )
+			{
+				$daemon->addChild('internalComplement', config::byKey('internalComplement', 'core', ''));
+			}
+			else
+			{
+				$daemon->internalComplement = config::byKey('internalComplement', 'core', '');
+			}
+		}
+		else
+		{
+			unset($daemon->internalComplement);
+		}
+		if ( isset($daemon->url_new_capture) )
+		{
+			unset($daemon->url_new_capture);
+		}
+		if ( isset($daemon->url_force_scan) )
+		{
+			unset($daemon->url_force_scan);
 		}
 
 		file_put_contents(dirname(__FILE__) . '/../../ressources/ftpd.xml', $xml->asXML());
@@ -217,6 +229,7 @@ class ftpd extends eqLogic {
 					log::add('ftpd','debug',__('Retrieve ftpd.py process and kill with PID : ', __FILE__).$value["pid"]);
 					exec("kill ".$value["pid"]);
 				}
+				sleep(60);
 			}
 		}
 		else
@@ -231,7 +244,7 @@ class ftpd extends eqLogic {
 				$cmd = "cd ".$ftpd_path.";python ./ftpd.py stop";
 				log::add('ftpd','info','daemon stop');
 				ftpd::exec($cmd);
-				sleep(6);
+				sleep(60);
 			}
 		}
 	}
@@ -324,17 +337,20 @@ class ftpd extends eqLogic {
 
 	public function postUpdate()
 	{
+		$restart = false;
 		foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
 		{
 			if ( $cmd->getName() == 'Etat' )
 			{
 				$cmd->setLogicalId('state');
 				$cmd->save();
+				$restart = true;
 			}
 			if ( $cmd->getName() == 'Nom du dernier fichier' )
 			{
 				$cmd->setLogicalId('lastfilename');
 				$cmd->save();
+				$restart = true;
 			}
 		}
         $state = $this->getCmd(null, 'state');
@@ -350,6 +366,7 @@ class ftpd extends eqLogic {
 			$state->setTemplate('dashboard', 'presence');
 			$state->setTemplate('mobile', 'presence');
 			$state->save();
+			$restart = true;
 		}
         $lastfilename = $this->getCmd(null, 'lastfilename');
         if ( ! is_object($lastfilename) ) {
@@ -362,12 +379,18 @@ class ftpd extends eqLogic {
 			$lastfilename->setTemplate('dashboard', 'lastfilename');
 			$lastfilename->setTemplate('mobile', 'lastfilename');
 			$lastfilename->save();
+			$restart = true;
 		}
 		else
 		{
 			$lastfilename->setTemplate('dashboard', 'lastfilename');
 			$lastfilename->setTemplate('mobile', 'lastfilename');
 			$lastfilename->save();
+		}
+		if ( $restart )
+		{
+			$plugin = plugin::byId('ftpd');
+			$plugin->deamon_start();
 		}
 	}
 

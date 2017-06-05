@@ -140,8 +140,6 @@ sendVarToJS('eqType', 'ftpd');
                 <tr>
                     <th>{{Nom}}</th>
                     <th style="width: 120px;">{{Pattern}}</th>
-					<th style="width: 120px;">{{Icône}}</th>
-                    <th style="width: 120px;">{{Sous-Type}}</th>
                     <th style="width: 120px;">{{Paramètres}}</th>
                     <th style="width: 100px;">{{Action}}</th>
                 </tr>
