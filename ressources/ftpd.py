@@ -32,7 +32,7 @@ class FetchUrl(threading.Thread):
     def run(self):
         log('DEBUG', "get_url " + self.url)
         try:
-            r =requests.get(self.url, False)
+            r =requests.get(self.url, verify=False)
             if r.status_code == 200:
                 log('DEBUG', "get_url " + self.url + " done")
             else:
