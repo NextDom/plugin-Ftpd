@@ -2,11 +2,17 @@ Warnung: Ausführliche Informationen zu den Updates auf https://github.com/guenn
 
 Liste des évolutions majeures de la version courante :
 
-- Modification pour compatibilité Jeedom V3
-- Plus de suivi de version
+- Correction de la commande ALLO
+- Ajout de message d'erreur lorsque le daemon n'arrive pas à communiquer avec Jeedom.
+- Plus de prise en compte de l'IP configuré dans administration=>réseau.
+- Prise en compte des config en https autosigné.
 
 Anciennes évolutions :
 
+- Correction du rafraichissement des images
+- Correction du problème de sauvegarde : Une commande portant ce nom (Etat) existe déjà pour cet équipement
+- Modification pour compatibilité Jeedom V3
+- Plus de suivi de version
 - Ajout de la prise en compte de commande type pattern.
 - Gestion des get en tache de fond du daemon.
 - Correction lorsque les captures sont hors répertoire Jeedom.
