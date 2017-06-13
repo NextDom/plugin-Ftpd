@@ -444,16 +444,19 @@ if not ftp_dir:
 internalProtocol = ""
 internalPort = ""
 internalComplement = ""
-for config in dataconfig.xpath("/config/daemon/internalProtocol"):
-  internalProtocol = config.text
-for config in dataconfig.xpath("/config/daemon/internalPort"):
-  internalPort = config.text
-for config in dataconfig.xpath("/config/daemon/internalComplement"):
-  internalComplement = config.text
+authorized_ip_list = ""
+for config in dataconfig.xpath("/config/daemon/internalProtocol/text()"):
+  internalProtocol = config
+for config in dataconfig.xpath("/config/daemon/internalPort/text()"):
+  internalPort = config
+for config in dataconfig.xpath("/config/daemon/internalComplement/text()"):
+  internalComplement = config
+
 url_force_scan = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=force_detect_ftpd"
 url_new_capture = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=newcapture"
-for config in dataconfig.xpath("/config/daemon/authorized_ip"):
-  authorized_ip_list = config.text
+for config in dataconfig.xpath("/config/daemon/authorized_ip/text()"):
+  authorized_ip_list = config
+
 if authorized_ip_list != "":
   authorized_ip_list = authorized_ip_list.replace(" ", "")
 
