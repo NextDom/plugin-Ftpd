@@ -53,6 +53,9 @@ Il n'est pas nécessaire de renseigner de compte, de mot de passe, ni de répert
 
 link:https://www.cameraftp.com/CameraFTP/Support/SupportedCameras.aspx[Documentation générale]
 
+=== Configuration le debug
+include::configuration_debug.asciidoc[]
+
 === FAQ
 include::faq.asciidoc[]
 

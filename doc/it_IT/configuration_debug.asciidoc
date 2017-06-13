@@ -1,0 +1,21 @@
+Il existe 2 niveaux de debug du plugin.
+
+==== Debug du plugin
+
+Ce niveau de debug permet d'anayser le fonctionnement du plugin. Pour se faire, cliquer sur *Plugins / Sécurité / Ftpd*
+
+Dans la partie en haut à droite, il suffit de choisir le niveau de log local à debug.
+
+image::../images/activer_debug_plugin.jpg[align="center"]
+
+La log correspondant à ce niveau d'analyse s'appel Ftpd.
+
+==== Debug du daemon
+
+Ce niveau de debug permet d'anayser le fonctionnement du daemon. Pour se faire, cliquer sur *Plugins / Sécurité / Ftpd*
+
+Dans la partie en bas, il suffit de choisir le debug daemon.
+
+image::../images/activer_debug_daemon.jpg[align="center"]
+
+La log correspondant à ce niveau d'analyse s'appel Ftpd_daemon.

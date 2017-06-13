@@ -436,8 +436,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_configuration_autres_modèles">1.2.8. Configuration autres modèles</a></li>
 </ul>
 </li>
-<li><a href="#_faq">1.3. FAQ</a></li>
-<li><a href="#_changelog">1.4. Changelog</a></li>
+<li><a href="#_configuration_le_debug">1.3. Configuration le debug</a>
+<ul class="sectlevel3">
+<li><a href="#_debug_du_plugin">1.3.1. Debug du plugin</a></li>
+<li><a href="#_debug_du_daemon">1.3.2. Debug du daemon</a></li>
+</ul>
+</li>
+<li><a href="#_faq">1.4. FAQ</a></li>
+<li><a href="#_changelog">1.5. Changelog</a></li>
 </ul>
 </li>
 </ul>
@@ -782,7 +788,47 @@ Sehr nützlich für IP-Kameras, die auf Bewegungsfeststellung eine Datei durch f
 </div>
 </div>
 <div class="sect2">
-<h3 id="_faq">1.3. FAQ</h3>
+<h3 id="_configuration_le_debug">1.3. Configuration le debug</h3>
+<div class="paragraph">
+<p>Il existe 2 niveaux de debug du plugin.</p>
+</div>
+<div class="sect3">
+<h4 id="_debug_du_plugin">1.3.1. Debug du plugin</h4>
+<div class="paragraph">
+<p>Ce niveau de debug permet d&#8217;anayser le fonctionnement du plugin. Pour se faire, cliquer sur <strong>Plugins / Sécurité / Ftpd</strong></p>
+</div>
+<div class="paragraph">
+<p>Dans la partie en haut à droite, il suffit de choisir le niveau de log local à debug.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../images/activer_debug_plugin.jpg" alt="activer debug plugin">
+</div>
+</div>
+<div class="paragraph">
+<p>La log correspondant à ce niveau d&#8217;analyse s&#8217;appel Ftpd.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_debug_du_daemon">1.3.2. Debug du daemon</h4>
+<div class="paragraph">
+<p>Ce niveau de debug permet d&#8217;anayser le fonctionnement du daemon. Pour se faire, cliquer sur <strong>Plugins / Sécurité / Ftpd</strong></p>
+</div>
+<div class="paragraph">
+<p>Dans la partie en bas, il suffit de choisir le debug daemon.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="../images/activer_debug_daemon.jpg" alt="activer debug daemon">
+</div>
+</div>
+<div class="paragraph">
+<p>La log correspondant à ce niveau d&#8217;analyse s&#8217;appel Ftpd_daemon.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_faq">1.4. FAQ</h3>
 <div class="openblock panel">
 <div class="title">J&#8217;essaie de me connecter au daemon et je ne vois rien</div><div class="content">
 <div class="paragraph">
@@ -844,7 +890,7 @@ Si des erreurs sont présente, les remonter au développeur <a href="https://www
 </div>
 </div>
 <div class="sect2">
-<h3 id="_changelog">1.4. Changelog</h3>
+<h3 id="_changelog">1.5. Changelog</h3>
 <div class="paragraph">
 <p>Warnung: Ausführliche Informationen zu den Updates auf <a href="https://github.com/guenneguezt/plugin-ftpd/commits/master">Commit Geschichte</a></p>
 </div>
