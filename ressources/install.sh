@@ -19,7 +19,7 @@ echo 10 > /tmp/ftpd_in_progress
 echo "Test the necessity of dependencies"
 BASEDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $BASEDIR
-python ./ftpd.py test 1>/dev/null 
+python ./ftpd.py test 2>/dev/null 
 if [ $? -ne 0 ]
 then
 	echo "Installation of python-daemon"
