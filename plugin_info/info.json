@@ -3,7 +3,7 @@
 	"name" : "Ftpd",
 	"licence" : "AGPL",
 	"author" : "Thomas Guenneguez",
-	"require" : "1.124.0",
+	"require" : "3.0",
 	"category" : "security",
 	"hasDependency" : true,
 	"hasOwnDeamon" : true,

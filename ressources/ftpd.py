@@ -445,15 +445,18 @@ internalProtocol = ""
 internalPort = ""
 internalComplement = ""
 authorized_ip_list = ""
+api_key = ""
 for config in dataconfig.xpath("/config/daemon/internalProtocol/text()"):
   internalProtocol = config
 for config in dataconfig.xpath("/config/daemon/internalPort/text()"):
   internalPort = config
 for config in dataconfig.xpath("/config/daemon/internalComplement/text()"):
   internalComplement = config
+for config in dataconfig.xpath("/config/daemon/api_key/text()"):
+  api_key = config
 
-url_force_scan = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=force_detect_ftpd"
-url_new_capture = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=newcapture"
+url_force_scan = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=force_detect_ftpd&api=" + api_key
+url_new_capture = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=newcapture&api=" + api_key
 for config in dataconfig.xpath("/config/daemon/authorized_ip/text()"):
   authorized_ip_list = config
 

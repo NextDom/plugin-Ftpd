@@ -130,6 +130,14 @@ class ftpd extends eqLogic {
 		{
 			$daemon->log_file = dirname(__FILE__) . '/../../../../log/ftpd_daemon';
 		}
+		if ( ! isset($daemon->api_key) )
+		{
+			$daemon->addChild('api_key', jeedom::getApiKey('ftpd'));
+		}
+		else
+		{
+			$daemon->api_key = jeedom::getApiKey('ftpd');
+		}
 		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
 		if ( ! is_dir($_CaptureDir) )
 		{

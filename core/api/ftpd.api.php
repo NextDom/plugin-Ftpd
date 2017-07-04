@@ -20,15 +20,14 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 include_file('core', 'ftpd', 'class', 'ftpd');
 
 try {
+	if ( ! jeedom::apiAccess(init('api')) ) {
+		if (!isConnect()) {
+			throw new Exception('Clé API non valide (ou vide) ou non connecté. Demande venant de :' . getClientIp() . '. Clé API : ' . secureXSS(init('api')));;
+		}
+	}
+
     if (init('action') == 'force_detect_ftpd') {
 		ftpd::force_detect_ftpd();
-		exit;
-    }
-
-    if (init('action') == 'test') {
-		log::add('ftpd','debug',"test sleep");
-		sleep(10);
-		log::add('ftpd','debug',"test sleep done");
 		exit;
     }
 
