@@ -2,10 +2,12 @@ WARNING: Detail complet des mises à jour sur https://github.com/guenneguezt/plu
 
 Liste des évolutions majeures de la version courante :
 
-- Correction pour fonctionner si IP Autorisées est vide.
+- Ajout d'une Clef API specifique au plugin
+- Ajout de log pour les patterns
 
 Anciennes évolutions :
 
+- Correction pour fonctionner si IP Autorisées est vide.
 - Correction de la commande ALLO
 - Ajout de message d'erreur lorsque le daemon n'arrive pas à communiquer avec Jeedom.
 - Plus de prise en compte de l'IP configuré dans administration=>réseau.
