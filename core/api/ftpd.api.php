@@ -20,7 +20,8 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 include_file('core', 'ftpd', 'class', 'ftpd');
 
 try {
-	if ( ! jeedom::apiAccess(init('api')) ) {
+	include_file('core', 'authentification', 'php');
+	if ( ! jeedom::apiAccess(init('api'), 'ftpd') ) {
 		if (!isConnect()) {
 			throw new Exception('Clé API non valide (ou vide) ou non connecté. Demande venant de :' . getClientIp() . '. Clé API : ' . secureXSS(init('api')));;
 		}
@@ -41,16 +42,10 @@ try {
 	}
 
 	if (init('action') == 'downloadcapture') {
-		include_file('core', 'authentification', 'php');
-		if (!isConnect()) {
-			if (!jeedom::apiAccess(init('apikey'))) {
-				throw new Exception(__('401 - Utilisateur non autorisé', __FILE__));
-			}
-		}
 		if ( init('pathfile') == '' )
 		{
 			$pathfile = "../img/no-image.png";
-			log::add('ftpd','debug',__('Pathfile not recieve', __FILE__));
+			log::add('ftpd','debug',__('Pathfile not receive', __FILE__));
 		}
 		else
 		{
