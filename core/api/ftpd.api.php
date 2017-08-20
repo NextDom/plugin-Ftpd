@@ -21,8 +21,8 @@ include_file('core', 'ftpd', 'class', 'ftpd');
 
 try {
 	include_file('core', 'authentification', 'php');
-	if ( ! jeedom::apiAccess(init('api'), 'ftpd') ) {
-		if (!isConnect()) {
+	if (!isConnect()) {
+		if ( ! jeedom::apiAccess(init('api'), 'ftpd') ) {
 			throw new Exception('Clé API non valide (ou vide) ou non connecté. Demande venant de :' . getClientIp() . '. Clé API : ' . secureXSS(init('api')));;
 		}
 	}

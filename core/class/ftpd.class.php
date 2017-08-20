@@ -431,61 +431,67 @@ class ftpd extends eqLogic {
 	}
 
 	public function newcapture($filename, $orginalfilname) {
-        $state = $this->getCmd(null, 'state');
-		log::add('ftpd','info',"Receive push notification for ".$this->getLogicalId()." ".$filename." ".$orginalfilname);
-        $lastfilename = $this->getCmd(null, 'lastfilename');
-		$lastfilename->setCollectDate('');
-		$lastfilename->event(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename);
-		$state->setCollectDate('');
-		$state->event(1);
-		foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
-		{
-			log::add('ftpd','debug',$cmd->getName()." : ".$cmd->getConfiguration('pattern'). " match ? ".$orginalfilname);
-			if ( preg_match ($orginalfilname, $cmd->getConfiguration('pattern')) )
+		if ( $this->getIsEnable() ) {
+			$state = $this->getCmd(null, 'state');
+			log::add('ftpd','info',"Receive push notification for ".$this->getLogicalId()." ".$filename." ".$orginalfilname);
+			$lastfilename = $this->getCmd(null, 'lastfilename');
+			$lastfilename->setCollectDate('');
+			$lastfilename->event(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename);
+			$state->setCollectDate('');
+			$state->event(1);
+			foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
 			{
-				log::add('ftpd','info',"match with ".$cmd->getName());
-				$cmd->setCollectDate('');
-				$cmd->event(1);
-			}
-		}
-		$files = array();
-		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId();
-		if ($handle = opendir($_CaptureDir))
-		{
-			while (false !== ($file = readdir($handle)))
-			{
-				if ($file != "." && $file != "..")
+				log::add('ftpd','debug',$cmd->getName()." : ".$cmd->getConfiguration('pattern'). " match ? ".$orginalfilname);
+				if ( preg_match ($orginalfilname, $cmd->getConfiguration('pattern')) )
 				{
-				   $files[filemtime($_CaptureDir."/".$file)] = $file;
+					log::add('ftpd','info',"match with ".$cmd->getName());
+					$cmd->setCollectDate('');
+					$cmd->event(1);
 				}
 			}
-			closedir($handle);
-		}
-		if ( count($files) > $this->getConfiguration('nbfilemax', 10) )
-		{
-			// sort
-			ksort($files);
-			$filetodelete = count($files) - $this->getConfiguration('nbfilemax', 10);
-			foreach($files as $file)
+			$files = array();
+			$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId();
+			if ($handle = opendir($_CaptureDir))
 			{
-				if ( $filetodelete > 0 )
+				while (false !== ($file = readdir($handle)))
 				{
-					log::add('ftpd','debug',"delete ".$file);
-					unlink($_CaptureDir."/".$file);
+					if ($file != "." && $file != "..")
+					{
+					   $files[filemtime($_CaptureDir."/".$file)] = $file;
+					}
 				}
-				$filetodelete--;
+				closedir($handle);
+			}
+			if ( count($files) > $this->getConfiguration('nbfilemax', 10) )
+			{
+				// sort
+				ksort($files);
+				$filetodelete = count($files) - $this->getConfiguration('nbfilemax', 10);
+				foreach($files as $file)
+				{
+					if ( $filetodelete > 0 )
+					{
+						log::add('ftpd','debug',"delete ".$file);
+						unlink($_CaptureDir."/".$file);
+					}
+					$filetodelete--;
+				}
+			}
+			sleep($this->getConfiguration('delairesetstatus', 10));
+			$state->setCollectDate('');
+			$state->event(0);
+			foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
+			{
+				if ( preg_match ($orginalfilname, $cmd->getConfiguration('pattern')) )
+				{
+					$cmd->setCollectDate('');
+					$cmd->event(0);
+				}
 			}
 		}
- 		sleep($this->getConfiguration('delairesetstatus', 10));
-		$state->setCollectDate('');
-		$state->event(0);
-		foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
+		else
 		{
-			if ( preg_match ($orginalfilname, $cmd->getConfiguration('pattern')) )
-			{
-				$cmd->setCollectDate('');
-				$cmd->event(0);
-			}
+			unlink(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename);
 		}
     }
 
