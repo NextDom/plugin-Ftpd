@@ -4,6 +4,7 @@ Liste des évolutions majeures de la version courante :
 
 - Ajout d'une Clef API specifique au plugin
 - Ajout de log pour les patterns
+- Non prise en compte des images si l'équipement est désactivé
 
 Anciennes évolutions :
 
