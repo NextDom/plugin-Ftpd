@@ -346,6 +346,14 @@ class ftpd extends eqLogic {
 	public function postUpdate()
 	{
 		$restart = false;
+		foreach($this->getCmd() as $cmd)
+		{
+			if ( $cmd->getLogicalId() == '' )
+			{
+				$cmd->setLogicalId('pattern');
+				$cmd->save();
+			}
+		}
 		foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
 		{
 			if ( $cmd->getName() == 'Etat' )
@@ -442,7 +450,7 @@ class ftpd extends eqLogic {
 			foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
 			{
 				log::add('ftpd','debug',$cmd->getName()." : ".$cmd->getConfiguration('pattern'). " match ? ".$orginalfilname);
-				if ( preg_match ($orginalfilname, $cmd->getConfiguration('pattern')) )
+				if ( preg_match ($cmd->getConfiguration('pattern'), $orginalfilname) )
 				{
 					log::add('ftpd','info',"match with ".$cmd->getName());
 					$cmd->setCollectDate('');

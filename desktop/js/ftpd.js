@@ -2,6 +2,7 @@ function addCmdToTable(_cmd) {
    if (!isset(_cmd)) {
         var _cmd = {type: 'info',
 					subType: 'binary',
+					logicalId: 'pattern',
 					display: {
 						icon: '',
 						invertBinary: '1',
