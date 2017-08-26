@@ -2,12 +2,13 @@ WARNING: Detail complet des mises à jour sur https://github.com/guenneguezt/plu
 
 Liste des évolutions majeures de la version courante :
 
-- Ajout d'une Clef API specifique au plugin
-- Ajout de log pour les patterns
-- Non prise en compte des images si l'équipement est désactivé
+- Correction pour les patterns
 
 Anciennes évolutions :
 
+- Ajout d'une Clef API specifique au plugin
+- Ajout de log pour les patterns
+- Non prise en compte des images si l'équipement est désactivé
 - Correction pour fonctionner si IP Autorisées est vide.
 - Correction de la commande ALLO
 - Ajout de message d'erreur lorsque le daemon n'arrive pas à communiquer avec Jeedom.
