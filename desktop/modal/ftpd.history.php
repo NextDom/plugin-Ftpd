@@ -49,13 +49,13 @@ foreach ($files as $date => $file) {
 	krsort($file);
 	foreach ($file as $time => $filename) {
 		$fontType = 'fa-ftpd';
-		if (strpos($filename,'.mp4')){
+		if (strpos($filename,'.mp4')||strpos($filename,'.avi')){
 			$fontType = 'fa-video-ftpd';
 			$i++;
 		}
 		echo '<div class="ftpdDisplayCard" style="background-color: #e7e7e7;padding:5px;height:167px;">';
 		echo '<center><i class="fa ' . $fontType . ' pull-right"></i>  ' . $time . '</center>';
-		if (strpos($filename,'.mp4')){
+		if (strpos($filename,'.mp4')||strpos($filename,'.avi')){
 			if ($i<=5){
 				$autoplay = ' autoplay';
 			} else {

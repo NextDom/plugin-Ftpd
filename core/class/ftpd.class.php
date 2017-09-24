@@ -490,7 +490,7 @@ class ftpd extends eqLogic {
 			$state->event(0);
 			foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
 			{
-				if ( preg_match ($orginalfilname, $cmd->getConfiguration('pattern')) )
+				if ( preg_match ($cmd->getConfiguration('pattern'), $orginalfilname) )
 				{
 					$cmd->setCollectDate('');
 					$cmd->event(0);
