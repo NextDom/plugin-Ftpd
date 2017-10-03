@@ -31,8 +31,7 @@ En fait si la camera a un nom DNS, je la nomme avec son nom DNS sinon elle a pou
 
 .Pourquoi le plugin est gratuit ?
 --
-Ce plugin est gratuit pour que chacun puisse en profiter simplement. Si vous souhaitez tout de même faire un don au développeur du plugin, utilisez le lien suivant.
-link:https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C7MF4WU7SWNKG[Faire un don au développeur du plugin]
+Ce plugin est gratuit pour que chacun puisse en profiter simplement. Si vous souhaitez tout de même faire un don au développeur du plugin, merci de me contacter par MP sur le forum.
 --
 
 .J'aimerai remonter des erreurs/modifications directement dans le code ?
