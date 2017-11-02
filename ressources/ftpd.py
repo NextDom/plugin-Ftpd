@@ -69,14 +69,17 @@ class FTPserverThread(threading.Thread):
                     if iptoint(addresse_list[0]) <= iptoint(addr[0]) and iptoint(addr[0]) <= iptoint(addresse_list[1]):
                         log('DEBUG', "authorized : mask " + authorized_ip_rang)
                         authorized_camera=True
+                        break
                 elif re.match('.*\-.*',authorized_ip_rang):
                     addresse_list=authorized_ip_rang.split('-')
                     if iptoint(addresse_list[0]) <= iptoint(addr[0]) and iptoint(addr[0]) <= iptoint(addresse_list[1]):
                         log('DEBUG', "authorized : range " + authorized_ip_rang)
                         authorized_camera=True
+                        break
                 elif addr[0] == authorized_ip_rang:
                     log('DEBUG', "authorized : equ " + authorized_ip_rang)
                     authorized_camera=True
+                    break
         else:
             log('DEBUG', "authorized : no restriction")
             authorized_camera=True
