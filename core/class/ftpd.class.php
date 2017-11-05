@@ -499,7 +499,8 @@ class ftpd extends eqLogic {
 		}
 		else
 		{
-			unlink(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename);
+			log::add('ftpd','info',"Equipement not enable. Del ".$this->getLogicalId()." ".$filename." ".$orginalfilname);
+			unlink(calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId()."/".$filename);
 		}
     }
 

@@ -118,19 +118,24 @@ class FTPserverThread(threading.Thread):
                         self.conn.send("500 '" + cmd + "': command not understood.\r\n")
         else:
             log('ERROR', "connexion refuser from " + addr[0])
-            self.conn.send('223 Sorry\r\n')
+            log('DEBUG', "Reply : 223 Sorry.")
+            self.conn.send('223 Sorry.\r\n')
             self.conn.close()
 
     def SYST(self,cmd):
+        log('DEBUG', "Reply : 215 Jeedom Type: L8")
         self.conn.send('215 Jeedom Type: L8\r\n')
 
     def OPTS(self,cmd):
         if cmd[5:-2].upper()=='UTF8 ON':
+            log('DEBUG', "Reply : 200 OK.")
             self.conn.send('200 OK.\r\n')
         else:
+            log('DEBUG', "Reply : 451 Sorry.")
             self.conn.send('451 Sorry.\r\n')
 
     def USER(self,cmd):
+        log('DEBUG', "Reply : 331 OK.")
         self.conn.send('331 OK.\r\n')
 
     def FEAT(self,cmd):
@@ -156,20 +161,24 @@ class FTPserverThread(threading.Thread):
         self.conn.send('211 End.\r\n')
 
     def PASS(self,cmd):
+        log('DEBUG', "Reply : 230 OK.")
         self.conn.send('230 OK.\r\n')
         #self.conn.send('530 Incorrect.\r\n')
 
     def NOOP(self,cmd):
+        log('DEBUG', "Reply : 200 OK.")
         self.conn.send('200 OK.\r\n')
 
     def TYPE(self,cmd):
         self.mode=cmd[5]
+        log('DEBUG', "Reply : 200 Binary mode.")
         self.conn.send('200 Binary mode.\r\n')
 
     def CDUP(self,cmd):
         #if not os.path.samefile(self.cwd,self.basewd):
             #learn from stackoverflow
         #    self.cwd=os.path.abspath(os.path.join(self.cwd,'..'))
+        log('DEBUG', "Reply : 200 OK.")
         self.conn.send('200 OK.\r\n')
 
     def PWD(self,cmd):
@@ -178,6 +187,7 @@ class FTPserverThread(threading.Thread):
             cwd='/'
         else:
             cwd='/'+cwd
+        log('DEBUG', 'Reply : "%s"' % cwd)
         self.conn.send('257 \"%s\"\r\n' % cwd)
 
     def CWD(self,cmd):
@@ -188,6 +198,7 @@ class FTPserverThread(threading.Thread):
             # self.cwd=os.path.join(self.basewd,chwd[1:])
         # else:
             # self.cwd=os.path.join(self.cwd,chwd)
+        log('DEBUG', "Reply : 250 OK.")
         self.conn.send('250 OK.\r\n')
 
     def ALLO(self,cmd):
@@ -198,6 +209,7 @@ class FTPserverThread(threading.Thread):
             # self.cwd=os.path.join(self.basewd,chwd[1:])
         # else:
             # self.cwd=os.path.join(self.cwd,chwd)
+        log('DEBUG', "Reply : 200 ALLO OK %s bytes available." % size)
         self.conn.send('200 ALLO OK %s bytes available.\r\n' % size)
 
     def PORT(self,cmd):
@@ -207,6 +219,7 @@ class FTPserverThread(threading.Thread):
         l=cmd[5:].split(',')
         self.dataAddr='.'.join(l[:4])
         self.dataPort=(int(l[4])<<8)+int(l[5])
+        log('DEBUG', "Reply : 200 Get port")
         self.conn.send('200 Get port.\r\n')
 
     def PASV(self,cmd): # from http://goo.gl/3if2U
@@ -216,6 +229,8 @@ class FTPserverThread(threading.Thread):
         self.servsock.listen(1)
         ip, port = self.servsock.getsockname()
         log('DEBUG', "open " + ip + " " + str(port))
+        log('DEBUG', 'Reply : 227 Entering Passive Mode (%s,%u,%u).\r\n' %
+                (','.join(ip.split('.')), port>>8&0xFF, port&0xFF))
         self.conn.send('227 Entering Passive Mode (%s,%u,%u).\r\n' %
                 (','.join(ip.split('.')), port>>8&0xFF, port&0xFF))
 
@@ -226,6 +241,8 @@ class FTPserverThread(threading.Thread):
         self.servsock.listen(1)
         ip, port = self.servsock.getsockname()
         log('DEBUG', "open " + ip + " " + str(port))
+        log('DEBUG', 'Reply : 229 Entering Extended Passive Mode (|||%u|).\r\n' %
+                (port&0xFF))
         self.conn.send('229 Entering Extended Passive Mode (|||%u|).\r\n' %
                 (port&0xFF))
 
@@ -237,6 +254,7 @@ class FTPserverThread(threading.Thread):
         #    k=self.toListItem(os.path.join(self.cwd,t))
         #    self.datasock.send(k+'\r\n')
         #self.stop_datasock()
+        log('DEBUG', "Reply : 226 Directory send OK")
         self.conn.send('226 Directory send OK.\r\n')
 
     def toListItem(self,fn):
@@ -252,13 +270,15 @@ class FTPserverThread(threading.Thread):
     def MKD(self,cmd):
         #dn=os.path.join(self.cwd,cmd[4:-2])
         #os.mkdir(dn)
+        log('DEBUG', "Reply : 257 Directory created.")
         self.conn.send('257 Directory created.\r\n')
 
     def RMD(self,cmd):
         #dn=os.path.join(self.cwd,cmd[4:-2])
         #if allow_delete:
         #    os.rmdir(dn)
-        self.conn.send('250 Directory deleted.\r\n')
+        log('DEBUG', "Reply : 450 Not allowed.")
+        self.conn.send('450 Not allowed.\r\n')
         #else:
         #    self.conn.send('450 Not allowed.\r\n')
 
@@ -268,21 +288,25 @@ class FTPserverThread(threading.Thread):
         #    os.remove(fn)
         #self.conn.send('250 File deleted.\r\n')
         #else:
-            self.conn.send('450 Not allowed.\r\n')
+        log('DEBUG', "Reply : 450 Not allowed.")
+        self.conn.send('450 Not allowed.\r\n')
 
     def RNFR(self,cmd):
         #self.rnfn=os.path.join(self.cwd,cmd[5:-2])
+        log('DEBUG', "Reply : 350 Ready.")
         self.conn.send('350 Ready.\r\n')
 
     def RNTO(self,cmd):
         #fn=os.path.join(self.cwd,cmd[5:-2])
         #os.rename(self.rnfn,fn)
-        self.conn.send('250 File renamed.\r\n')
+        log('DEBUG', "Reply : 450 Not allowed.")
+        self.conn.send('450 Not allowed.\r\n')
 
     def REST(self,cmd):
         #self.pos=int(cmd[5:-2])
         #self.rest=True
-        self.conn.send('250 File position reseted.\r\n')
+        log('DEBUG', "Reply : 450 Not allowed.")
+        self.conn.send('450 Not allowed.\r\n')
 
     def RETR(self,cmd):
         #fn=os.path.join(self.cwd,cmd[5:-2])
@@ -306,6 +330,7 @@ class FTPserverThread(threading.Thread):
         self.conn.send('226 Transfer complete.\r\n')
 
     def SIZE(self,cmd):
+        log('DEBUG', "Reply : 550 Can\'t check for file existence.")
         self.conn.send('550 Can\'t check for file existence.\r\n')
 
     def STOR(self,cmd):
