@@ -22,7 +22,7 @@ function ftpd_install() {
 	config::save('port', 8888, 'ftpd');
 	config::save('local_ip', '0.0.0.0', 'ftpd');
 	config::save('authorized_ip', '', 'ftpd');
-	config::save('recordDir', 'tmp/ftpd_records', 'ftpd');
+	config::save('recordDir', jeedom::getTmpFolder('ftpd') . '/ftpd_records', 'ftpd');
 	jeedom::getApiKey('ftpd');
 	if (config::byKey('api::ftpd::mode') == '') {
 		config::save('api::ftpd::mode', 'localhost');

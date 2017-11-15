@@ -213,7 +213,7 @@ class FTPserverThread(threading.Thread):
         self.conn.send('200 ALLO OK %s bytes available.\r\n' % size)
 
     def PORT(self,cmd):
-        if self.pasv_mode:
+        if self.pasvpasv_mode:
             self.servsock.close()
             self.pasv_mode = False
         l=cmd[5:].split(',')
@@ -274,22 +274,22 @@ class FTPserverThread(threading.Thread):
         self.conn.send('257 Directory created.\r\n')
 
     def RMD(self,cmd):
-        #dn=os.path.join(self.cwd,cmd[4:-2])
+        dn=os.path.join(self.cwd,cmd[4:-2])
         #if allow_delete:
         #    os.rmdir(dn)
-        log('DEBUG', "Reply : 450 Not allowed.")
-        self.conn.send('450 Not allowed.\r\n')
+        log('DEBUG', "Reply : 550  Can't remove directory: No such file or directory.")
+        self.conn.send('550  Can\'t remove directory: No such file or directory.\r\n')
         #else:
         #    self.conn.send('450 Not allowed.\r\n')
 
     def DELE(self,cmd):
-        #fn=os.path.join(self.cwd,cmd[5:-2])
+        fn=os.path.join(self.cwd,cmd[5:-2])
         #if allow_delete:
         #    os.remove(fn)
         #self.conn.send('250 File deleted.\r\n')
         #else:
-        log('DEBUG', "Reply : 450 Not allowed.")
-        self.conn.send('450 Not allowed.\r\n')
+        log('DEBUG', "Reply : 550 Could not delete %: No such file or directory.", fn)
+        self.conn.send('550 Could not delete %: No such file or directory.\r\n', fn)
 
     def RNFR(self,cmd):
         #self.rnfn=os.path.join(self.cwd,cmd[5:-2])
