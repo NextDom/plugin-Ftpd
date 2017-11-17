@@ -53,7 +53,10 @@ if (!isConnect('admin')) {
     <div class="form-group">
         <label class="col-lg-4 control-label">{{Chemin des enregistrements}}</label>
         <div class="col-lg-3">
-            <input class="configKey form-control" data-l1key="recordDir"/>
+            <input class="configKey form-control" data-l1key="recordDir" id="recordDirFtpd"/>
+        </div>
+        <div class="col-lg-3">
+			<a class="btn btn-danger" id="bt_resetDir"><i class="fa fa-check"></i> {{Reinitialisation du répertoire de stockage des captures}}</a>
         </div>
         <div class="col-lg-3">
 			Ne pas modifier sauf besoin spécifique.

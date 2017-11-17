@@ -80,3 +80,12 @@ $('.eqLogicDetect').on('click', function() {
 		}
     });
 });
+
+  $('#bt_resetDir').on('click',function(){
+  		bootbox.confirm('{{Etes-vous sûr de vouloir forcer la reinitialisation du réperoire de stockage des captures ?}}', function (result) {
+  			if (result) {
+  				$('#recordDirFtpd').value('');
+  				savePluginConfig();
+  			}
+  		});
+  	});
