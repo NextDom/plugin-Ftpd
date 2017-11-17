@@ -343,6 +343,13 @@ class ftpd extends eqLogic {
 		}
 	}
 
+	public static function postConfig_recordDir() {
+		if ( config::byKey('recordDir', 'ftpd') == '' )
+		{
+			config::save('recordDir', jeedom::getTmpFolder('ftpd') . '/ftpd_records', 'ftpd');
+		}
+	}
+
 	public function postUpdate()
 	{
 		$restart = false;
