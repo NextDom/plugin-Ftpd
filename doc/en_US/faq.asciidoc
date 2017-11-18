@@ -27,7 +27,14 @@ Le daemon ne peut écouter sur le port standard ftp (21) car il n'est pas lancé
 --
 
 .J'ai le message de debug : unable to solve: 192.168.1.26 [Errno 1] Unknown host
+--
 En fait si la camera a un nom DNS, je la nomme avec son nom DNS sinon elle a pour nom  Addr_<IP>. Ce n'est pas grave, ça veut juste dire que tu n'as pas configuré de résolution DNS inverse pour l'IP en question.
+--
+
+.Je ne vois plus les images arriver après une mise à jour en version 9 de debian ?
+--
+Il est nécessaire d'aller réinitialiser le répertoire de stockage dans le menu de configuration du plugin "Reinitialisation du répertoire de stockage des captures".
+--
 
 .Pourquoi le plugin est gratuit ?
 --
