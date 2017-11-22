@@ -213,7 +213,7 @@ class FTPserverThread(threading.Thread):
         self.conn.send('200 ALLO OK %s bytes available.\r\n' % size)
 
     def PORT(self,cmd):
-        if self.pasvpasv_mode:
+        if self.pasv_mode:
             self.servsock.close()
             self.pasv_mode = False
         l=cmd[5:].split(',')
