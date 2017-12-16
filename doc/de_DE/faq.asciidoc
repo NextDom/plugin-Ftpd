@@ -31,7 +31,7 @@ Le daemon ne peut écouter sur le port standard ftp (21) car il n'est pas lancé
 En fait si la camera a un nom DNS, je la nomme avec son nom DNS sinon elle a pour nom  Addr_<IP>. Ce n'est pas grave, ça veut juste dire que tu n'as pas configuré de résolution DNS inverse pour l'IP en question.
 --
 
-.Je ne vois plus les images arriver après une mise à jour en version 9 de debian ?
+.Ich kann die Bilder nicht sehen, die nach einem Update in der Version 9 von debian kommen?
 --
 Il est nécessaire d'aller réinitialiser le répertoire de stockage dans le menu de configuration du plugin "Reinitialisation du répertoire de stockage des captures".
 --

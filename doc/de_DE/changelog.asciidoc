@@ -1,6 +1,6 @@
 Warnung: Ausführliche Informationen zu den Updates auf https://github.com/guenneguezt/plugin-ftpd/commits/master[Commit Geschichte]
 
-Liste des évolutions majeures de la version courante :
+Liste der wichtigsten Änderungen in der aktuellen Version :
 
 - Ajout d'un bouton pour réinitialiser le répertoire de stockage des images
 
@@ -27,4 +27,4 @@ Anciennes évolutions :
 - Ajout de la prise en compte de commande type pattern.
 - Gestion des get en tache de fond du daemon.
 - Correction lorsque les captures sont hors répertoire Jeedom.
-- Première version bêta.
+- Erste beta Version
