@@ -26,22 +26,22 @@ include::configuration.asciidoc[]
 ==== Configuration Foscam
 include::configuration_foscam.asciidoc[]
 
-==== Configuration Wanscam
+==== Wanscam Konfiguration
 include::configuration_wanscam.asciidoc[]
 
-==== Configuration Axis
+==== Axis Konfiguration
 include::configuration_axis.asciidoc[]
 
 ==== Configuration Escam (chinoises sur soc Hisilicon)
 include::configuration_escam.asciidoc[]
 
-==== Configuration Dahua
+==== Dahua Konfiguration
 include::configuration_dahua.asciidoc[]
 
-==== Configuration Vivotek
+==== Vivotek Konfiguration
 include::configuration_vivotek.asciidoc[]
 
-==== Configuration Hik
+==== Hik Konfiguration
 include::configuration_hik.asciidoc[]
 
 ==== Configuration autres modèles
