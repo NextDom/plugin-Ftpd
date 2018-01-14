@@ -294,7 +294,7 @@ class ftpd extends eqLogic {
 		if ( is_dir($_CaptureDir)) {
 			if ($dh = opendir($_CaptureDir)) {
 				while (($file = readdir($dh)) !== false) {
-					if ( is_dir($_CaptureDir . '/'.$file) && $file != "." && $file != ".." )
+					if ( is_dir($_CaptureDir . '/'.$file) && $file != "." && $file != ".." && substr($file, 0, 1) != "." )
 					{
 						log::add('ftpd','debug','Find ftpd : '.$file);
 						if ( ! is_object(self::byLogicalId($file, 'ftpd')) ) {
