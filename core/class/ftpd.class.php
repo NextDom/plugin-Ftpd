@@ -443,7 +443,14 @@ class ftpd extends eqLogic {
 		log::add('ftpd','debug',"Remove Snapshot ".$file);
 		$record_dir = calculPath(config::byKey('recordDir', 'ftpd'));
 		unlink ($record_dir . '/' . $file);
+		$path_parts=pathinfo($file);
+			if ($path_parts['extension'] == 'mp4' || $path_parts['extension'] == 'avi') {
+			   $file = $path_parts['filename'] . '_mini.jpg';
+			   log::add('ftpd','debug',"delete ".$file);
+			   unlink($_CaptureDir."/".$file);
+			}
 	}
+
 
 	public function newcapture($filename, $orginalfilname) {
 		if ( $this->getIsEnable() ) {
@@ -470,7 +477,7 @@ class ftpd extends eqLogic {
 			{
 				while (false !== ($file = readdir($handle)))
 				{
-					if ($file != "." && $file != "..")
+					if ($file != "." && $file != ".." && !strpos($file,'_mini.jpg'))
 					{
 					   $files[filemtime($_CaptureDir."/".$file)] = $file;
 					}
@@ -488,6 +495,12 @@ class ftpd extends eqLogic {
 					{
 						log::add('ftpd','debug',"delete ".$file);
 						unlink($_CaptureDir."/".$file);
+						$path_parts=pathinfo($file);
+						if ($path_parts['extension'] == 'mp4' || $path_parts['extension'] == 'avi') {
+						   $file = $path_parts['filename'] . '_mini.jpg';
+						   log::add('ftpd','debug',"delete ".$file);
+						   unlink($_CaptureDir."/".$file);
+						}
 					}
 					$filetodelete--;
 				}

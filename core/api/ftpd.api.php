@@ -41,7 +41,7 @@ try {
 		exit;
 	}
 
-	if (init('action') == 'downloadcapture') {
+	if ((init('action') == 'downloadcapture') || (init('action') == 'downloadmini')) {
 		if ( init('pathfile') == '' )
 		{
 			$pathfile = "../img/no-image.png";
@@ -50,6 +50,10 @@ try {
 		else
 		{
 			$pathfile = calculPath(urldecode(init('pathfile')));
+			$path_parts = pathinfo($pathfile);
+			if ((init('action') == 'downloadmini') && ($path_parts['extension'] != "jpg")) {
+			       $pathfile = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg";
+			}
 			if ( file_exists($pathfile) )
 			{
 				$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
@@ -64,7 +68,6 @@ try {
 				$pathfile = "../img/no-image.png";
 			}
 		}
-		$path_parts = pathinfo($pathfile);
 		header('Content-Type: application/octet-stream');
 		header('Content-Disposition: attachment; filename=' . $path_parts['basename']);
 		readfile($pathfile);

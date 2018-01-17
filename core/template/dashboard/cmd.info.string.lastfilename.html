@@ -10,7 +10,7 @@ extension = filename.substr(filename.lastIndexOf('.') + 1);
 url = 'plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' + filename;
 if ( extension == 'avi' || extension == 'mp4' || extension == 'mjpeg' )
 {
-	data = '<video class="img-responsive ftpd_history videoCmd#uid#" data-eqLogic_id="#id#" width="150" height="100" controls autoplay loop data-src="' + url + '" style="cursor:pointer"><source src="' + url + '">Your browser does not support the video tag.</video>';
+	data = '<video class="img-responsive ftpd_history videoCmd#uid#" data-eqLogic_id="#id#" width="150" height="100" data-src="' + url + '" style="cursor:pointer"><source src="' + url + '">Your browser does not support the video tag.</video>';
 }
 else
 {
