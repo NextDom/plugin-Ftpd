@@ -8,6 +8,7 @@ import logging
 from lxml import etree
 from daemon import runner
 import requests
+import subprocess
 #import traceback
 DEBUG = False
 
@@ -339,7 +340,8 @@ class FTPserverThread(threading.Thread):
     def APPE(self,cmd):
         log('DEBUG', "Uploading: " + cmd[5:-2])
         orginalfilname=cmd[5:-2]
-        newfilname=time.strftime('%Y-%m-%d_%H-%M-%S') + "." + orginalfilname.split(".")[-1]
+        basefilname=time.strftime('%Y-%m-%d_%H-%M-%S')
+        newfilname=basefilname + "." + orginalfilname.split(".")[-1]
         fn=os.path.join(self.cwd, newfilname)
         if self.mode=='I':
             fo=open(fn,'wb')
@@ -379,6 +381,13 @@ class FTPserverThread(threading.Thread):
         url = url_new_capture + '&LogicalId=' + clientdns + '&lastfilename=' + newfilname + '&orginalfilname=' + orginalfilname
         log('DEBUG', clientdns + " Notify capture " + url)
         FetchUrl(url).start()
+        if (orginalfilname.split(".")[-1] == "mp4" or orginalfilname.split(".")[-1] == "avi"):
+            newminifilname=basefilname + "_mini.jpg"
+            fnmini=os.path.join(self.cwd, newminifilname)            
+            cmd = 'ffmpeg -i ' + fn + ' -r 1 -s 320x200 -frames:v 1 ' + fnmini
+            proc = subprocess.Popen([cmd], stdout=subprocess.PIPE, shell=True)
+            (out, err) = proc.communicate()
+            log('DEBUG', "Mini jpeg generated: " + cmd)
 
 class FTPserver(threading.Thread):
     def __init__(self):
