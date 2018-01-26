@@ -446,13 +446,22 @@ class ftpd extends eqLogic {
 		$record_dir = calculPath(config::byKey('recordDir', 'ftpd'));
 		unlink ($record_dir . '/' . $file);
 		$path_parts=pathinfo($file);
+<<<<<<< HEAD
 		if ( strpos(mime_content_type($file),'video') !== false )
 		{
 		   $file = $path_parts['filename'] . '_mini.jpg';
 		   log::add('ftpd','debug',"Remove Snapshot mini ".$file);
 		   unlink($_CaptureDir."/".$file);
 		}
+=======
+			if ($path_parts['extension'] == 'mp4' || $path_parts['extension'] == 'avi') {
+			   $file = $path_parts['filename'] . '_mini.jpg';
+			   log::add('ftpd','debug',"delete ".$file);
+			   unlink($_CaptureDir."/".$file);
+			}
+>>>>>>> origin/master
 	}
+
 
 	public function newcapture($filename, $orginalfilname) {
 		if ( $this->getIsEnable() ) {
@@ -507,10 +516,17 @@ class ftpd extends eqLogic {
 						log::add('ftpd','debug',"delete ".$file);
 						unlink($_CaptureDir."/".$file);
 						$path_parts=pathinfo($file);
+<<<<<<< HEAD
 						if ( strpos(mime_content_type($file),'video') !== false ) {
 							$file = $path_parts['filename'] . '_mini.jpg';
 							log::add('ftpd','debug',"delete ".$file);
 							unlink($_CaptureDir."/".$file);
+=======
+						if ($path_parts['extension'] == 'mp4' || $path_parts['extension'] == 'avi') {
+						   $file = $path_parts['filename'] . '_mini.jpg';
+						   log::add('ftpd','debug',"delete ".$file);
+						   unlink($_CaptureDir."/".$file);
+>>>>>>> origin/master
 						}
 					}
 					$filetodelete--;

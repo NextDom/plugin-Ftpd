@@ -9,6 +9,6 @@
 	"hasDependency" : true,
 	"hasOwnDeamon" : true,
 	"maxDependancyInstallTime" : 45,
-    "changelog" : "https://github.com/guenneguezt/plugin-ftpd/blob/master/doc/#language#/changelog.asciidoc",
+    "changelog" : "https://jeedom.github.io/documentation/third_plugin/ftpd/#language#/index.html#_changelog",
     "documentation" : "https://jeedom.github.io/documentation/third_plugin/ftpd/#language#/index.html"
 }

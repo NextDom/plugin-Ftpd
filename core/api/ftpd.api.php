@@ -41,7 +41,11 @@ try {
 		exit;
 	}
 
+<<<<<<< HEAD
 	if (init('action') == 'downloadcapture' || init('action') == 'downloadmini') {
+=======
+	if ((init('action') == 'downloadcapture') || (init('action') == 'downloadmini')) {
+>>>>>>> origin/master
 		if ( init('pathfile') == '' )
 		{
 			$pathfile = "../img/no-image.png";
@@ -52,8 +56,13 @@ try {
 		{
 			$pathfile = calculPath(urldecode(init('pathfile')));
 			$path_parts = pathinfo($pathfile);
+<<<<<<< HEAD
 			if ( init('action') == 'downloadmini' && $path_parts['extension'] != "jpg" ) {
 				$pathfile = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg";
+=======
+			if ((init('action') == 'downloadmini') && ($path_parts['extension'] != "jpg")) {
+			       $pathfile = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg";
+>>>>>>> origin/master
 			}
 			if ( file_exists($pathfile) )
 			{

@@ -2,10 +2,11 @@ WARNING: Detail complet des mises à jour sur https://github.com/guenneguezt/plu
 
 Liste des évolutions majeures de la version courante :
 
-- Ajout d'un bouton pour réinitialiser le répertoire de stockage des images
+- Correction pour exclure les répertoires commençants par un "."
 
 Anciennes évolutions :
 
+- Ajout d'un bouton pour réinitialiser le répertoire de stockage des images
 - Correction du répertoire de stockage des images
 - Pris en compte des ordres DELE
 - Suppression des images lorsque l'équipements est désactivé
