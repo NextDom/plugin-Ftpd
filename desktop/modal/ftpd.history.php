@@ -38,8 +38,8 @@ echo '<a class="btn btn-danger bt_removeftpdFile pull-right" data-all="1" data-f
 echo '<a class="btn btn-success  pull-right" href="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/*') .'" ><i class="fa fa-download"></i> {{Tout télécharger}}</a>';
 ?>
 <?php
-$i=0;
-foreach ($files as $date => $file) {
+foreach ($files as $date => $file)
+{
 	echo '<div class="div_dayContainer">';
 	echo '<legend>';
 	echo substr($date, 6, 2).'/'.substr($date, 4, 2).'/'.substr($date, 0, 4);
@@ -47,30 +47,25 @@ foreach ($files as $date => $file) {
 	echo '</legend>';
 	echo '<div class="ftpdThumbnailContainer">';
 	krsort($file);
-	foreach ($file as $time => $filename) {
-		$fontType = 'fa-ftpd';
-		if (strpos($filename,'.mp4')||strpos($filename,'.avi')){
-			$fontType = 'fa-video-ftpd';
-			$i++;
-		}
-		echo '<div class="ftpdDisplayCard" style="background-color: #e7e7e7;padding:5px;height:167px;">';
-		echo '<center><i class="fa ' . $fontType . ' pull-right"></i>  ' . $time . '</center>';
-		if (strpos($filename,'.mp4')||strpos($filename,'.avi')){
-			if ($i<=5){
-				$autoplay = ' autoplay';
-			} else {
-				$autoplay = '';
+	foreach ($file as $time => $filename)
+	{
+   	    if ( ! strpos($filename,'_mini.jpg') )
+		{
+			echo '<div class="ftpdDisplayCard" style="background-color: #e7e7e7;padding:5px;height:167px;">';
+			if ( strpos(mime_content_type($dir . '/' . $filename),'video') !== false )
+			{
+				echo '<center><i class="fa fa-video-ftpd pull-right"></i>  ' . $time . '</center>';
+				echo '<center><img class="img-responsive cursor displayVideo lazy" src="plugins/ftpd/core/img/no-image.png" data-original="plugins/ftpd/core/api/ftpd.api.php?action=downloadmini&pathfile=' . urlencode($dir . '/' . $filename) . '" data-src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" width="150"/></center>';
 			}
-			echo '<video class="displayVideo" width="150" height="100" controls'. $autoplay . ' loop data-src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" style="cursor:pointer">
-	<source src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '">
-	Your browser does not support the video tag.
-	</video>';
-		}else{
-			echo '<center><img class="img-responsive cursor displayImage lazy" src="plugins/ftpd/core/img/no-image.png" data-original="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" data-id='.init('id').' width="150"/></center>';
+			else
+			{
+				echo '<center><i class="fa fa-ftpd pull-right"></i>  ' . $time . '</center>';
+				echo '<center><img class="img-responsive cursor displayImage lazy" src="plugins/ftpd/core/img/no-image.png" data-original="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" data-id='.init('id').' width="150"/></center>';
+			}
+			echo '<center style="margin-top:5px;"><a href="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" class="btn btn-success btn-xs" style="color : white"><i class="fa fa-download"></i></a>';
+			echo ' <a class="btn btn-danger bt_removeftpdFile btn-xs" style="color : white" data-filtre="' . $EqLogic->getLogicalId() . '/' . $filename . '"><i class="fa fa-trash-o"></i></a></center>';
+			echo '</div>';
 		}
-		echo '<center style="margin-top:5px;"><a href="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" class="btn btn-success btn-xs" style="color : white"><i class="fa fa-download"></i></a>';
-		echo ' <a class="btn btn-danger bt_removeftpdFile btn-xs" style="color : white" data-filtre="' . $EqLogic->getLogicalId() . '/' . $filename . '"><i class="fa fa-trash-o"></i></a></center>';
-		echo '</div>';
 	}
 	echo '</div>';
 	echo '</div>';

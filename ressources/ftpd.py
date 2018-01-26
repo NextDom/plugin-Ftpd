@@ -93,6 +93,7 @@ class FTPserverThread(threading.Thread):
                 clientdns="Addr_" + addr[0]
                 log('DEBUG', "unable to solve: " + addr[0] + " " +str(e))
             log('DEBUG', "identify as: " + clientdns)
+            self.mode = 'A'
             self.cwd=os.path.join(self.basewd,clientdns)
             if not os.path.isdir(self.cwd):
                 log('DEBUG', clientdns + " mkdir: " + self.cwd)

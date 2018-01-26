@@ -2,10 +2,11 @@ WARNING: Detail complet des mises à jour sur https://github.com/guenneguezt/plu
 
 Liste des évolutions majeures de la version courante :
 
-- Correction pour exclure les répertoires commençants par un "."
+- Correction pour que les vidéos apparaissent en aperçu dans l'historique
 
 Anciennes évolutions :
 
+- Correction pour exclure les répertoires commençants par un "."
 - Ajout d'un bouton pour réinitialiser le répertoire de stockage des images
 - Correction du répertoire de stockage des images
 - Pris en compte des ordres DELE

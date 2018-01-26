@@ -19,12 +19,23 @@ echo 10 > /tmp/ftpd_in_progress
 echo "Test the necessity of dependencies"
 BASEDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $BASEDIR
+ffmpeg -h 1>/dev/null 2>&1
+if [ $? -ne 0 ]
+then
+	echo "Installation of ffmpeg"
+	apt_install ffmpeg
+	echo 20 > /tmp/ftpd_in_progress
+else
+	echo 20 > /tmp/ftpd_in_progress
+	echo "No necessity of dependencies"
+fi
+
 python ./ftpd.py test 2>/dev/null 
 if [ $? -ne 0 ]
 then
 	echo "Installation of python-daemon"
 	apt_install python-daemon
-	echo 30 > /tmp/ftpd_in_progress
+	echo 40 > /tmp/ftpd_in_progress
 
 	echo "Installation of python-lxml"
 	apt_install python-lxml
@@ -32,9 +43,8 @@ then
 
 	echo "Installation of python-requests"
 	apt_install python-requests
-	echo 90 > /tmp/ftpd_in_progress
+	echo 80 > /tmp/ftpd_in_progress
 	
-
 	python ./ftpd.py test
 	if [ $? -ne 0 ]
 	then

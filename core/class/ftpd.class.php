@@ -141,7 +141,8 @@ class ftpd extends eqLogic {
 		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
 		if ( ! is_dir($_CaptureDir) )
 		{
-			mkdir($_CaptureDir);
+			log::add('ftpd','debug','mkdir '.$_CaptureDir);
+			mkdir($_CaptureDir, 0777, true);
 		}
 		if ( ! isset($daemon->ftp_dir) )
 		{
@@ -439,10 +440,18 @@ class ftpd extends eqLogic {
 		}
 	}
 
-	public static function removeSnapshot($file) {
+	public static function removeSnapshot($file)
+	{
 		log::add('ftpd','debug',"Remove Snapshot ".$file);
 		$record_dir = calculPath(config::byKey('recordDir', 'ftpd'));
 		unlink ($record_dir . '/' . $file);
+		$path_parts=pathinfo($file);
+		if ( strpos(mime_content_type($file),'video') !== false )
+		{
+		   $file = $path_parts['filename'] . '_mini.jpg';
+		   log::add('ftpd','debug',"Remove Snapshot mini ".$file);
+		   unlink($_CaptureDir."/".$file);
+		}
 	}
 
 	public function newcapture($filename, $orginalfilname) {
@@ -464,13 +473,22 @@ class ftpd extends eqLogic {
 					$cmd->event(1);
 				}
 			}
+			if ( strpos(mime_content_type(calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename)),'video') !== false )
+			{
+				# Converntion en mini
+				$path_parts=pathinfo(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename);
+				log::add('ftpd','debug','Convertion de l image en miniature');
+				$cmd = 'ffmpeg -i '.calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename).' -r 1 -s 320x200 -frames:v 1 '.calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$path_parts['filename'].'_mini.jpg';
+				log::add('ftpd','debug',$cmd);
+				exec($cmd);
+			}
 			$files = array();
 			$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId();
 			if ($handle = opendir($_CaptureDir))
 			{
 				while (false !== ($file = readdir($handle)))
 				{
-					if ($file != "." && $file != "..")
+					if ($file != "." && $file != ".." && !strpos($file,'_mini.jpg'))
 					{
 					   $files[filemtime($_CaptureDir."/".$file)] = $file;
 					}
@@ -488,6 +506,12 @@ class ftpd extends eqLogic {
 					{
 						log::add('ftpd','debug',"delete ".$file);
 						unlink($_CaptureDir."/".$file);
+						$path_parts=pathinfo($file);
+						if ( strpos(mime_content_type($file),'video') !== false ) {
+							$file = $path_parts['filename'] . '_mini.jpg';
+							log::add('ftpd','debug',"delete ".$file);
+							unlink($_CaptureDir."/".$file);
+						}
 					}
 					$filetodelete--;
 				}
