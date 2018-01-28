@@ -47,7 +47,6 @@ foreach ($files as $date => $file)
 	echo '</legend>';
 	echo '<div class="ftpdThumbnailContainer">';
 	krsort($file);
-<<<<<<< HEAD
 	foreach ($file as $time => $filename)
 	{
    	    if ( ! strpos($filename,'_mini.jpg') )
@@ -67,27 +66,6 @@ foreach ($files as $date => $file)
 			echo ' <a class="btn btn-danger bt_removeftpdFile btn-xs" style="color : white" data-filtre="' . $EqLogic->getLogicalId() . '/' . $filename . '"><i class="fa fa-trash-o"></i></a></center>';
 			echo '</div>';
 		}
-=======
-	foreach ($file as $time => $filename) {
-   	    if (!strpos($filename,'_mini.jpg')) {
-	        $filetype = 'P';
-		$fontType = 'fa-ftpd';
-		if (strpos($filename,'.mp4')||strpos($filename,'.avi')){
-			$fontType = 'fa-video-ftpd';
-			$filetype='V';
-		}
-		echo '<div class="ftpdDisplayCard" style="background-color: #e7e7e7;padding:5px;height:167px;">';
-		echo '<center><i class="fa ' . $fontType . ' pull-right"></i>  ' . $time . '</center>';
-		if (strpos($filename,'.mp4')||strpos($filename,'.avi')){
-			echo '<center><img class="img-responsive cursor displayVideo lazy" src="plugins/ftpd/core/img/no-image.png" data-original="plugins/ftpd/core/api/ftpd.api.php?action=downloadmini&pathfile=' . urlencode($dir . '/' . $filename) . '" data-src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" width="150"/></center>';
-		} else {
-			echo '<center><img class="img-responsive cursor displayImage lazy" src="plugins/ftpd/core/img/no-image.png" data-original="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" data-id='.init('id').' width="150"/></center>';
-		}
-		echo '<center style="margin-top:5px;"><a href="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" class="btn btn-success btn-xs" style="color : white"><i class="fa fa-download"></i></a>';
-		echo ' <a class="btn btn-danger bt_removeftpdFile btn-xs" style="color : white" data-filtre="' . $EqLogic->getLogicalId() . '/' . $filename . '"><i class="fa fa-trash-o"></i></a></center>';
-		echo '</div>';
-	    }
->>>>>>> origin/master
 	}
 echo '</div>';
 	echo '</div>';
