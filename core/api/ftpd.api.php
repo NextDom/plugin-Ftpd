@@ -52,8 +52,11 @@ try {
 		{
 			$pathfile = calculPath(urldecode(init('pathfile')));
 			$path_parts = pathinfo($pathfile);
-			if ( init('action') == 'downloadmini' && $path_parts['extension'] != "jpg" ) {
-				$pathfile = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg";
+			if ( init('action') == 'downloadmini' ) {
+				if ( file_exists($path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg") )
+				{
+					$pathfile = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg";
+				}
 			}
 			if ( file_exists($pathfile) )
 			{

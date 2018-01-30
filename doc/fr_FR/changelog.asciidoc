@@ -2,10 +2,14 @@ WARNING: Detail complet des mises à jour sur https://github.com/guenneguezt/plu
 
 Liste des évolutions majeures de la version courante :
 
-- Correction pour que les vidéos apparaissent en aperçu dans l'historique
+- Ajout de création dynamique de miniature des images pour affichage dans l'historique plus rapide.
+- Ajout de bouton pour pouvoir arrêter ou démarrer l'enregistrement des fichiers.
+- Ajout de la possibiliter de gérer des notifications par mail avec la capture jointe.
+- Ajout d'un petit icone sur l'historique pour savoir si c'est une video ou un image.
 
 Anciennes évolutions :
 
+- Correction pour que les vidéos apparaissent en aperçu dans l'historique
 - Correction pour exclure les répertoires commençants par un "."
 - Ajout d'un bouton pour réinitialiser le répertoire de stockage des images
 - Correction du répertoire de stockage des images

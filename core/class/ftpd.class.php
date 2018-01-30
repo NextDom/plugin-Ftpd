@@ -142,7 +142,17 @@ class ftpd extends eqLogic {
 		if ( ! is_dir($_CaptureDir) )
 		{
 			log::add('ftpd','debug','mkdir '.$_CaptureDir);
-			mkdir($_CaptureDir, 0777, true);
+			if ( mkdir($_CaptureDir, 0777, true) === false )
+			{
+				log::add('ftpd','error',__('Impossible de creer le dossier ', __FILE__).$_CaptureDir);
+			}
+		}
+		else
+		{
+			if ( ! is_writable ($_CaptureDir) )
+			{
+				log::add('ftpd','error',__('Impossible d\'ecrire dans le dossier ', __FILE__).$_CaptureDir);
+			}
 		}
 		if ( ! isset($daemon->ftp_dir) )
 		{
@@ -238,8 +248,14 @@ class ftpd extends eqLogic {
 					log::add('ftpd','debug',__('Retrieve ftpd.py process and kill with PID : ', __FILE__).$value["pid"]);
 					exec("kill ".$value["pid"]);
 				}
-				sleep(60);
 			}
+			$processlist = system::ps("python ./ftpd.py start");
+			while ( count($processlist) > 0 )
+			{
+				sleep(5);
+				$processlist = system::ps("python ./ftpd.py start");
+			}
+			log::add('ftpd','debug',__('ftpd.py process stoped', __FILE__));
 		}
 		else
 		{
@@ -253,7 +269,7 @@ class ftpd extends eqLogic {
 				$cmd = "cd ".$ftpd_path.";python ./ftpd.py stop";
 				log::add('ftpd','info','daemon stop');
 				ftpd::exec($cmd);
-				sleep(60);
+				sleep(10);
 			}
 		}
 	}
@@ -316,32 +332,7 @@ class ftpd extends eqLogic {
 
 	public function postInsert()
 	{
-        $state = $this->getCmd(null, 'state');
-        if ( ! is_object($state) ) {
-            $state = new ftpdCmd();
-			$state->setName('Etat');
-			$state->setEqLogic_id($this->getId());
-			$state->setType('info');
-			$state->setSubType('binary');
-			$state->setLogicalId('state');
-			$state->setDisplay('generic_type','PRESENCE');
-			$state->setDisplay('invertBinary',1);
-			$state->setTemplate('dashboard', 'presence');
-			$state->setTemplate('mobile', 'presence');
-			$state->save();
-		}
-        $lastfilename = $this->getCmd(null, 'lastfilename');
-        if ( ! is_object($lastfilename) ) {
-            $lastfilename = new ftpdCmd();
-			$lastfilename->setName('Nom du dernier fichier');
-			$lastfilename->setEqLogic_id($this->getId());
-			$lastfilename->setType('info');
-			$lastfilename->setSubType('string');
-			$lastfilename->setLogicalId('lastfilename');
-			$lastfilename->setTemplate('dashboard', 'lastfilename');
-			$lastfilename->setTemplate('mobile', 'lastfilename');
-			$lastfilename->save();
-		}
+        $this->postUpdate();
 	}
 
 	public static function postConfig_recordDir() {
@@ -411,11 +402,129 @@ class ftpd extends eqLogic {
 			$lastfilename->setTemplate('mobile', 'lastfilename');
 			$lastfilename->save();
 		}
+		$notifyCmd = $this->getCmd(null, 'notify');
+		if ( ! is_object($notifyCmd) ) {
+			$notifyCmd = new ftpdCmd();
+			$notifyCmd->setName('Notification');
+			$notifyCmd->setEqLogic_id($this->getId());
+			$notifyCmd->setType('info');
+			$notifyCmd->setSubType('binary');
+			$notifyCmd->setLogicalId('notify');
+			$notifyCmd->setEventOnly(1);
+			$notifyCmd->setIsVisible(1);
+			$notifyCmd->setTemplate('dashboard', 'notify');
+			$notifyCmd->setTemplate('mobile', 'notify');
+			$notifyCmd->save();
+		}
+		$notifyCommuteCmd = $this->getCmd(null, 'notify_commute');
+		if ( ! is_object($notifyCommuteCmd) ) {
+			$notifyCommuteCmd = new ftpdCmd();
+			$notifyCommuteCmd->setName('Notification Commute');
+			$notifyCommuteCmd->setIsVisible(0);
+			$notifyCommuteCmd->setEqLogic_id($this->getId());
+			$notifyCommuteCmd->setType('action');
+			$notifyCommuteCmd->setSubType('other');
+			$notifyCommuteCmd->setLogicalId('notify_commute');
+			$notifyCommuteCmd->setEventOnly(1);
+			$notifyCommuteCmd->setValue($notifyCmd->getId());
+			$notifyCommuteCmd->save();
+		}
+		else
+		{
+			$notifyCommuteCmd->setValue($notifyCmd->getId());
+			$notifyCommuteCmd->save();
+		}
+		$notifyOnCmd = $this->getCmd(null, 'notify_on');
+		if ( ! is_object($notifyOnCmd) ) {
+			$notifyOnCmd = new ftpdCmd();
+			$notifyOnCmd->setName('Notification On');
+			$notifyOnCmd->setEqLogic_id($this->getId());
+			$notifyOnCmd->setType('action');
+			$notifyOnCmd->setSubType('other');
+			$notifyOnCmd->setLogicalId('notify_on');
+			$notifyOnCmd->setEventOnly(1);
+			$notifyOnCmd->setIsVisible(0);
+			$notifyOnCmd->setValue($notifyCmd->getId());
+			$notifyOnCmd->save();
+		}
+		else
+		{
+			$notifyOnCmd->setValue($notifyCmd->getId());
+			$notifyOnCmd->save();
+		}
+		$notifyOffCmd = $this->getCmd(null, 'notify_off');
+		if ( ! is_object($notifyOffCmd) ) {
+			$notifyOffCmd = new ftpdCmd();
+			$notifyOffCmd->setName('Notification Off');
+			$notifyOffCmd->setEqLogic_id($this->getId());
+			$notifyOffCmd->setType('action');
+			$notifyOffCmd->setSubType('other');
+			$notifyOffCmd->setLogicalId('notify_off');
+			$notifyOffCmd->setEventOnly(1);
+			$notifyOffCmd->setIsVisible(0);
+			$notifyOffCmd->setValue($notifyCmd->getId());
+			$notifyOffCmd->save();
+		}
+		else
+		{
+			$notifyOffCmd->setValue($notifyCmd->getId());
+			$notifyOffCmd->save();
+		}
+		$recordState = $this->getCmd(null, 'recordState');
+		if (!is_object($recordState)) {
+			$recordState = new ftpdCmd();
+			$recordState->setIsVisible(1);
+			$recordState->setName(__('Status d enregistrement', __FILE__));
+			$recordState->setType('info');
+			$recordState->setLogicalId('recordState');
+			$recordState->setEqLogic_id($this->getId());
+			$recordState->setSubType('binary');
+			$recordState->setDisplay('generic_type', 'CAMERA_RECORD_STATE');
+			$recordState->save();
+			$recordState->setCollectDate('');
+			$recordState->event(1);
+		}
+
+		$stopRecordCmd = $this->getCmd(null, 'stopRecordCmd');
+		if (!is_object($stopRecordCmd)) {
+			$stopRecordCmd = new ftpdCmd();
+			$stopRecordCmd->setName(__('Arrêter l enregistrement', __FILE__));
+			$stopRecordCmd->setType('action');
+			$stopRecordCmd->setLogicalId('stopRecordCmd');
+			$stopRecordCmd->setEqLogic_id($this->getId());
+			$stopRecordCmd->setSubType('other');
+			$stopRecordCmd->setOrder(999);
+			$stopRecordCmd->setDisplay('icon', '<i class="fa fa-stop"></i>');
+			$stopRecordCmd->setDisplay('generic_type', 'CAMERA_STOP');
+			$stopRecordCmd->save();
+		}
+
+		$startRecordCmd = $this->getCmd(null, 'startRecordCmd');
+		if (!is_object($startRecordCmd)) {
+			$startRecordCmd = new ftpdCmd();
+			$startRecordCmd->setName(__('Démarrer l enregistrement', __FILE__));
+			$startRecordCmd->setType('action');
+			$startRecordCmd->setLogicalId('startRecordCmd');
+			$startRecordCmd->setEqLogic_id($this->getId());
+			$startRecordCmd->setSubType('other');
+			$startRecordCmd->setOrder(999);
+			$startRecordCmd->setDisplay('icon', '<i class="fa fa-circle"></i>');
+			$startRecordCmd->setDisplay('generic_type', 'CAMERA_START');
+			$startRecordCmd->save();
+		}
+
 		if ( $restart )
 		{
 			$plugin = plugin::byId('ftpd');
 			$plugin->deamon_start();
 		}
+	}
+
+	public function dontRemoveCmd() {
+		if ($this->getLogicalId() == 'pattern') {
+			return false;
+		}
+		return true;
 	}
 
 	public function preRemove() {
@@ -457,8 +566,15 @@ class ftpd extends eqLogic {
 
 	public function newcapture($filename, $orginalfilname) {
 		if ( $this->getIsEnable() ) {
-			$state = $this->getCmd(null, 'state');
+			$recordState = $this->getCmd(null, 'recordState');
+			if ( $recordState->execCmd() == 0 )
+			{
+				log::add('ftpd','debug',"Do not record push notification for ".$this->getLogicalId()." ".$filename." ".$orginalfilname);
+				unlink(calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename));
+				return true;
+			}
 			log::add('ftpd','info',"Receive push notification for ".$this->getLogicalId()." ".$filename." ".$orginalfilname);
+			$state = $this->getCmd(null, 'state');
 			$lastfilename = $this->getCmd(null, 'lastfilename');
 			$lastfilename->setCollectDate('');
 			$lastfilename->event(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename);
@@ -474,22 +590,76 @@ class ftpd extends eqLogic {
 					$cmd->event(1);
 				}
 			}
+			$path_parts=pathinfo(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename);
 			if ( strpos(mime_content_type(calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename)),'video') !== false )
 			{
-				# Converntion en mini
-				$path_parts=pathinfo(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename);
+				# Convertion en mini
 				log::add('ftpd','debug','Convertion de l image en miniature');
 				$cmd = 'ffmpeg -i '.calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename).' -r 1 -s 320x200 -frames:v 1 '.calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$path_parts['filename'].'_mini.jpg';
 				log::add('ftpd','debug',$cmd);
 				exec($cmd);
 			}
+			else
+			{
+				list($width, $height) = getimagesize(calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$filename);
+				if ( $width > 150 )
+				{
+					log::add('ftpd','debug','Creation de la miniature');
+					$tmpfname = calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$path_parts['filename'].'_mini.jpg';
+					$modwidth = 150;
+					//$width * $size;
+					$modheight = round($height/$width*$modwidth);
+					//$height * $size; 
+					// Resizing the Image 
+					$tn = imagecreatetruecolor($modwidth, $modheight);
+					$image = imagecreatefromjpeg(calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$filename);
+					imagecopyresampled($tn, $image, 0, 0, 0, 0, $modwidth, $modheight, $width, $height);
+					// Outputting a .jpg, you can make this gif or png if you want
+					//notice we set the quality (third value) to 100
+					//imagejpeg($tn, null, 80);
+					imagejpeg($tn, $tmpfname, 80);
+					imagedestroy($tn);
+				}
+			}
+			$notifyCmd = $this->getCmd(null, 'notify');
+			log::add('ftpd','debug','Notification ? '.$notifyCmd->execCmd().' dest : '.$notifyCmd->getConfiguration('notify_dest'));
+			if ( $notifyCmd->execCmd() == 1 && $notifyCmd->getConfiguration('notify_dest') != "" )
+			{
+				$_options['title'] = '[Jeedom][Ftpd] Détéction sur la camera '.$this->getHumanName();
+				$_options['message'] = 'La camera '.$this->getHumanName(). ' a détécté un mouvement. Voici le snapshot qui a ete pris';
+				$_options['files'] = array();
+				if ( strpos(mime_content_type(calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename)),'video') !== false )
+				{
+					$filename = calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$path_parts['filename'].'_mini.jpg';
+				}
+				else
+				{
+					if ( $notifyCmd->getConfiguration('notify_reduce') == 1 )
+					{
+						$filename = calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$path_parts['filename'].'_mini.jpg';
+					}
+					else
+					{
+						array_push($_options['files'], calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$filename);
+					}
+				}
+				log::add('ftpd','debug','Envoie d\'un message avec la derniere capture : '.json_encode($_options['files']));
+				foreach (explode(',', $notifyCmd->getConfiguration('notify_dest')) as $id) {
+					$cmd = cmd::byId(str_replace('#', '', $id));
+					if (is_object($cmd)) {
+						log::add('ftpd','debug','Envoie du message avec '.$cmd->getHumanName());
+						$cmd->execute($_options);
+					}
+				}
+			}
+			// Nettoye les vieux fichiers
 			$files = array();
 			$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId();
 			if ($handle = opendir($_CaptureDir))
 			{
 				while (false !== ($file = readdir($handle)))
 				{
-					if ($file != "." && $file != ".." && !strpos($file,'_mini.jpg'))
+					if ($file != "." && $file != ".." && ! strpos($file,'_mini.jpg'))
 					{
 					   $files[filemtime($_CaptureDir."/".$file)] = $file;
 					}
@@ -509,18 +679,17 @@ class ftpd extends eqLogic {
 						unlink($_CaptureDir."/".$file);
 						$path_parts=pathinfo($file);
 
-						if ( strpos(mime_content_type($file),'video') !== false ) {
-							$file = $path_parts['filename'] . '_mini.jpg';
-							if (file_exists($_CaptureDir."/".$file)) { 
-								log::add('ftpd','debug',"delete ".$file);
-								unlink($_CaptureDir."/".$file);
-							}
+						$file = $path_parts['filename'] . '_mini.jpg';
+						if (file_exists($_CaptureDir."/".$file)) { 
+							log::add('ftpd','debug',"delete ".$file);
+							unlink($_CaptureDir."/".$file);
 						}
 					}
 					$filetodelete--;
 				}
 			}
 			sleep($this->getConfiguration('delairesetstatus', 10));
+			//Reset l'état de l'équipement
 			$state->setCollectDate('');
 			$state->event(0);
 			foreach($this->getCmd(null, 'pattern', null, true) as $cmd)
@@ -579,6 +748,51 @@ class ftpdCmd extends cmd
 
 
     /*     * *********************Methode d'instance************************* */
+    public function execute($_options = array()) {
+		$eqLogic = $this->getEqLogic();
+        if (!is_object($eqLogic) || $eqLogic->getIsEnable() != 1) {
+            throw new Exception(__('Equipement desactivé impossible d\éxecuter la commande : ' . $this->getHumanName(), __FILE__));
+        }
+		$notifyCmd = $eqLogic->getCmd(null, 'notify');
+		$recordStateCmd = $eqLogic->getCmd(null, 'recordState');
+		if ( $this->getLogicalId() == 'notify_on' )
+		{
+			log::add('ftpd','debug',"Activation des notifications");
+			$notifyCmd->setCollectDate('');
+			$notifyCmd->event(1);
+		}
+		else if ( $this->getLogicalId() == 'notify_off' )
+		{
+			log::add('ftpd','debug',"Désactivation des notifications");
+			$notifyCmd->setCollectDate('');
+			$notifyCmd->event(0);
+		}
+		else if ( $this->getLogicalId() == 'notify_commute' )
+		{
+			log::add('ftpd','debug',"Bascule des notifications");
+			$notifyCmd->setCollectDate('');
+			$notifyCmd->event(($notifyCmd->execCmd()+1)%2);
+		}
+		else if ( $this->getLogicalId() == 'stopRecordCmd' )
+		{
+			log::add('ftpd','debug',"Désactivation stockage");
+			$recordStateCmd->setCollectDate('');
+			$recordStateCmd->event(0);
+		}
+		else if ( $this->getLogicalId() == 'startRecordCmd' )
+		{
+			log::add('ftpd','debug',"Active stockage");
+			$recordStateCmd->setCollectDate('');
+			$recordStateCmd->event(1);
+		}
+		else
+		{
+			log::add('ftpd','debug',"Appel non traite : ".$this->getLogicalId());
+			return false;
+		}
+		log::add('ftpd','debug',"Notification : ".$notifyCmd->execCmd());
+		return true;
+	}
 
     /*     * **********************Getteur Setteur*************************** */
 	public function postInsert()
