@@ -520,13 +520,6 @@ class ftpd extends eqLogic {
 		}
 	}
 
-	public function dontRemoveCmd() {
-		if ($this->getLogicalId() == 'pattern') {
-			return false;
-		}
-		return true;
-	}
-
 	public function preRemove() {
 		$this->removeAllSnapshot(true);
 	}
@@ -625,8 +618,8 @@ class ftpd extends eqLogic {
 			log::add('ftpd','debug','Notification ? '.$notifyCmd->execCmd().' dest : '.$notifyCmd->getConfiguration('notify_dest'));
 			if ( $notifyCmd->execCmd() == 1 && $notifyCmd->getConfiguration('notify_dest') != "" )
 			{
-				$_options['title'] = '[Jeedom][Ftpd] Détéction sur la camera '.$this->getHumanName();
-				$_options['message'] = 'La camera '.$this->getHumanName(). ' a détécté un mouvement. Voici le snapshot qui a ete pris';
+				$_options['title'] = '[Jeedom][Ftpd] '.__('Détection sur la camera ', __FILE__).$this->getHumanName();
+				$_options['message'] = __('La camera a détecté un mouvement.', __FILE__).' '.__('Voici le snapshot qui a ete pris', __FILE__);
 				$_options['files'] = array();
 				if ( strpos(mime_content_type(calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId()."/".$filename)),'video') !== false )
 				{
@@ -636,7 +629,7 @@ class ftpd extends eqLogic {
 				{
 					if ( $notifyCmd->getConfiguration('notify_reduce') == 1 )
 					{
-						$filename = calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$path_parts['filename'].'_mini.jpg';
+						array_push($_options['files'], calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$path_parts['	'].'_mini.jpg');
 					}
 					else
 					{
@@ -799,6 +792,13 @@ class ftpdCmd extends cmd
 	{
 		if ( ! defined($this->logicalId) || $this->logicalId == "" )
 			$this->logicalId = 'pattern';
+	}
+
+	public function dontRemoveCmd() {
+		if ($this->getLogicalId() == 'pattern') {
+			return false;
+		}
+		return true;
 	}
 }
 ?>
