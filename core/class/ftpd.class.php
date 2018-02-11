@@ -629,7 +629,7 @@ class ftpd extends eqLogic {
 				{
 					if ( $notifyCmd->getConfiguration('notify_reduce') == 1 )
 					{
-						array_push($_options['files'], calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$path_parts['	'].'_mini.jpg');
+						array_push($_options['files'], calculPath(config::byKey('recordDir', 'ftpd').'/'.$this->getLogicalId())."/".$path_parts['filename'].'_mini.jpg');
 					}
 					else
 					{
