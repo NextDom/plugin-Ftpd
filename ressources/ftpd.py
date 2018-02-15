@@ -341,7 +341,7 @@ class FTPserverThread(threading.Thread):
     def APPE(self,cmd):
         log('DEBUG', "Uploading: " + cmd[5:-2])
         orginalfilname=cmd[5:-2]
-        basefilname=time.strftime('%Y-%m-%d_%H-%M-%S')
+        basefilname=time.strftime('%Y-%m-%d_%H-%M-%S-{}'.format(repr(time.time()).split('.')[1][:3]))
         newfilname=basefilname + "." + orginalfilname.split(".")[-1]
         fn=os.path.join(self.cwd, newfilname)
         if self.mode=='I':

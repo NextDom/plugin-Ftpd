@@ -32,7 +32,7 @@ function ftpd_install() {
 function ftpd_update() {
 	foreach (eqLogic::byType('ftpd') as $eqLogic) {
 		$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$eqLogic->getLogicalId();
-		if ($handle = opendir($_CaptureDir))
+		if ( is_dir($_CaptureDir) && $handle = opendir($_CaptureDir) )
 		{
 			while (false !== ($filename = readdir($handle)))
 			{
