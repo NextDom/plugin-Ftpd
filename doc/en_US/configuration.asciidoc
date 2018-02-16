@@ -1,6 +1,7 @@
 Nous allons maintenant paramétrer l'équipement. Pour se faire, cliquer sur *Plugins / Sécurité / Ftpd*
 
 Puis définir les caractèristiques :
+
 - Objet parent
 - Catégorie (optionnelle)
 - Activer (coché par défaut)
@@ -10,6 +11,10 @@ Puis définir les caractèristiques :
 image::../images/ftpd_screenshot2.jpg[align="center"]
 
 Et pour finir, cliquer sur Sauvegarder
+
+Chaque camera possède des commandes pour activer ou non l'enregistrement des fichiers.
+
+Chaque camera possède des commandes pour activer ou non la notification par mail. Pour que celle-ci fonctionne il faut configurer le plugin mail et ajouter l'équipement "mail" dans la commande "notification".
 
 Il est possible de rajouter des commandes types pattern pour distinguer les déclanchements en fonction du nom du fichier.
 http://php.net/manual/fr/function.preg-match.php[Doc php pattern]

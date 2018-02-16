@@ -1,36 +1,38 @@
-WARNING: Detail complet des mises à jour sur https://github.com/guenneguezt/plugin-ftpd/commits/master[Historique Commit]
+ADVERTENCIA: Detalles completos de las actualizaciones en https://github.com/guenneguezt/plugin-ftpd/commits/master[History Commit]
 
-Liste des évolutions majeures de la version courante :
+Lista de las principales desarrollos de la versión actual :
 
-- Ajout de création dynamique de miniature des images pour affichage dans l'historique plus rapide.
-- Ajout de bouton pour pouvoir arrêter ou démarrer l'enregistrement des fichiers.
-- Ajout de la possibiliter de gérer des notifications par mail avec la capture jointe.
-- Ajout d'un petit icone sur l'historique pour savoir si c'est une video ou un image.
+- Prise en compte des multiples images en une second.
+- Mise au standard de la gestion des équipements
 
-Anciennes évolutions :
+Antiguos desarrollos :
 
-- Correction pour que les vidéos apparaissent en aperçu dans l'historique
-- Correction pour exclure les répertoires commençants par un "."
-- Ajout d'un bouton pour réinitialiser le répertoire de stockage des images
-- Correction du répertoire de stockage des images
-- Pris en compte des ordres DELE
-- Suppression des images lorsque l'équipements est désactivé
-- Correction de l'icone
-- Optimisation du démon
-- Correction pour les patterns
-- Ajout d'une Clef API specifique au plugin
-- Ajout de log pour les patterns
-- Non prise en compte des images si l'équipement est désactivé
-- Correction pour fonctionner si IP Autorisées est vide.
-- Correction de la commande ALLO
-- Ajout de message d'erreur lorsque le daemon n'arrive pas à communiquer avec Jeedom.
-- Plus de prise en compte de l'IP configuré dans administration=>réseau.
-- Prise en compte des config en https autosigné.
-- Correction du rafraichissement des images
-- Correction du problème de sauvegarde : Une commande portant ce nom (Etat) existe déjà pour cet équipement
-- Modification pour compatibilité Jeedom V3
-- Plus de suivi de version
-- Ajout de la prise en compte de commande type pattern.
-- Gestion des get en tache de fond du daemon.
-- Correction lorsque les captures sont hors répertoire Jeedom.
-- Première version bêta.
+- Añadida la creación dinámica de miniaturas de imágenes para mostrarlas en un historial más rápido.
+- Añadido para detener o iniciar la grabación de archivos.
+- Añadida la posibilidad de gestionar notificaciones de correo electrónico con la captura adjunta.
+- Añadido un pequeño icono en el historico para saber si es un vídeo o una imagen.
+- Corrección para que los vídeos aparezcan previsualizados en el historico
+- Corrección para excluir directorios que comienzan con un "."
+- Añadido un botón para restablecer el directorio de almacenamiento de imágenes
+- Corrección del directorio de almacenamiento de imágenes
+- Tener en cuenta los comandos DELE
+- Borrado de imágenes cuando el equipo está desactivado
+- Corrección del icono
+- Optimización del demonio
+- Corrección de patrones
+- Añadida una clave API específica al plugin
+- Añadido registros log para patrones
+- Las imágenes no se tienen en cuenta si el dispositivo está desactivado.
+- Corrección para funcionar si la IP Autorizada está vacío.
+- Corrección del comando ALLO
+- Añadido mensaje de error cuando el demonio no se comunica con Jeedom.
+- No tener en cuenta la IP configurada en administración=>red.
+- Soporte para configuraciones https autofirmadas.
+- Corrección de los refrescos de imagen
+- Corregido el problema de la copia de seguridad: Ya existe un comando con este nombre (Estado) para este dispositivo.
+- Modificación para compatibilidad con Jeedom V3
+- No más seguimiento de versiones
+- Añadido soporte de comando de tipo patrón.
+- Gestión de entrar en el fondo del demonio.
+- Se corrige cuando las capturas están fuera del directorio Jeedom.
+- Primera versión beta.

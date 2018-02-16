@@ -1,23 +1,23 @@
-Il faut se connecter en http sur la camera et aller dans un premier temps configurer le serveur FTP.
+Es necesario conectarse por http a la cámara y pasar primero a configurar el servidor FTP.
 
-Voici une copie d'écran de ce qu'il faut paramétrer :
+Aquí hay una captura de pantalla que debe configurar :
 
 image::../images/configuration_vivotek.jpg[align="center"]
 
-<IP_JEEDOM> Correspond à l'adresse IP de votre jeedom.
+<IP_JEEDOM> Corresponde a la dirección IP de jeedom.
 
-<PORT> Correspond au port ftpd qui a été renseigné dans la page de configuration du plugin (8888 par defaut).
+<PORT> Corresponde al puerto ftpd que se ha introducido en la página de configuración del plugin (8888 por defecto).
 
-Il n'est pas nécessaire de renseigner de User Name, Password, ni FTP folder name.
+No es necesario introducir el nombre de usuario, contraseña o nombre de la carpeta FTP.
 
-Il faut ensuite aller configurer quand activer la détection de mouvement.
+A continuación, debe configurar cuándo activar la detección de movimiento.
 
 image::../images/configuration_vivotek2.jpg[align="center"]
 
-Ensuite, il faut aller pour configurer les critères de Motion Detection (detection de mouvement) que l'on souhaite utiliser.
+A continuación, debe ir a configurar los criterios de detección de movimiento que desea utilizar.
 
 image::../images/configuration_vivotek3.jpg[align="center"]
 
-Enfin, il faut indiquer le serveur vers lequel les photos sont envoyées.
+Finalmente, debe especificar el servidor al que se envían las fotos.
 
 image::../images/configuration_vivotek4.jpg[align="center"]

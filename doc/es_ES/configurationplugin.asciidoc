@@ -1,19 +1,19 @@
-Nous allons configurer le plugin. Pour se faire, cliquer sur *Plugin / Gestion des plugins*. Puis trouver *ftpd*.
+Configuraremos el plugin. Para ello, haga clic en *Plugin / Gestión de plugins *. Entonces busque *ftpd*.
 
 image::../images/ftpd_screenshot1.jpg[align="center"]
 
-Il faut définir certains paramètres global au plugin :
+Debe definir algunos parámetros globales para el plugin :
 
-- Port ftpd : Port sur lequel le daemon écoutera pour les fichiers.
+- Puerto Ftpd : Puerto en el que el demonio escuchará por los archivos.
 
-- Local IP : Adresse ip d'écoute du daemon. Il est préférable de laisser 0.0.0.0.
+IP Local : Dirección IP de escucha del demonio. Es preferible dejar 0.0.0.0
 
-- IP Autorisées : Liste les IPs autorisées à déposer des fichiers.
+IP Permitidas : Enumera las IPs permitidas para subir archivos.
 +
-Format : liste séparé par virgule sans espace. La liste peut contenir des ips (192.168.1.1), des masques ( (192.168.1.0/32) ou des plages (192.168.1.1-192.168.1.12).
+Formato: lista separada por comas sin espacios. La lista puede contener ips (192.168.1.1), máscaras ((192.168.1.0/32) o rangos (192.168.1.1.1.1.1-192.168.1.12).
 
-- Chemin des enregistrements : Chemin dans lequel les fichiers seront stockés.
+Ruta de grabado : La ruta donde se almacenarán los archivos.
 
-- Debug daemon : Permet d'activer le debug du daemon ftpd.
+-Debug de demonio : Le permite activar la depuración del demonio ftpd.
 
-Et pour finir, cliquer sur Sauvegarder.
+Finalmente, haga clic en Guardar.

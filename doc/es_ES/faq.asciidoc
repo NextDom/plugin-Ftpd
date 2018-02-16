@@ -1,47 +1,47 @@
 [panel,primary]
-.J'essaie de me connecter au daemon et je ne vois rien
+.Estoy intentando conectarme con el demonio y no puedo ver nada.
 --
-Le daemon est n'autorise pas toutes les commandes FTP. Juste le dépot de fichier pour éviter une faille de sécurité.
-Si vous activez le debug vous devriez avoir le message suivant qui indique que la connexion fonctionne : "[DEBUG] : connect: XXXX".
---
-
-.J'ai des erreurs "unable to solve:"
---
-Votre configuration DNS ne permet pas à Jeedom de retrouver un nom dns de votre équipement. Ce n'est pas grave.
+El demonio no permite todos los comandos FTP. Sólo el repositorio de archivos para evitar una brecha de seguridad.
+Si habilita debug debería recibir el siguiente mensaje indicando que la conexión está funcionando:"[DEBUG]: connect: XXXX".
 --
 
-.Je n'arrive pas à créer mes équipements
+.Obtengo el error "unable to solve:"
 --
-Les équipements sont créés automatique à la reception de la première image.
---
-
-.Aucune image n'est sauvegardée
---
-Il faut aller dans la log ftpd_daemon et regarder si des erreurs sont présentes.
-Si des erreurs sont présente, les remonter au développeur link:https://www.jeedom.com/forum/viewtopic.php?f=28&t=24684&start=500[via le Forum sur le lien suivant]
+Su configuración DNS no permite a Jeedom resolver un nombre dns para su dispositivo. No se preocupe, no es grave
 --
 
-.Je souhaite mettre 21 pour le port
+.No puedo crear mi dispositivo
 --
-Le daemon ne peut écouter sur le port standard ftp (21) car il n'est pas lancé en tant que root.
---
-
-.J'ai le message de debug : unable to solve: 192.168.1.26 [Errno 1] Unknown host
---
-En fait si la camera a un nom DNS, je la nomme avec son nom DNS sinon elle a pour nom  Addr_<IP>. Ce n'est pas grave, ça veut juste dire que tu n'as pas configuré de résolution DNS inverse pour l'IP en question.
+Los dispositivos se crean automáticamente al recibir la primera imagen.
 --
 
-.Je ne vois plus les images arriver après une mise à jour en version 9 de debian ?
+.No se guarda ninguna imagen
 --
-Il est nécessaire d'aller réinitialiser le répertoire de stockage dans le menu de configuration du plugin "Reinitialisation du répertoire de stockage des captures".
---
-
-.Pourquoi le plugin est gratuit ?
---
-Ce plugin est gratuit pour que chacun puisse en profiter simplement. Si vous souhaitez tout de même faire un don au développeur du plugin, merci de me contacter par MP sur le forum.
+Tienes que ir al registro ftpd_daemon y ver si hay algún error.
+Si se presentan errores, por favor repórtelos al enlace del desarrollador link:https://www.jeedom.com/forum/viewtopic.php?f=28&t=24684&start=500[a través del Foro en el siguiente enlace]
 --
 
-.J'aimerai remonter des erreurs/modifications directement dans le code ?
+.Me gustaría poner 21 para el puerto
 --
-C'est tout à fait possible via https://github.com/guenneguezt/plugin-ftpd[github]
+El demonio no puede escuchar el puerto ftp estándar (21) porque no se lanza como root.
+--
+
+Obtengo el mensaje de debug: unable to solve : 192.168.1.26[Errno 1] Unknown host
+--
+De hecho, si la cámara tiene un nombre DNS, se nombra con su nombre DNS, de lo contrario tiene Addr_<IP>. No es grave, sólo significa que no ha configurado una resolución DNS inversa para la IP en cuestión.
+--
+
+.No puedo ver las imágenes que llegan después de una actualización a la versión 9 de debian?
+--
+Es necesario ir a reiniciar el repertorio de almacenamiento en el menú de configuración del plugin "Reinicializar el repositorio de almacenamiento de capturas".
+--
+
+.¿Por qué es gratis el plugin?
+--
+Este plugin es gratuito para que todo el mundo pueda disfrutarlo de forma sencilla. Si usted todavía quiere hacer una donación al desarrollador del plugin, por favor contácteme por MP en el foro.
+--
+
+.¿Podría reportar errores/modificaciones directamente en el código?
+--
+Esto es posible a través de https://github.com/guenneguezt/plugin-ftpd[github]
 --

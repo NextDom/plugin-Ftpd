@@ -1,22 +1,27 @@
-Nous allons maintenant paramétrer l'équipement. Pour se faire, cliquer sur *Plugins / Sécurité / Ftpd*
+Ahora vamos a ajustar los parámetros del equipo. Para ello, haga clic en *Plugins / Seguridad / Ftpd*
 
-Puis définir les caractèristiques :
-- Objet parent
-- Catégorie (optionnelle)
-- Activer (coché par défaut)
-- Visible (optionel si vous ne désirez pas le rendre visible sur le Dashboard)
-- Nombre max de fichier : Nombre de fichier maximum conservés.
+A continuación, defina las características :
+
+- Objeto padre
+- Categoría (opcional)
+- Habilitar (activo por defecto)
+- Visible (opcional si no quieres hacerlo visible en el Dashboard)
+- Número máximo de archivos : Número máximo de archivos conservados
 
 image::../images/ftpd_screenshot2.jpg[align="center"]
 
-Et pour finir, cliquer sur Sauvegarder
+Y finalmente, haga clic en Guardar.
 
-Il est possible de rajouter des commandes types pattern pour distinguer les déclanchements en fonction du nom du fichier.
+Chaque camera possède des commandes pour activer ou non l'enregistrement des fichiers.
+
+Chaque camera possède des commandes pour activer ou non la notification par mail. Pour que celle-ci fonctionne il faut configurer le plugin mail et ajouter l'équipement "mail" dans la commande "notification".
+
+Es posible agregar comandos de tipo patrón para distinguir los disparadores según el nombre del archivo.
 http://php.net/manual/fr/function.preg-match.php[Doc php pattern]
 
 image::../images/configuration_pattern.jpg[align="center"]
 
-Par exemple, avec ce qui suit, la commande ne se active que si le fichier commence par def.
+Por ejemplo, con lo siguiente, el comando sólo se activa si el archivo comienza con def.
 [source,]
 ----
 /^def/

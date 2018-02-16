@@ -17,7 +17,7 @@
         "Historiser": "Historizar",
         "Afficher": "Mostrar",
         "Tester": "Prueba",
-        "Sauvegarde réussie": "Salvado con exito",
+        "Sauvegarde réussie": "Guardado con exito",
         "Inverser": "Invertir"
     },
     "plugins\/ftpd\/core\/class\/ftpd.class.php": {
@@ -53,7 +53,7 @@
         "Paramètres": "Parámetros",
         "Action": "Acción",
         "Supprimer": "Borrar",
-        "Sauvegarder": "Salvar",
+        "Sauvegarder": "Guardar",
         "Nombre max de fichier": "Número máximo de archivos",
         "Délai reset status": "Délai estado de reinicio",
         "Identifiant de l'équipement": "Identificador del equipo",
