@@ -41,7 +41,7 @@ class ftpd extends eqLogic {
 			}
 			else
 			{
-				log::add('ftpd','debug',__('Process not found', __FILE__));
+				log::add('ftpd','debug',__('Process non trouvé', __FILE__));
 			}
 		}
 		else
@@ -51,7 +51,7 @@ class ftpd extends eqLogic {
 			{
 				foreach ($processlist as $value)
 				{
-					log::add('ftpd','debug',__('Retrieve ftpd.py process with PID : ', __FILE__).$value["pid"]);
+					log::add('ftpd','debug',__('Retrouve ftpd.py processus avec PID : ', __FILE__).$value["pid"]);
 					$return['state'] = 'ok';
 				}
 			}
@@ -371,7 +371,7 @@ class ftpd extends eqLogic {
         $state = $this->getCmd(null, 'state');
         if ( ! is_object($state) ) {
             $state = new ftpdCmd();
-			$state->setName('Etat');
+			$state->setName(__('Etat', __FILE__));
 			$state->setEqLogic_id($this->getId());
 			$state->setType('info');
 			$state->setSubType('binary');
@@ -386,7 +386,7 @@ class ftpd extends eqLogic {
         $lastfilename = $this->getCmd(null, 'lastfilename');
         if ( ! is_object($lastfilename) ) {
             $lastfilename = new ftpdCmd();
-			$lastfilename->setName('Nom du dernier fichier');
+			$lastfilename->setName(__('Nom du dernier fichier', __FILE__));
 			$lastfilename->setEqLogic_id($this->getId());
 			$lastfilename->setType('info');
 			$lastfilename->setSubType('string');
@@ -415,11 +415,13 @@ class ftpd extends eqLogic {
 			$notifyCmd->setTemplate('dashboard', 'notify');
 			$notifyCmd->setTemplate('mobile', 'notify');
 			$notifyCmd->save();
-		}
+            $notifyCmd->setCollectDate('');
+            $notifyCmd->event(1);
+        }
 		$notifyCommuteCmd = $this->getCmd(null, 'notify_commute');
 		if ( ! is_object($notifyCommuteCmd) ) {
 			$notifyCommuteCmd = new ftpdCmd();
-			$notifyCommuteCmd->setName('Notification Commute');
+			$notifyCommuteCmd->setName(__('Bascule notification', __FILE__));
 			$notifyCommuteCmd->setIsVisible(0);
 			$notifyCommuteCmd->setEqLogic_id($this->getId());
 			$notifyCommuteCmd->setType('action');
@@ -437,7 +439,7 @@ class ftpd extends eqLogic {
 		$notifyOnCmd = $this->getCmd(null, 'notify_on');
 		if ( ! is_object($notifyOnCmd) ) {
 			$notifyOnCmd = new ftpdCmd();
-			$notifyOnCmd->setName('Notification On');
+			$notifyOnCmd->setName(__('Active notification', __FILE__));
 			$notifyOnCmd->setEqLogic_id($this->getId());
 			$notifyOnCmd->setType('action');
 			$notifyOnCmd->setSubType('other');
@@ -455,7 +457,7 @@ class ftpd extends eqLogic {
 		$notifyOffCmd = $this->getCmd(null, 'notify_off');
 		if ( ! is_object($notifyOffCmd) ) {
 			$notifyOffCmd = new ftpdCmd();
-			$notifyOffCmd->setName('Notification Off');
+			$notifyOffCmd->setName(__('Désactive notification', __FILE__));
 			$notifyOffCmd->setEqLogic_id($this->getId());
 			$notifyOffCmd->setType('action');
 			$notifyOffCmd->setSubType('other');
@@ -480,9 +482,11 @@ class ftpd extends eqLogic {
 			$recordState->setEqLogic_id($this->getId());
 			$recordState->setSubType('binary');
 			$recordState->setDisplay('generic_type', 'CAMERA_RECORD_STATE');
-			$recordState->save();
 			$recordState->setCollectDate('');
 			$recordState->event(1);
+			$recordState->save();
+            $recordState->setCollectDate('');
+            $recordState->event(1);
 		}
 
 		$stopRecordCmd = $this->getCmd(null, 'stopRecordCmd');
