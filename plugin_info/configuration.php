@@ -18,7 +18,7 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 include_file('core', 'authentification', 'php');
 if (!isConnect('admin')) {
-	throw new Exception('{{401 - Accès non autorisé}}');
+    throw new Exception('{{401 - Accès non autorisé}}');
 }
 ?>
 
@@ -29,7 +29,7 @@ if (!isConnect('admin')) {
             <input class="configKey form-control" data-l1key="port"/>
         </div>
         <div class="col-lg-3">
-			Doit être supérieur à 1024.
+            Doit être supérieur à 1024.
         </div>
     </div>
     <div class="form-group">
@@ -38,7 +38,7 @@ if (!isConnect('admin')) {
             <input class="configKey form-control" data-l1key="local_ip"/>
         </div>
         <div class="col-lg-3">
-			Adresse IP local sur laquelle le daemon écoute. Laisser 0.0.0.0 pour écouter sur toutes les interfaces réseaux de Jeedom.
+            Adresse IP local sur laquelle le daemon écoute. Laisser 0.0.0.0 pour écouter sur toutes les interfaces réseaux de Jeedom.
         </div>
     </div>
     <div class="form-group">
@@ -56,10 +56,10 @@ if (!isConnect('admin')) {
             <input class="configKey form-control" data-l1key="recordDir" id="recordDirFtpd"/>
         </div>
         <div class="col-lg-3">
-			<a class="btn btn-danger" id="bt_resetDir"><i class="fa fa-check"></i> {{Reinitialisation du répertoire de stockage des captures}}</a>
+            <a class="btn btn-danger" id="bt_resetDir"><i class="fa fa-check"></i> {{Reinitialisation du répertoire de stockage des captures}}</a>
         </div>
         <div class="col-lg-3">
-			Ne pas modifier sauf besoin spécifique.
+            Ne pas modifier sauf besoin spécifique.
         </div>
     </div>
     <div class="form-group">
@@ -68,7 +68,7 @@ if (!isConnect('admin')) {
             <input type="checkbox" class="configKey form-control" data-l1key="debug"/>
         </div>
         <div class="col-lg-3">
-			Permet d'avoir plus de message dans la log du daemon.
+            Permet d'avoir plus de message dans la log du daemon.
         </div>
     </div>
 </form>
