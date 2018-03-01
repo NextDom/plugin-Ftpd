@@ -304,9 +304,9 @@ class ftpd extends eqLogic {
         return proc_close($process);
     }
 
-    public static function force_detect_ftpd() {
+    public static function forceDetectFtpd() {
         // Initialisation de la connexion
-        log::add('ftpd','info','force_detect_ftpd');
+        log::add('ftpd','info','forceDetectFtpd');
         $_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
         if ( is_dir($_CaptureDir)) {
             if ($dh = opendir($_CaptureDir)) {

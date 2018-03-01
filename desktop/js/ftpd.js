@@ -121,7 +121,7 @@ $('.eqLogicDetect').on('click', function() {
         type: "POST", // methode de transmission des données au fichier php
         url: "plugins/ftpd/core/ajax/ftpd.ajax.php", // url du fichier php
         data: {
-            action: "force_detect_ftpd",
+            action: "forceDetectFtpd",
         },
         dataType: 'json',
         error: function(request, status, error) {

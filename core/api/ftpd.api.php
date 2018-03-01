@@ -27,8 +27,8 @@ try {
         }
     }
 
-    if (init('action') == 'force_detect_ftpd') {
-        ftpd::force_detect_ftpd();
+    if (init('action') == 'forceDetectFtpd') {
+        ftpd::forceDetectFtpd();
         exit;
     }
 

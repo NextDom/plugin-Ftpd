@@ -26,8 +26,8 @@ try {
 
     ajax::init();
 
-    if (init('action') == 'force_detect_ftpd') {
-        $ftpdCmd = ftpd::force_detect_ftpd();
+    if (init('action') == 'forceDetectFtpd') {
+        $ftpdCmd = ftpd::forceDetectFtpd();
         ajax::success($ftpdCmd);
     }
 
