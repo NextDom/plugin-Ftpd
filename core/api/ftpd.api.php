@@ -77,6 +77,21 @@ try {
 		readfile($pathfile);
 		exit;
 	}
+	if (init('action') == 'lastcapture') {
+	    log::add('ftpd','debug',__('get lastcapture ', __FILE__).init('Id'));
+	    $ftpd = eqlogic::byId(init('Id'), 'ftpd');
+	    if (!is_object($ftpd)) {
+	        throw new Exception(__('Impossible de trouver la ftpd : ' . init('Id'), __FILE__));
+	    }
+	    $pathfile = $ftpd->getLastCapture();
+	    log::add('ftpd','debug',__('filename ', __FILE__).$pathfile);
+	    $path_parts = pathinfo($pathfile);
+	    header('Content-Type: application/octet-stream');
+	    header('Content-Disposition: attachment; filename='.init('Id').'.'.$path_parts['extension']);
+	    readfile($pathfile);
+	    exit;
+	}
+
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

@@ -734,6 +734,26 @@ class ftpd extends eqLogic {
 		exec($cmd); 
 	} 
 
+    public function getLastCapture() {
+	    if ( $this->getIsEnable() ) {
+		    // Liste les fichiers
+		    $files = array();
+		    $_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId();
+		    if ($handle = opendir($_CaptureDir))
+		    {
+		        while (false !== ($file = readdir($handle)))
+				{
+				    if ($file != "." && $file != ".." && ! strpos($file,'_mini.jpg'))
+					{
+					    $files[filemtime($_CaptureDir."/".$file)] = $file;
+				    }
+			    }
+			    closedir($handle);
+			}
+			ksort($files);
+			return calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId()."/".array_shift($files);
+	  }
+   }
 }
 
 class ftpdCmd extends cmd 
