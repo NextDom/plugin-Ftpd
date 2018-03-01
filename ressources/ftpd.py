@@ -14,7 +14,7 @@ DEBUG = False
 
 def iptoint(ip):
     return int(socket.inet_aton(ip).encode('hex'),16)
-    
+
 def inttoip(ip):
     return socket.inet_ntoa(hex(ip)[2:].decode('hex'))
 
@@ -384,7 +384,7 @@ class FTPserverThread(threading.Thread):
         FetchUrl(url).start()
         if (orginalfilname.split(".")[-1] == "mp4" or orginalfilname.split(".")[-1] == "avi"):
             newminifilname=basefilname + "_mini.jpg"
-            fnmini=os.path.join(self.cwd, newminifilname)            
+            fnmini=os.path.join(self.cwd, newminifilname)
             cmd = 'ffmpeg -i ' + fn + ' -r 1 -s 320x200 -frames:v 1 ' + fnmini
             proc = subprocess.Popen([cmd], stdout=subprocess.PIPE, shell=True)
             (out, err) = proc.communicate()
