@@ -291,7 +291,7 @@ class FTPserverThread(threading.Thread):
         #self.conn.send('250 File deleted.\r\n')
         #else:
         log('DEBUG', "Reply : 550 Could not delete : No such file or directory.")
-        self.conn.send('550 Could not delete %: No such file or directory.\r\n', fn)
+        self.conn.send('550 Could not delete : No such file or directory.\r\n')
 
     def RNFR(self,cmd):
         #self.rnfn=os.path.join(self.cwd,cmd[5:-2])
