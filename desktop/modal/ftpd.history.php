@@ -35,38 +35,39 @@ krsort($files);
 <div id='div_ftpdRecordAlert' style="display: none;"></div>
 <?php
 echo '<a class="btn btn-danger bt_removeftpdFile pull-right" data-all="1" data-filtre="' . $EqLogic->getId() . '"><i class="fa fa-trash-o"></i> {{Tout supprimer}}</a>';
-echo '<a class="btn btn-success  pull-right" href="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/*') .'" ><i class="fa fa-download"></i> {{Tout télécharger}}</a>';
+echo '<a class="btn btn-success  pull-right" target="_blank" href="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir) .'" ><i class="fa fa-download"></i> {{Tout télécharger}}</a>';
 ?>
 <?php
 foreach ($files as $date => $file)
 {
-    echo '<div class="div_dayContainer">';
-    echo '<legend>';
-    echo substr($date, 6, 2).'/'.substr($date, 4, 2).'/'.substr($date, 0, 4);
-    echo ' <a class="btn btn-xs btn-default toggleList"><i class="fa fa-chevron-down"></i></a> ';
-    echo '</legend>';
-    echo '<div class="ftpdThumbnailContainer">';
-    krsort($file);
-    foreach ($file as $time => $filename)
-    {
-           if ( ! strpos($filename,'_mini.jpg') )
-        {
-            echo '<div class="ftpdDisplayCard" style="background-color: #e7e7e7;padding:5px;height:167px;">';
-            if ( strpos(mime_content_type($dir . '/' . $filename),'video') !== false )
-            {
-                echo '<center><i class="fa fa-video-ftpd pull-right"></i>  ' . $time . ' <i class="fa fa-video-camera"></i></center>';
-                echo '<center><img class="img-responsive cursor displayVideo lazy" src="plugins/ftpd/core/img/no-image.png" data-original="plugins/ftpd/core/api/ftpd.api.php?action=downloadmini&pathfile=' . urlencode($dir . '/' . $filename) . '" data-src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" width="150"/></center>';
-            }
-            else
-            {
-                echo '<center><i class="fa fa-ftpd pull-right"></i>  ' . $time . ' <i class="fa fa-photo"></i></center>';
-                echo '<center><img class="img-responsive cursor displayImage lazy" src="plugins/ftpd/core/img/no-image.png" data-original="plugins/ftpd/core/api/ftpd.api.php?action=downloadmini&pathfile=' . urlencode($dir . '/' . $filename) . '" data-id='.init('id').' width="150"/></center>';
-            }
-            echo '<center style="margin-top:5px;"><a href="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" class="btn btn-success btn-xs" style="color : white"><i class="fa fa-download"></i></a>';
-            echo ' <a class="btn btn-danger bt_removeftpdFile btn-xs" style="color : white" data-filtre="' . $EqLogic->getLogicalId() . '/' . $filename . '"><i class="fa fa-trash-o"></i></a></center>';
-            echo '</div>';
-        }
-    }
+	echo '<div class="div_dayContainer">';
+	echo '<legend>';
+	echo substr($date, 6, 2).'/'.substr($date, 4, 2).'/'.substr($date, 0, 4);
+	echo ' <a class="btn btn-xs btn-default toggleList"><i class="fa fa-chevron-down"></i></a> ';
+	echo '</legend>';
+	echo '<div class="ftpdThumbnailContainer">';
+	krsort($file);
+	foreach ($file as $time => $filename)
+	{
+   	    if ( ! strpos($filename,'_mini.jpg') )
+		{
+            $path_parts = pathinfo($filename);
+			echo '<div class="ftpdDisplayCard" style="background-color: #e7e7e7;padding:5px;height:167px;">';
+			if ( strpos(mime_content_type($dir . '/' . $filename),'video') !== false )
+			{
+				echo '<center><i class="fa fa-video-ftpd pull-right"></i>  ' . $time . ' <i class="fa fa-video-camera"></i></center>';
+				echo '<center><img class="img-responsive cursor displayVideo lazy" src="plugins/ftpd/core/api/ftpd.api.php?action=downloadmini&pathfile=' . urlencode($dir . '/' . $path_parts['filename'] . '_mini.jpg') . '" data-src="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" width="150"/></center>';
+			}
+			else
+			{
+				echo '<center><i class="fa fa-ftpd pull-right"></i>  ' . $time . ' <i class="fa fa-photo"></i></center>';
+				echo '<center><img class="img-responsive cursor displayImage lazy" src="plugins/ftpd/core/api/ftpd.api.php?action=downloadmini&pathfile=' . urlencode($dir . '/' . $path_parts['filename'] . '_mini.jpg') . '" data-id='.init('id').' width="150"/></center>';
+			}
+			echo '<center style="margin-top:5px;"><a target="_blank" href="plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' . urlencode($dir . '/' . $filename) . '" class="btn btn-success btn-xs" style="color : white"><i class="fa fa-download"></i></a>';
+			echo ' <a class="btn btn-danger bt_removeftpdFile btn-xs" style="color : white" data-filtre="' . $EqLogic->getLogicalId() . '/' . $filename . '"><i class="fa fa-trash-o"></i></a></center>';
+			echo '</div>';
+		}
+	}
 echo '</div>';
     echo '</div>';
 }
