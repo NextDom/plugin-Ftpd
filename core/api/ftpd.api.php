@@ -60,11 +60,31 @@ try {
 			}
 			if ( file_exists($pathfile) )
 			{
-				$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
-				if (strpos($pathfile, $_CaptureDir) === false) {
-					log::add('ftpd','debug',__('Pathfile not in CaptureDir : ', __FILE__).$pathfile." ".$_CaptureDir);
-					$pathfile = "../img/no-image.png";
-				}
+                $_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
+                if ( is_dir($pathfile) )
+    			{
+    				if (strpos($pathfile, $_CaptureDir) === false) {
+    					log::add('ftpd','debug',__('Pathfile not in CaptureDir : ', __FILE__).$pathfile." ".$_CaptureDir);
+    					$pathfile = "../img/no-image.png";
+    				}
+                    else
+                    {
+                        log::add('ftpd','debug',__('Prepare archive ', __FILE__));
+                        system('cd ' . dirname($pathfile) . ';tar cfz ' . jeedom::getTmpFolder('downloads') . '/archive.tar.gz * > /dev/null 2>&1');
+                		$pathfile = jeedom::getTmpFolder('downloads') . '/archive.tar.gz';
+                        $path_parts['basename'] = 'archive.tar.gz';
+                    }
+    			}
+                else
+                {
+    				if (strpos($pathfile, $_CaptureDir) === false) {
+    					log::add('ftpd','debug',__('Pathfile not in CaptureDir : ', __FILE__).$pathfile." ".$_CaptureDir);
+    					$pathfile = "../img/no-image.png";
+    				}
+                    else {
+                        log::add('ftpd','debug',__('Prepare file ', __FILE__));
+                    }
+                }
 			}
 			else
 			{
@@ -75,6 +95,9 @@ try {
 		header('Content-Type: application/octet-stream');
 		header('Content-Disposition: attachment; filename=' . $path_parts['basename']);
 		readfile($pathfile);
+        if (file_exists(jeedom::getTmpFolder('downloads') . '/archive.tar.gz')) {
+    		unlink(jeedom::getTmpFolder('downloads') . '/archive.tar.gz');
+    	}
 		exit;
 	}
 	if (init('action') == 'lastcapture') {
