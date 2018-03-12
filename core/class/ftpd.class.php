@@ -714,7 +714,24 @@ class ftpd extends eqLogic {
             return false;
     }
 
-<<<<<<< HEAD
+    public static function dependancy_info() {
+        $return = array();
+        $return['log'] = 'ftpd_update';
+        $return['progress_file'] = '/tmp/ftpd_in_progress';
+        $return['state'] = (self::compilationOk()) ? 'ok' : 'nok';
+        return $return;
+    }
+
+    public static function dependancy_install() {
+        if (file_exists('/tmp/ftpd_in_progress')) {
+            return;
+        }
+        log::remove('ftpd_update');
+        $cmd = 'sudo /bin/bash ' . dirname(__FILE__) . '/../../ressources/install.sh';
+        $cmd .= ' >> ' . log::getPathToLog('ftpd_update') . ' 2>&1 &';
+        exec($cmd);
+    }
+
     public function getLastCapture() {
 	    if ( $this->getIsEnable() ) {
 		    // Liste les fichiers
@@ -735,66 +752,7 @@ class ftpd extends eqLogic {
 			return calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId()."/".array_shift($files);
 	  }
    }
-=======
-    public static function dependancy_info() {
-        $return = array();
-        $return['log'] = 'ftpd_update';
-        $return['progress_file'] = '/tmp/ftpd_in_progress';
-        $return['state'] = (self::compilationOk()) ? 'ok' : 'nok';
-        return $return;
-    }
 
-    public static function dependancy_install() {
-        if (file_exists('/tmp/ftpd_in_progress')) {
-            return;
-        }
-        log::remove('ftpd_update');
-        $cmd = 'sudo /bin/bash ' . dirname(__FILE__) . '/../../ressources/install.sh';
-        $cmd .= ' >> ' . log::getPathToLog('ftpd_update') . ' 2>&1 &';
-        exec($cmd);
-    }
-
-    public function getLastCapture() {
-        if ( $this->getIsEnable() ) {
-            // Liste les fichiers
-            $files = array();
-            $_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId();
-            if ($handle = opendir($_CaptureDir))
-            {
-                while (false !== ($file = readdir($handle)))
-                {
-                    if ($file != "." && $file != ".." && ! strpos($file,'_mini.jpg'))
-                    {
-                        $files[filemtime($_CaptureDir."/".$file)] = $file;
-                    }
-                }
-                closedir($handle);
-            }
-            ksort($files);
-            return calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId()."/".array_shift($files);
-      }
-   }
-     public function getLastCapture() {
-             if ( $this->getIsEnable() ) {
-                     // Liste les fichiers
-                     $files = array();
-                     $_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId();
-                     if ($handle = opendir($_CaptureDir))
-                     {
-                             while (false !== ($file = readdir($handle)))
-                             {
-                                     if ($file != "." && $file != ".." && ! strpos($file,'_mini.jpg'))
-                                     {
-                                             $files[filemtime($_CaptureDir."/".$file)] = $file;
-                                     }
-                             }
-                             closedir($handle);
-                     }
-                     ksort($files);
-                     return calculPath(config::byKey('recordDir', 'ftpd')).'/'.$this->getLogicalId()."/".array_shift($files);
-         }
-    }
->>>>>>> Normalistation
 }
 
 class ftpdCmd extends cmd
