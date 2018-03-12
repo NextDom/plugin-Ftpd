@@ -7,11 +7,16 @@ def main():
     try:
         global ftp, file, fichier
         ftp = FTP()
+        print("Connection")
         ftp.connect('127.0.0.1', 8888)
+        print("login")
         ftp.login()
         fichier = '../plugin_info/ftpd_icon.png'
+        print("openfile")
         file = open(fichier, 'rb') # on ouvre le fichier en mode "read-binary"
+        print("sendfile")
         ftp.storbinary('STOR '+fichier, file) # envoi
+        print("quit")
         ftp.quit()
     except TypeError:
         print "Erreur: mauvais nombre d'arguments pour '%s' command." % cmdname
