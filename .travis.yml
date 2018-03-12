@@ -22,3 +22,6 @@ install:
 script:
     - cd ${TRAVIS_BUILD_DIR}/ressources
     - python ./ftpd.py test
+after_failure:
+    - cd ${TRAVIS_BUILD_DIR}/ressources
+    - python ./ftpd.py test
