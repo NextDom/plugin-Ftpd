@@ -20,6 +20,7 @@ script:
     - cat ftpd.xml
     - mkdir ../tmp
     - python ./ftpd.py start
+    - sleep 60
     - python ./ftp.py
     - python ./ftpd.py stop
     - cat ../tmp/ftpd_daemon
