@@ -7,12 +7,6 @@ before_script:
 script:
     - cd ${TRAVIS_BUILD_DIR}
     - pwd
-after_success:
-    - cd ${TRAVIS_BUILD_DIR}/tests
-    - ls -latr
-after_failure:
-    - cd ${TRAVIS_BUILD_DIR}/ressources
-    - ls -latr
 
 language: python
 python:
@@ -22,3 +16,10 @@ install:
 script:
     - cd ${TRAVIS_BUILD_DIR}/ressources
     - python ./ftpd.py test
+    - cat ftpd_config_sample.xml | sed "s§/var/www/html/plugins/ftpd/core/class/../../../../log/ftpd_daemon§${TRAVIS_BUILD_DIR}/tmp/ftpd_daemon§" | sed "s§/var/www/html/plugins/ftpd/core/class/../../capture/§${TRAVIS_BUILD_DIR}/tmp/capture/" | sed "s§/var/www/html/plugins/ftpd/core/class/../../ressources/ftpd.pid§${TRAVIS_BUILD_DIR}/tmp/ftpd.pidn§" > ftpd.xml
+    - mkdir ../tmp
+    - python ./ftpd.py start
+    - python ./ftp.py
+    - python ./ftpd.py stop
+    - cat ../tmp/ftpd_daemon
+    - ls -l ../tmp/
