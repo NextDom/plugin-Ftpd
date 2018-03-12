@@ -1,8 +1,7 @@
 matrix:
   include:
     - language: php
-      php:
-        - 5.6
+      php: 5.6
       before_script:
           - cd ${TRAVIS_BUILD_DIR}
           - find . -type f -name *.php | xargs -n1 php -l
@@ -11,8 +10,7 @@ matrix:
           - pwd
 
     - language: python
-      python:
-        - 2.7
+      python: 2.7
       install:
         - pip install lxml requests python-daemon
       script:
