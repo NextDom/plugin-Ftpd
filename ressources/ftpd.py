@@ -34,11 +34,13 @@ class FetchUrl(threading.Thread):
     def run(self):
         log('DEBUG', "get_url " + self.url)
         try:
-            r =requests.get(self.url, verify=False)
+            r =requests.get(self.url, verify=False, timeout=0.1)
             if r.status_code == 200:
                 log('DEBUG', "get_url " + self.url + " done")
             else:
                 log('ERROR', "get_url " + self.url + " error code : " + str(r.status_code))
+        except requests.exceptions.Timeout:
+            log('ERROR', "timeout to get : " +self.url)
         except Exception,e:
             log('ERROR', "unable to get : " +str(e))
 

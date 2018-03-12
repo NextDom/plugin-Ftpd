@@ -24,4 +24,4 @@ script:
     - python ./ftp.py
     - python ./ftpd.py stop
     - cat ../tmp/ftpd_daemon
-    - ls -l ../tmp/
+    - ls -lR ../tmp/
