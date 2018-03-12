@@ -1,28 +1,30 @@
-language: php
-php:
-  - 5.6
-before_script:
-    - cd ${TRAVIS_BUILD_DIR}
-    - find . -type f -name *.php | xargs -n1 php -l
-script:
-    - cd ${TRAVIS_BUILD_DIR}
-    - pwd
+matrix:
+  include:
+    - language: php
+      php:
+        - 5.6
+      before_script:
+          - cd ${TRAVIS_BUILD_DIR}
+          - find . -type f -name *.php | xargs -n1 php -l
+      script:
+          - cd ${TRAVIS_BUILD_DIR}
+          - pwd
 
-language: python
-python:
-  - "2.7"
-install:
-  - pip install lxml requests python-daemon
-script:
-    - cd ${TRAVIS_BUILD_DIR}/ressources
-    - python ./ftpd.py test
-    - cat ftpd_config_sample.xml | sed "s?/var/www/html/plugins/ftpd/core/class/../../../../log/ftpd_daemon?${TRAVIS_BUILD_DIR}/tmp/ftpd_daemon?" | sed "s?/var/www/html/plugins/ftpd/core/class/../../capture/?${TRAVIS_BUILD_DIR}/tmp/capture/?" | sed "s?/var/www/html/plugins/ftpd/core/class/../../ressources/ftpd.pid?${TRAVIS_BUILD_DIR}/tmp/ftpd.pidn?" > ftpd.xml
-    - cat ftpd.xml
-    - mkdir ../tmp
-    - mkdir ../tmp/capture
-    - python ./ftpd.py start
-    - sleep 60
-    - python ./ftp.py
-    - python ./ftpd.py stop
-    - cat ../tmp/ftpd_daemon
-    - ls -lR ../tmp/
+    - language: python
+      python:
+        - "2.7"
+      install:
+        - pip install lxml requests python-daemon
+      script:
+          - cd ${TRAVIS_BUILD_DIR}/ressources
+          - python ./ftpd.py test
+          - cat ftpd_config_sample.xml | sed "s?/var/www/html/plugins/ftpd/core/class/../../../../log/ftpd_daemon?${TRAVIS_BUILD_DIR}/tmp/ftpd_daemon?" | sed "s?/var/www/html/plugins/ftpd/core/class/../../capture/?${TRAVIS_BUILD_DIR}/tmp/capture/?" | sed "s?/var/www/html/plugins/ftpd/core/class/../../ressources/ftpd.pid?${TRAVIS_BUILD_DIR}/tmp/ftpd.pidn?" > ftpd.xml
+          - cat ftpd.xml
+          - mkdir ../tmp
+          - mkdir ../tmp/capture
+          - python ./ftpd.py start
+          - sleep 60
+          - python ./ftp.py
+          - python ./ftpd.py stop
+          - cat ../tmp/ftpd_daemon
+          - ls -lR ../tmp/
