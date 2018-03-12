@@ -17,6 +17,8 @@ after_failure:
 language: python
 python:
   - "2.7"
+install:
+  - pip install lxml requests
 script:
     - cd ${TRAVIS_BUILD_DIR}/ressources
     - python ./ftpd.py test
