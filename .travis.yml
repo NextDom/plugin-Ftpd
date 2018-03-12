@@ -12,7 +12,7 @@ matrix:
           - cd ${TRAVIS_BUILD_DIR}/test
           - wget https://github.com/jeedom/core/blob/beta/core/class/eqLogic.class.php
           - mv eqLogic.class.php eqLogic.class.php.sav;grep -v "require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';" eqLogic.class.php.sav >eqLogic.class.php
-          - php test_class.php
+          - php test_plugin.php
 
     - language: python
       python: 2.7
