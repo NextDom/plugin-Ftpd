@@ -19,6 +19,7 @@ script:
     - cat ftpd_config_sample.xml | sed "s?/var/www/html/plugins/ftpd/core/class/../../../../log/ftpd_daemon?${TRAVIS_BUILD_DIR}/tmp/ftpd_daemon?" | sed "s?/var/www/html/plugins/ftpd/core/class/../../capture/?${TRAVIS_BUILD_DIR}/tmp/capture/?" | sed "s?/var/www/html/plugins/ftpd/core/class/../../ressources/ftpd.pid?${TRAVIS_BUILD_DIR}/tmp/ftpd.pidn?" > ftpd.xml
     - cat ftpd.xml
     - mkdir ../tmp
+    - mkdir ../tmp/capture
     - python ./ftpd.py start
     - sleep 60
     - python ./ftp.py
