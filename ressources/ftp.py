@@ -8,7 +8,7 @@ def main():
         global ftp, file, fichier
         ftp = FTP()
         print("Connection")
-        ftp.connect('127.0.0.1', 8888)
+        ftp.connect('127.0.0.1', 8888, 20)
         print("login")
         ftp.login()
         fichier = '../plugin_info/ftpd_icon.png'
