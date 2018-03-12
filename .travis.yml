@@ -1,0 +1,22 @@
+language: php
+php:
+  - 5.6
+before_script:
+    - cd ${TRAVIS_BUILD_DIR}
+    - find . -type f -name *.php | xargs -n1 php -l
+script:
+    - cd ${TRAVIS_BUILD_DIR}
+    - pwd
+after_success:
+    - cd ${TRAVIS_BUILD_DIR}/tests
+    - ls -latr
+after_failure:
+    - cd ${TRAVIS_BUILD_DIR}/ressources
+    - ls -latr
+
+language: python
+python:
+  - "2.7"
+script:
+    - cd ${TRAVIS_BUILD_DIR}/ressources
+    - python ./ftpd.py test

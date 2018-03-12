@@ -267,6 +267,9 @@ page de configuration du plugin (8888 par defaut).
 Il n’est pas nécessaire de renseigner de User Name, Password, ni FTP
 folder name.
 
+En plus de la configuration de la détection de mouvement dans événement, il faut activer l'envois d'image par événement.
+C'est à dire dans Stockage->paramètre de capture->Activer instantané déclenché par événement.
+
 ### Configuration autres modèles
 
 Il faut mettre l’adresse IP de votre jeedom comme serveur FTP..
