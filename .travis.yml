@@ -32,7 +32,7 @@ matrix:
           - cat ../tmp/ftpd_daemon
           - ls -lR ../tmp/
 
-    - language: markdown
+    - language: orthographe
       addons:
         apt:
           packages:
@@ -41,4 +41,14 @@ matrix:
             - aspell-fr
       script:
         - for file in *.md docs/fr_FR/*.md;do  cat $file | aspell --personal=${TRAVIS_BUILD_DIR}/.aspell.fr.pws --lang=fr --encoding=utf-8 list;done | sort -u
-        #--ignore-case
+
+    - language: markdown
+      addons:
+        apt:
+          packages:
+            - aspell
+            - aspell-en
+            - aspell-fr
+      script:
+        - gem install mdl
+        - for file in *.md docs/fr_FR/*.md;do  mdl $file;done

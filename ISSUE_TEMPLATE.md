@@ -1,16 +1,16 @@
-## Description
+# Description
 
-## Etapes à reproduire (pour les bugs)
+# Étapes à reproduire (pour les bugs)
 1.
 2.
 3.
 4.
 
-## Contexte:
+# Contexte:
 
-## Proposition de solution (optionnel):
+# Proposition de solution (optionnel):
 
-## Environnement:
+# Environnement:
 * **Version Jeedom**:
 * **Platform**:
 * **Version du Plugin**:
