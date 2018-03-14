@@ -31,3 +31,12 @@ matrix:
           - python ./ftpd.py stop
           - cat ../tmp/ftpd_daemon
           - ls -lR ../tmp/
+    - language: generic
+      addons:
+        apt:
+          packages:
+            - aspell
+            - aspell-en
+            - aspell-fr
+      script:
+        - git diff --name-only $TRAVIS_COMMIT_RANGE
