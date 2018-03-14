@@ -31,7 +31,8 @@ matrix:
           - python ./ftpd.py stop
           - cat ../tmp/ftpd_daemon
           - ls -lR ../tmp/
-    - language: generic
+
+    - language: markdown
       addons:
         apt:
           packages:
@@ -39,4 +40,4 @@ matrix:
             - aspell-en
             - aspell-fr
       script:
-        - git diff --name-only $TRAVIS_COMMIT_RANGE
+        - for file in *.md docs/fr_FR/*.md;do  cat $file | aspell --lang=fr --encoding=utf-8 list;done
