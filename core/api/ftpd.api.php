@@ -20,26 +20,26 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 include_file('core', 'ftpd', 'class', 'ftpd');
 
 try {
-	include_file('core', 'authentification', 'php');
-	if (!isConnect()) {
-		if ( ! jeedom::apiAccess(init('api'), 'ftpd') ) {
-			throw new Exception('Clé API non valide (ou vide) ou non connecté. Demande venant de :' . getClientIp() . '. Clé API : ' . secureXSS(init('api')));;
-		}
-	}
-
-    if (init('action') == 'force_detect_ftpd') {
-		ftpd::force_detect_ftpd();
-		exit;
+    include_file('core', 'authentification', 'php');
+    if (!isConnect()) {
+        if ( ! jeedom::apiAccess(init('api'), 'ftpd') ) {
+            throw new Exception('Clé API non valide (ou vide) ou non connecté. Demande venant de :' . getClientIp() . '. Clé API : ' . secureXSS(init('api')));;
+        }
     }
 
-	if (init('action') == 'newcapture') {
-		$ftpd = eqlogic::byLogicalId(init('LogicalId'), 'ftpd');
-		if (!is_object($ftpd)) {
-			throw new Exception(__('Impossible de trouver la ftpd : ' . init('LogicalId'), __FILE__));
-		}
-		$ftpd->newcapture(init('lastfilename'), init('orginalfilname'));
-		exit;
-	}
+    if (init('action') == 'forceDetectFtpd') {
+        ftpd::forceDetectFtpd();
+        exit;
+    }
+
+    if (init('action') == 'newcapture') {
+        $ftpd = eqlogic::byLogicalId(init('LogicalId'), 'ftpd');
+        if (!is_object($ftpd)) {
+            throw new Exception(__('Impossible de trouver la ftpd : ' . init('LogicalId'), __FILE__));
+        }
+        $ftpd->newcapture(init('lastfilename'), init('orginalfilname'));
+        exit;
+    }
 
 	if (init('action') == 'downloadcapture' || init('action') == 'downloadmini') {
 		if ( init('pathfile') == '' )
@@ -60,11 +60,31 @@ try {
 			}
 			if ( file_exists($pathfile) )
 			{
-				$_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
-				if (strpos($pathfile, $_CaptureDir) === false) {
-					log::add('ftpd','debug',__('Pathfile not in CaptureDir : ', __FILE__).$pathfile." ".$_CaptureDir);
-					$pathfile = "../img/no-image.png";
-				}
+                $_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd'));
+                if ( is_dir($pathfile) )
+    			{
+    				if (strpos($pathfile, $_CaptureDir) === false) {
+    					log::add('ftpd','debug',__('Pathfile not in CaptureDir : ', __FILE__).$pathfile." ".$_CaptureDir);
+    					$pathfile = "../img/no-image.png";
+    				}
+                    else
+                    {
+                        log::add('ftpd','debug',__('Prepare archive ', __FILE__));
+                        system('cd ' . dirname($pathfile) . ';tar cfz ' . jeedom::getTmpFolder('downloads') . '/archive.tar.gz * > /dev/null 2>&1');
+                		$pathfile = jeedom::getTmpFolder('downloads') . '/archive.tar.gz';
+                        $path_parts['basename'] = 'archive.tar.gz';
+                    }
+    			}
+                else
+                {
+    				if (strpos($pathfile, $_CaptureDir) === false) {
+    					log::add('ftpd','debug',__('Pathfile not in CaptureDir : ', __FILE__).$pathfile." ".$_CaptureDir);
+    					$pathfile = "../img/no-image.png";
+    				}
+                    else {
+                        log::add('ftpd','debug',__('Prepare file ', __FILE__));
+                    }
+                }
 			}
 			else
 			{
@@ -75,6 +95,9 @@ try {
 		header('Content-Type: application/octet-stream');
 		header('Content-Disposition: attachment; filename=' . $path_parts['basename']);
 		readfile($pathfile);
+        if (file_exists(jeedom::getTmpFolder('downloads') . '/archive.tar.gz')) {
+    		unlink(jeedom::getTmpFolder('downloads') . '/archive.tar.gz');
+    	}
 		exit;
 	}
 	if (init('action') == 'lastcapture') {

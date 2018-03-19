@@ -24,26 +24,26 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
-	ajax::init();
+    ajax::init();
 
-    if (init('action') == 'force_detect_ftpd') {
-		$ftpdCmd = ftpd::force_detect_ftpd();
-		ajax::success($ftpdCmd);
+    if (init('action') == 'forceDetectFtpd') {
+        $ftpdCmd = ftpd::forceDetectFtpd();
+        ajax::success($ftpdCmd);
     }
 
-	if (init('action') == 'removeRecord') {
-		ftpd::removeSnapshot(init('filtre'));
-		ajax::success();
-	}
+    if (init('action') == 'removeRecord') {
+        ftpd::removeSnapshot(init('filtre'));
+        ajax::success();
+    }
 
-	if (init('action') == 'removeAllSnapshot') {
-		$ftpd = ftpd::byId(init('filtre'));
-		if (!is_object($ftpd)) {
-			throw new Exception(__('Impossible de trouver la ftpd : ' . init('filtre'), __FILE__));
-		}
-		$ftpd->removeAllSnapshot();
-		ajax::success();
-	}
+    if (init('action') == 'removeAllSnapshot') {
+        $ftpd = ftpd::byId(init('filtre'));
+        if (!is_object($ftpd)) {
+            throw new Exception(__('Impossible de trouver la ftpd : ' . init('filtre'), __FILE__));
+        }
+        $ftpd->removeAllSnapshot();
+        ajax::success();
+    }
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {

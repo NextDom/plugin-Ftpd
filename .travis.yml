@@ -1,0 +1,55 @@
+matrix:
+  include:
+    - language: php
+      php: 5.6
+      before_script:
+          - cd ${TRAVIS_BUILD_DIR}
+          - find . -type f -name *.php | xargs -n1 php -l
+      script:
+          - cd ${TRAVIS_BUILD_DIR}
+          - cd core/class/
+          - for file in *.class.php; do mv $file $file.sav;grep -v "require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';" $file.sav >$file; done
+          - cd ${TRAVIS_BUILD_DIR}/test
+          - wget https://github.com/jeedom/core/blob/beta/core/class/eqLogic.class.php
+          - mv eqLogic.class.php eqLogic.class.php.sav;grep -v "require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';" eqLogic.class.php.sav >eqLogic.class.php
+          - php test_plugin.php
+
+    - language: python
+      python: 2.7
+      install:
+        - pip install lxml requests python-daemon
+      script:
+          - cd ${TRAVIS_BUILD_DIR}/ressources
+          - python ./ftpd.py test
+          - cat ftpd_config_sample.xml | sed "s?/var/www/html/plugins/ftpd/core/class/../../../../log/ftpd_daemon?${TRAVIS_BUILD_DIR}/tmp/ftpd_daemon?" | sed "s?/var/www/html/plugins/ftpd/core/class/../../capture/?${TRAVIS_BUILD_DIR}/tmp/capture/?" | sed "s?/var/www/html/plugins/ftpd/core/class/../../ressources/ftpd.pid?${TRAVIS_BUILD_DIR}/tmp/ftpd.pidn?" > ftpd.xml
+          - cat ftpd.xml
+          - mkdir ../tmp
+          - mkdir ../tmp/capture
+          - python ./ftpd.py start
+          - sleep 60
+          - python ./ftp.py
+          - python ./ftpd.py stop
+          - cat ../tmp/ftpd_daemon
+          - ls -lR ../tmp/
+
+    - language: orthographe
+      addons:
+        apt:
+          packages:
+            - aspell
+            - aspell-en
+            - aspell-fr
+      script:
+        - for file in *.md docs/fr_FR/*.md;do  cat $file | aspell --personal=${TRAVIS_BUILD_DIR}/.aspell.fr.pws --lang=fr --encoding=utf-8 list;done | sort -u
+        - cat mdl *.md docs/fr_FR/*.md  | aspell --personal=${TRAVIS_BUILD_DIR}/.aspell.fr.pws --lang=fr --encoding=utf-8 list >/dev/null
+
+    - language: markdown
+      addons:
+        apt:
+          packages:
+            - aspell
+            - aspell-en
+            - aspell-fr
+      script:
+        - gem install mdl
+        - CODE=0;ls *.md docs/fr_FR/*.md | sed 's/.md//' | while read file;do if [ -e $file.rb ]; then mdl --config $file.rb $file.md;CODE=`expr $? + $CODE`; else mdl $file.md;CODE=`expr $? + $CODE`; fi; done;return $CODE

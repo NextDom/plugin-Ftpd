@@ -9,6 +9,7 @@ from lxml import etree
 from daemon import runner
 import requests
 import subprocess
+
 #import traceback
 DEBUG = False
 
@@ -33,11 +34,13 @@ class FetchUrl(threading.Thread):
     def run(self):
         log('DEBUG', "get_url " + self.url)
         try:
-            r =requests.get(self.url, verify=False)
+            r =requests.get(self.url, verify=False, timeout=0.1)
             if r.status_code == 200:
                 log('DEBUG', "get_url " + self.url + " done")
             else:
                 log('ERROR', "get_url " + self.url + " error code : " + str(r.status_code))
+        except requests.exceptions.Timeout:
+            log('ERROR', "timeout to get : " +self.url)
         except Exception,e:
             log('ERROR', "unable to get : " +str(e))
 
@@ -291,7 +294,7 @@ class FTPserverThread(threading.Thread):
         #self.conn.send('250 File deleted.\r\n')
         #else:
         log('DEBUG', "Reply : 550 Could not delete : No such file or directory.")
-        self.conn.send('550 Could not delete %: No such file or directory.\r\n', fn)
+        self.conn.send('550 Could not delete : No such file or directory.\r\n')
 
     def RNFR(self,cmd):
         #self.rnfn=os.path.join(self.cwd,cmd[5:-2])
@@ -493,7 +496,7 @@ for config in dataconfig.xpath("/config/daemon/internalComplement/text()"):
 for config in dataconfig.xpath("/config/daemon/api_key/text()"):
   api_key = config
 
-url_force_scan = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=force_detect_ftpd&api=" + api_key
+url_force_scan = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=forceDetectFtpd&api=" + api_key
 url_new_capture = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=newcapture&api=" + api_key
 for config in dataconfig.xpath("/config/daemon/authorized_ip/text()"):
   authorized_ip_list = config
