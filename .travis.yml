@@ -52,4 +52,4 @@ matrix:
             - aspell-fr
       script:
         - gem install mdl
-        - $CODE=0;ls *.md docs/fr_FR/*.md | sed 's/.md//' while read file;do if [ -e $file.rb ] then mdl --config $file.rb $file.md;else mdl $file.md;fi;CODE=`expr $? + $CODE` done;return $CODE
+        - $CODE=0;ls *.md docs/fr_FR/*.md | sed 's/.md//' | while read file;do if [ -e $file.rb ]; then mdl --config $file.rb $file.md; else mdl $file.md;fi;CODE=`expr $? + $CODE` done;return $CODE
