@@ -10,7 +10,7 @@ matrix:
           - cd core/class/
           - for file in *.class.php; do mv $file $file.sav;grep -v "require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';" $file.sav >$file; done
           - cd ${TRAVIS_BUILD_DIR}/test
-          - wget https://github.com/jeedom/core/blob/beta/core/class/eqLogic.class.php
+          - wget https://github.com/jeedom/core/blob/beta/core/class/*.class.php
           - mv eqLogic.class.php eqLogic.class.php.sav;grep -v "require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';" eqLogic.class.php.sav >eqLogic.class.php
           - php test_plugin.php
 
@@ -31,25 +31,19 @@ matrix:
           - python ./ftpd.py stop
           - cat ../tmp/ftpd_daemon
           - ls -lR ../tmp/
+        after_success:
+          - coveralls
 
     - language: orthographe
       addons:
         apt:
           packages:
             - aspell
-            - aspell-en
             - aspell-fr
       script:
         - for file in *.md docs/fr_FR/*.md;do  cat $file | aspell --personal=${TRAVIS_BUILD_DIR}/.aspell.fr.pws --lang=fr --encoding=utf-8 list;done | sort -u
         - cat mdl *.md docs/fr_FR/*.md  | aspell --personal=${TRAVIS_BUILD_DIR}/.aspell.fr.pws --lang=fr --encoding=utf-8 list >/dev/null
 
     - language: markdown
-      addons:
-        apt:
-          packages:
-            - aspell
-            - aspell-en
-            - aspell-fr
       script:
-        - gem install mdl
-        - CODE=0;ls *.md docs/fr_FR/*.md | sed 's/.md//' | while read file;do if [ -e $file.rb ]; then mdl --config $file.rb $file.md;CODE=`expr $? + $CODE`; else mdl $file.md;CODE=`expr $? + $CODE`; fi; done;return $CODE
+        - ./test/checkMD.bash
