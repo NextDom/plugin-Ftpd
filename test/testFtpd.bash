@@ -31,3 +31,4 @@ then
 fi
 cat ../tmp/ftpd_daemon
 ls -lR ../tmp/
+exit 0

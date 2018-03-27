@@ -6,31 +6,16 @@ matrix:
           - cd ${TRAVIS_BUILD_DIR}
           - find . -type f -name *.php | xargs -n1 php -l
       script:
-          - cd ${TRAVIS_BUILD_DIR}
-          - cd core/class/
-          - for file in *.class.php; do mv $file $file.sav;grep -v "require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';" $file.sav >$file; done
-          - cd ${TRAVIS_BUILD_DIR}/test
-          - wget https://github.com/jeedom/core/blob/beta/core/class/*.class.php
-          - mv eqLogic.class.php eqLogic.class.php.sav;grep -v "require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';" eqLogic.class.php.sav >eqLogic.class.php
-          - php test_plugin.php
+          - ./test/testPhp.bash
+        after_success:
+          - coveralls
 
     - language: python
       python: 2.7
       install:
         - pip install lxml requests python-daemon
       script:
-          - cd ${TRAVIS_BUILD_DIR}/ressources
-          - python ./ftpd.py test
-          - cat ftpd_config_sample.xml | sed "s?/var/www/html/plugins/ftpd/core/class/../../../../log/ftpd_daemon?${TRAVIS_BUILD_DIR}/tmp/ftpd_daemon?" | sed "s?/var/www/html/plugins/ftpd/core/class/../../capture/?${TRAVIS_BUILD_DIR}/tmp/capture/?" | sed "s?/var/www/html/plugins/ftpd/core/class/../../ressources/ftpd.pid?${TRAVIS_BUILD_DIR}/tmp/ftpd.pidn?" > ftpd.xml
-          - cat ftpd.xml
-          - mkdir ../tmp
-          - mkdir ../tmp/capture
-          - python ./ftpd.py start
-          - sleep 60
-          - python ./ftp.py
-          - python ./ftpd.py stop
-          - cat ../tmp/ftpd_daemon
-          - ls -lR ../tmp/
+          - ./test/testFtpd.bash
         after_success:
           - coveralls
 
