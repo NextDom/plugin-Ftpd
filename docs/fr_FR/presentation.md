@@ -14,7 +14,6 @@ Retrouvez le sur le [Market](https://www.jeedom.com/market/index.php?v=d&p=marke
 
 ![screenshot1](../images/ftpd_icon.png)
 
-
 # Forum
 
 Lien vers le [Forum](https://www.jeedom.com/forum/viewtopic.php?p=598482)
