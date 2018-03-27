@@ -7,8 +7,8 @@ matrix:
           - find . -type f -name *.php | xargs -n1 php -l
       script:
           - ./test/testPhp.bash
-        after_success:
-          - coveralls
+      after_success:
+        - coveralls
 
     - language: python
       python: 2.7
@@ -16,8 +16,8 @@ matrix:
         - pip install lxml requests python-daemon
       script:
           - ./test/testFtpd.bash
-        after_success:
-          - coveralls
+      after_success:
+        - coveralls
 
     - language: markdown
       addons:
@@ -28,3 +28,5 @@ matrix:
       script:
         - ./test/spellCheckMD.bash
         - ./test/checkMD.bash
+      after_success:
+        - coveralls
