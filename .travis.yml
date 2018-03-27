@@ -34,16 +34,12 @@ matrix:
         after_success:
           - coveralls
 
-    - language: orthographe
+    - language: markdown
       addons:
         apt:
           packages:
             - aspell
             - aspell-fr
       script:
-        - for file in *.md docs/fr_FR/*.md;do  cat $file | aspell --personal=${TRAVIS_BUILD_DIR}/.aspell.fr.pws --lang=fr --encoding=utf-8 list;done | sort -u
-        - cat mdl *.md docs/fr_FR/*.md  | aspell --personal=${TRAVIS_BUILD_DIR}/.aspell.fr.pws --lang=fr --encoding=utf-8 list >/dev/null
-
-    - language: markdown
-      script:
+        - ./test/spellCheckMD.bash
         - ./test/checkMD.bash
