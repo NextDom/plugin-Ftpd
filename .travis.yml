@@ -3,10 +3,10 @@ matrix:
     - language: php
       php: 5.6
       before_script:
-          - cd ${TRAVIS_BUILD_DIR}
-          - find . -type f -name *.php | xargs -n1 php -l
+        - cd ${TRAVIS_BUILD_DIR}
+        - find . -type f -name *.php | xargs -n1 php -l
       script:
-          - ./test/testPhp.bash
+        - /bin/bash ./test/testPhp.bash
       after_success:
         - coveralls
 
@@ -15,7 +15,7 @@ matrix:
       install:
         - pip install lxml requests python-daemon
       script:
-          - ./test/testFtpd.bash
+        - /bin/bash ./test/testFtpd.bash
       after_success:
         - coveralls
 
@@ -26,7 +26,7 @@ matrix:
             - aspell
             - aspell-fr
       script:
-        - ./test/spellCheckMD.bash
-        - ./test/checkMD.bash
+        - /bin/bash ./test/spellCheckMD.bash
+        - /bin/bash ./test/checkMD.bash
       after_success:
         - coveralls
