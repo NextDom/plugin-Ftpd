@@ -16,14 +16,14 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+require_once __DIR__ . '/../../../../core/php/core.inc.php';
 include_file('core', 'ftpd', 'class', 'ftpd');
 
 try {
     include_file('core', 'authentification', 'php');
     if (!isConnect()) {
         if (!jeedom::apiAccess(init('api'), 'ftpd')) {
-            throw new Exception('Clé API non valide (ou vide) ou non connecté. Demande venant de :' . getClientIp() . '. Clé API : ' . secureXSS(init('api')));
+            throw new \Exception('Clé API non valide (ou vide) ou non connecté. Demande venant de :' . getClientIp() . '. Clé API : ' . secureXSS(init('api')));
         }
     }
 
@@ -35,7 +35,7 @@ try {
     if (init('action') == 'newcapture') {
         $ftpd = eqlogic::byLogicalId(init('LogicalId'), 'ftpd');
         if (!is_object($ftpd)) {
-            throw new Exception(__('Impossible de trouver la ftpd : ' . init('LogicalId'), __FILE__));
+            throw new \Exception(__('Impossible de trouver la ftpd : ' . init('LogicalId'), __FILE__));
         }
         $ftpd->newcapture(init('lastfilename'), init('orginalfilname'));
         exit;
@@ -96,7 +96,7 @@ try {
         log::add('ftpd', 'debug', __('get lastcapture ', __FILE__) . init('Id'));
         $ftpd = eqlogic::byId(init('Id'), 'ftpd');
         if (!is_object($ftpd)) {
-            throw new Exception(__('Impossible de trouver la ftpd : ' . init('Id'), __FILE__));
+            throw new \Exception(__('Impossible de trouver la ftpd : ' . init('Id'), __FILE__));
         }
         $pathfile = $ftpd->getLastCapture();
         log::add('ftpd', 'debug', __('filename ', __FILE__) . $pathfile);
@@ -107,9 +107,9 @@ try {
         exit;
     }
 
-    throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
+    throw new \Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
 
-} catch (Exception $e) {
-    throw new Exception(displayException($e), $e->getCode());
+} catch (\Exception $e) {
+    throw new \Exception(displayException($e), $e->getCode());
 }
 
