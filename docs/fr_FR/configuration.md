@@ -98,6 +98,16 @@ Par exemple, avec ce qui suit, la commande ne se active que si le
 fichier commence par def.
 
 /^def/&lt;/programlisting&gt;
+
+Gestion des notifications
+-------------------------
+
+Il est tout d'abord possible de gérer les notifications via scenario provoqué sur la commande etat.
+
+Mais il est aussi possible pour chaque camera de gérer des notifications via la commande notification.
+Dans ce cas dans Notification il faut positionner la commande de notification (Email, SMS, ...).
+Il faut aussi activer les notifications via la commande "Notification On".
+
 ### Configuration Foscam
 
 Il faut se connecter en http sur la camera et aller dans le menu FTP

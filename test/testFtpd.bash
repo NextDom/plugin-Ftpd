@@ -30,5 +30,9 @@ then
   exit 1
 fi
 cat ../tmp/ftpd_daemon
-ls -lR ../tmp/
+if [ `ls -l ../tmp/capture/ip6-localhost/*.png | wc -l` -ne 1 ]
+then
+  echo File not recieved
+  exit 1
+fi
 exit 0
