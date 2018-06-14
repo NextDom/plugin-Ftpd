@@ -30,3 +30,11 @@ matrix:
         - /bin/bash ./test/checkMD.bash
       after_success:
         - coveralls
+addons:
+  sonarcloud:
+    organization: "nextdom-user-github" # the key of the org you chose at step #3
+    token:
+      secure: buK4UomHfgwKj/bb4sGaztL9PJmUysUeP/Piv61XIJd6Xkkn2syP922AzseoLEuOp9Y/eQovpuNWZNs78Pxu4Ttw0WoRQODm9bnSx29HR02tGmvjPJwDQbZy7aiC7R7c5iRxrX7t7M83K2yaQQzwkwqqECodurRNVIf40doBKW9xN+xNg3hVgN9mDKo9PlqQFs3CgVIDkv16uLOH6OStJwduBzauhLF35WPzaH5VgtCKQTLrquwPmgD9AFmAP9+6tjja53WFtF7XUw0yClh5C8VLij1ofLlszm91xr9sMjl1UNezUTF3YImnMlTkWCVYZeTY07RRZDeTN7QI+WbQIf1fNiz9qxw9UwCj5+PzaZXdjC9YqBhx1HRZpF2Ec7kSALbTAQ5kEdBz4yQBEHinSPEGt5WgkX+mLuR+X8Vlh2wX2Y8ElNx/MYtsCo8tl5Tl8vzXXYxwe8MAdxxx1R6nKsMj1otpbIO7JaoJRnD0ucnWVZ/x5RIpS9L2xiFqS8r8naptc6bZUCjTwQ+FBo7n7DvPMXxCc+DgU02n6b/sykx+KKI8bw2+QU6oot9PfST2IQFLiHD3VoslXMerMTvRN4QtfNaUyKc1VC2NohHbhDjbgjr8h1KisTp1syXk0gkmxxD5mBeQfu13xq3E2tlAmY99+pm6ZHrTop6/ZT8zGV0=
+script:
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner

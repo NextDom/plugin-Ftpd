@@ -243,13 +243,13 @@ class ftpd extends eqLogic
                     if (is_dir($_CaptureDir . '/' . $file) && $file != "." && $file != ".." && substr($file, 0, 1) != ".") {
                         log::add('ftpd', 'debug', 'Find ftpd : ' . $file);
                         if (!is_object(self::byLogicalId($file, 'ftpd'))) {
-                            log::add('ftpd', 'info', 'Creation ftpd : ' . $file);
                             $eqLogic = new ftpd();
                             $eqLogic->setLogicalId($file);
                             $eqLogic->setName($file);
                             $eqLogic->setEqType_name('ftpd');
                             $eqLogic->setIsEnable(1);
                             $eqLogic->save();
+                            message::add('ftpd',__('Création d\'un equipement ftp : ', __FILE__) . $file, '', 'noMessage' . $eqLogic->getId());
                         }
                     }
                 }
@@ -503,7 +503,7 @@ class ftpd extends eqLogic
                 exec($cmd);
             } else {
                 list($width, $height) = getimagesize(calculPath(config::byKey('recordDir', 'ftpd') . '/' . $this->getLogicalId()) . "/" . $filename);
-                
+
                 if ($width > 150) {
                     log::add('ftpd', 'debug', 'Creation de la miniature');
                     $tmpfname = calculPath(config::byKey('recordDir', 'ftpd') . '/' . $this->getLogicalId()) . "/" . $path_parts['filename'] . '_mini.jpg';
@@ -524,7 +524,7 @@ class ftpd extends eqLogic
             }
             $notifyCmd = $this->getCmd(null, 'notify');
             log::add('ftpd', 'debug', 'Notification ? ' . $notifyCmd->execCmd() . ' dest : ' . $notifyCmd->getConfiguration('notify_dest'));
-            
+
             if ($notifyCmd->execCmd() == 1 && $notifyCmd->getConfiguration('notify_dest') != "") {
                 $_options['title'] = '[Jeedom][Ftpd] ' . __('Détection sur la camera ', __FILE__) . $this->getHumanName();
                 $_options['message'] = __('La camera a détecté un mouvement.', __FILE__) . ' ' . __('Voici le snapshot qui a ete pris', __FILE__);
@@ -550,7 +550,7 @@ class ftpd extends eqLogic
             // Nettoye les vieux fichiers
             $files = array();
             $_CaptureDir = calculPath(config::byKey('recordDir', 'ftpd')) . '/' . $this->getLogicalId();
-            
+
             if ($handle = opendir($_CaptureDir)) {
                 while (false !== ($file = readdir($handle))) {
                     if ($file != "." && $file != ".." && !strpos($file, '_mini.jpg')) {
