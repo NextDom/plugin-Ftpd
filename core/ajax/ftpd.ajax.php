@@ -16,35 +16,36 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+include_file('core', 'ftpd', 'class', 'ftpdConstants');
 try {
     require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
     include_file('core', 'authentification', 'php');
 
     if (!isConnect('admin')) {
-        throw new Exception(__('401 - Accès non autorisé', __FILE__));
+        throw new \Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
     ajax::init();
 
-    if (init('action') == 'forceDetectFtpd') {
+    if (init(ftpdConstants::FIELD_ACTION) == 'forceDetectFtpd') {
         $ftpdCmd = ftpd::forceDetectFtpd();
         ajax::success($ftpdCmd);
     }
 
-    if (init('action') == 'removeRecord') {
-        ftpd::removeSnapshot(init('filtre'));
+    if (init(ftpdConstants::FIELD_ACTION) == 'removeRecord') {
+        ftpd::removeSnapshot(init(ftpdConstants::FIELD_FILTRE));
         ajax::success();
     }
 
-    if (init('action') == 'removeAllSnapshot') {
-        $ftpd = ftpd::byId(init('filtre'));
+    if (init(ftpdConstants::FIELD_ACTION) == 'removeAllSnapshot') {
+        $ftpd = ftpd::byId(init(ftpdConstants::FIELD_FILTRE));
         if (!is_object($ftpd)) {
-            throw new Exception(__('Impossible de trouver la ftpd : ' . init('filtre'), __FILE__));
+            throw new Exception(__('Impossible de trouver la ftpd : ' . init(ftpdConstants::FIELD_FILTRE), __FILE__));
         }
         $ftpd->removeAllSnapshot();
         ajax::success();
     }
-    throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
+    throw new \Exception(__('Aucune methode correspondante à : ', __FILE__) . init(ftpdConstants::FIELD_ACTION));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayException($e), $e->getCode());

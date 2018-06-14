@@ -17,6 +17,8 @@
  */
 
 require_once __DIR__ . '/../../../../core/php/core.inc.php';
+require_once './ftpdConstants.class.php';
+require_once './ftpdCmd.class.php';
 
 class ftpd extends eqLogic
 {
