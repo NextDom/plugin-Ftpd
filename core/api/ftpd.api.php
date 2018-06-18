@@ -50,8 +50,7 @@ try {
             $path_parts = pathinfo($pathfile);
 
             if (init('action') == 'downloadmini' && file_exists($path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg")) {
-                    $pathfile = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg";
-                }
+                $pathfile = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg";
             }
             if (file_exists($pathfile)) {
                 $_CaptureDir = calculPath(config::byKey('recordDir', 'Ftpd'));

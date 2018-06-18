@@ -1,5 +1,10 @@
 #!/bin/bash
-cd ${TRAVIS_BUILD_DIR}/ressources
+if [ -z "${TRAVIS_BUILD_DIR}" ]
+then
+  cd ressources
+else
+  cd ${TRAVIS_BUILD_DIR}/ressources
+fi
 python ./Ftpd.py test
 if [ $? != 0 ]
 then
