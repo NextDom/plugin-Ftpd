@@ -6,7 +6,7 @@ image::../images/configuration_dahua.jpg[align="center"]
 
 <IP_JEEDOM> Ist die IP-Adresse von Ihrem jeedom.
 
-<PORT_PLUGIN> Entspricht dem ftpd Port, der auf der Plugin-Konfigurationsseite eingegeben wurde (standardmäßig 8888).
+<PORT_PLUGIN> Entspricht dem Ftpd Port, der auf der Plugin-Konfigurationsseite eingegeben wurde (standardmäßig 8888).
 
 Es ist nicht notwendig, Benutzername, Kennwort oder Remoteverzeichnis auszufüllen. 
 

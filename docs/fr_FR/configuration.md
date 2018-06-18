@@ -3,13 +3,13 @@
 ### Installation/Configuration
 
 Nous allons configurer le plugin. Pour se faire, cliquer sur **Plugin /
-Gestion des plugins**. Puis trouver **ftpd**.
+Gestion des plugins**. Puis trouver **Ftpd**.
 
-![](../images/ftpd_screenshot1.jpg)
+![](../images/Ftpd_screenshot1.jpg)
 
 Il faut définir certains paramètres global au plugin :
 
--   Port ftpd : Port sur lequel le daemon écoutera pour les fichiers.
+-   Port Ftpd : Port sur lequel le daemon écoutera pour les fichiers.
 
 -   Local IP : Adresse ip d'écoute du daemon. Il est préférable de
     laisser 0.0.0.0.
@@ -23,7 +23,7 @@ Il faut définir certains paramètres global au plugin :
 -   Chemin des enregistrements : Chemin dans lequel les fichiers
     seront stockés.
 
--   Debug daemon : Permet d’activer le debug du daemon ftpd.
+-   Debug daemon : Permet d’activer le debug du daemon Ftpd.
 
 Et pour finir, cliquer sur Sauvegarder.
 
@@ -32,11 +32,11 @@ Et pour finir, cliquer sur Sauvegarder.
 Le plugin créera automatiquement les équipements une fois qu’ils auront
 envoyé un fichier.
 
-![](../images/ftpd_screenshot6.jpg)
+![](../images/Ftpd_screenshot6.jpg)
 
 ### Informations visibles :
 
--   **Etat** : état du ftpd. C’est une commande de type info binary.
+-   **Etat** : état du Ftpd. C’est une commande de type info binary.
     Elle est active durant 10 secondes sur reception de fichier.
 
 -   **Nom du dernier fichier** : Nom de la dernière capture reçue.
@@ -77,7 +77,7 @@ Puis définir les caractèristiques :
 
 -   Nombre max de fichier : Nombre de fichier maximum conservés.
 
-![](../images/ftpd_screenshot2.jpg)
+![](../images/Ftpd_screenshot2.jpg)
 
 Et pour finir, cliquer sur Sauvegarder
 
@@ -121,7 +121,7 @@ Voici une copie d'écran de ce qu’il faut paramétrer :
 
 &lt;IP\_JEEDOM&gt; Correspond à l’adresse IP de votre jeedom.
 
-&lt;PORT\_PLUGIN&gt; Correspond au port ftpd qui a été renseigné dans la
+&lt;PORT\_PLUGIN&gt; Correspond au port Ftpd qui a été renseigné dans la
 page de configuration du plugin (8888 par defaut).
 
 Il n’est pas nécessaire de renseigner de compte, de mot de passe, ni de
@@ -141,7 +141,7 @@ Voici une copie d'écran de ce qu’il faut paramétrer :
 
 &lt;IP\_JEEDOM&gt; Correspond à l’adresse IP de votre jeedom.
 
-&lt;PORT\_PLUGIN&gt; Correspond au port ftpd qui a été renseigné dans la
+&lt;PORT\_PLUGIN&gt; Correspond au port Ftpd qui a été renseigné dans la
 page de configuration du plugin (8888 par defaut).
 
 Il n’est pas nécessaire de renseigner de compte, de mot de passe, ni de
@@ -161,7 +161,7 @@ Voici une copie d'écran de ce qu’il faut paramétrer :
 
 &lt;IP\_JEEDOM&gt; Correspond à l’adresse IP de votre jeedom.
 
-&lt;PORT\_PLUGIN&gt; Correspond au port ftpd qui a été renseigné dans la
+&lt;PORT\_PLUGIN&gt; Correspond au port Ftpd qui a été renseigné dans la
 page de configuration du plugin (8888 par defaut).
 
 Il n’est pas nécessaire de renseigner de compte, de mot de passe, ni de
@@ -181,7 +181,7 @@ Voici une copie d'écran de ce qu’il faut paramétrer :
 
 &lt;IP\_JEEDOM&gt; Correspond à l’adresse IP de votre jeedom.
 
-&lt;PORT\_PLUGIN&gt; Correspond au port ftpd qui a été renseigné dans la
+&lt;PORT\_PLUGIN&gt; Correspond au port Ftpd qui a été renseigné dans la
 page de configuration du plugin (8888 par defaut).
 
 Il n’est pas nécessaire de renseigner de compte, de mot de passe, ni de
@@ -201,7 +201,7 @@ Voici une copie d'écran de ce qu’il faut paramétrer :
 
 &lt;IP\_JEEDOM&gt; Correspond à l’adresse IP de votre jeedom.
 
-&lt;PORT\_PLUGIN&gt; Correspond au port ftpd qui a été renseigné dans la
+&lt;PORT\_PLUGIN&gt; Correspond au port Ftpd qui a été renseigné dans la
 page de configuration du plugin (8888 par defaut).
 
 Il n’est pas nécessaire de renseigner de User Name, Password, ni Remote
@@ -230,7 +230,7 @@ Voici une copie d'écran de ce qu’il faut paramétrer :
 
 &lt;IP\_JEEDOM&gt; Correspond à l’adresse IP de votre jeedom.
 
-&lt;PORT&gt; Correspond au port ftpd qui a été renseigné dans la page de
+&lt;PORT&gt; Correspond au port Ftpd qui a été renseigné dans la page de
 configuration du plugin (8888 par defaut).
 
 Il n’est pas nécessaire de renseigner de User Name, Password, ni FTP
@@ -261,7 +261,7 @@ Voici une copie d'écran de ce qu’il faut paramétrer :
 
 &lt;IP\_JEEDOM&gt; Correspond à l’adresse IP de votre jeedom.
 
-&lt;PORT\_PLUGIN&gt; Correspond au port ftpd qui a été renseigné dans la
+&lt;PORT\_PLUGIN&gt; Correspond au port Ftpd qui a été renseigné dans la
 page de configuration du plugin (8888 par defaut).
 
 Il n’est pas nécessaire de renseigner de User Name, Password, ni FTP
@@ -274,7 +274,7 @@ C'est à dire dans Stockage->paramètre de capture->Activer instantané déclenc
 
 Il faut mettre l’adresse IP de votre jeedom comme serveur FTP..
 
-Comme port (généralement 21), il faut mettre le port ftpd qui a été
+Comme port (généralement 21), il faut mettre le port Ftpd qui a été
 renseigné dans la page de configuration du plugin (8888 par defaut).
 
 Il n’est pas nécessaire de renseigner de compte, de mot de passe, ni de

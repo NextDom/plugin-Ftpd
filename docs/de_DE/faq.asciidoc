@@ -17,7 +17,7 @@ Les équipements sont créés automatique à la reception de la première image.
 
 .Aucune image n'est sauvegardée
 --
-Il faut aller dans la log ftpd_daemon et regarder si des erreurs sont présentes.
+Il faut aller dans la log Ftpd_daemon et regarder si des erreurs sont présentes.
 Si des erreurs sont présente, les remonter au développeur link:https://www.jeedom.com/forum/viewtopic.php?f=28&t=24684&start=500[via le Forum sur le lien suivant]
 --
 
@@ -43,5 +43,5 @@ Ce plugin est gratuit pour que chacun puisse en profiter simplement. Si vous sou
 
 Ich möchte frühere Fehler/Änderungen im Code direkt ansehen?
 --
-Das ist alles über https://github.com/guenneguezt/plugin-ftpd[github] möglich.
+Das ist alles über https://github.com/guenneguezt/plugin-Ftpd[github] möglich.
 --

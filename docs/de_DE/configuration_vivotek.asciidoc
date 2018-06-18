@@ -6,7 +6,7 @@ image::../images/configuration_vivotek.jpg[align="center"]
 
 <IP_JEEDOM> Ist die IP-Adresse von Ihrem jeedom.
 
-<PORT> Entspricht dem ftpd Port, der auf der Plugin-Konfigurationsseite eingegeben wurde (standardmäßig 8888).
+<PORT> Entspricht dem Ftpd Port, der auf der Plugin-Konfigurationsseite eingegeben wurde (standardmäßig 8888).
 
 Es ist nicht notwendig, den Benutzernamen, Kennwort oder FTP-Ordner-Namen auszufüllen.
 

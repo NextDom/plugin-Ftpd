@@ -24,7 +24,7 @@ def log(mode,message):
         open(log_file,"a+").write("[{}][{}] : {}\n".format(time.strftime('%Y-%m-%d %H:%M:%S'), mode, message))
 
 def close():
-    log('INFO', "ftpd stoped")
+    log('INFO', "Ftpd stoped")
 
 class FetchUrl(threading.Thread):
     def __init__(self, url):
@@ -406,10 +406,10 @@ class FTPserver(threading.Thread):
 
     def run(self):
         log('DEBUG', "Debug actif")
-        log('DEBUG', "ftpd starting")
+        log('DEBUG', "Ftpd starting")
         log('DEBUG', "Listen " + local_ip + ":" + str(local_port))
         self.sock.listen(5)
-        log('INFO', "ftpd started")
+        log('INFO', "Ftpd started")
         atexit.register(close)
         while True:
             th=FTPserverThread(self.sock.accept())
@@ -417,9 +417,9 @@ class FTPserver(threading.Thread):
             th.start()
 
     def close(self):
-        log('DEBUG', "ftpd stopping")
+        log('DEBUG', "Ftpd stopping")
         self.sock.close()
-        log('INFO', "ftpd stopped")
+        log('INFO', "Ftpd stopped")
 
 def handler(signum, frame):
     log('INFO', "Signal handler called with signal " + signum)
@@ -444,16 +444,16 @@ class App():
         ftp.stop()
 
 if sys.argv[1] == "test":
-    print("ftpd startable")
+    print("Ftpd startable")
     sys.exit(0)
 
-configfile = os.path.dirname(os.path.realpath(__file__)) + '/ftpd.xml'
+configfile = os.path.dirname(os.path.realpath(__file__)) + '/Ftpd.xml'
 
 dataconfig = etree.parse(configfile)
 for config in dataconfig.xpath("/config/daemon/log_file"):
   log_file = config.text
 
-log('INFO', "Ask ftpd " + sys.argv[1])
+log('INFO', "Ask Ftpd " + sys.argv[1])
 
 for config in dataconfig.xpath("/config/daemon/pid_file"):
   pid_file = config.text
@@ -496,8 +496,8 @@ for config in dataconfig.xpath("/config/daemon/internalComplement/text()"):
 for config in dataconfig.xpath("/config/daemon/api_key/text()"):
   api_key = config
 
-url_force_scan = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=forceDetectFtpd&api=" + api_key
-url_new_capture = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/ftpd/core/api/ftpd.api.php?action=newcapture&api=" + api_key
+url_force_scan = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/Ftpd/core/api/Ftpd.api.php?action=forceDetectFtpd&api=" + api_key
+url_new_capture = internalProtocol + "127.0.0.1:" + internalPort + "/"  + internalComplement + "/plugins/Ftpd/core/api/Ftpd.api.php?action=newcapture&api=" + api_key
 for config in dataconfig.xpath("/config/daemon/authorized_ip/text()"):
   authorized_ip_list = config
 

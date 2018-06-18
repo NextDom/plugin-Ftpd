@@ -23,8 +23,19 @@ if (!isConnect('admin')) {
 ?>
 
 <form class="form-horizontal" id="config">
+    <?php
+    if ( update::byLogicalId("Ftpd") !== false ) {
+        ?>
+        <div class="form-group">
+            <div class="col-lg-10">
+                <a class="btn btn-danger" id="bt_basculePlugin"><i class="fa fa-check"></i> {{Récupérer les objets du plugin Ftpd.}}</a>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
     <div class="form-group">
-        <label class="col-lg-4 control-label">{{Port ftpd}}</label>
+        <label class="col-lg-4 control-label">{{Port Ftpd}}</label>
         <div class="col-lg-3">
             <input class="configKey form-control" data-l1key="port"/>
         </div>
@@ -72,4 +83,5 @@ if (!isConnect('admin')) {
         </div>
     </div>
 </form>
-<?php include_file('desktop', 'ftpd', 'js', 'ftpd'); ?>
+<?php
+include_file('desktop', 'Ftpd', 'js', 'Ftpd');

@@ -16,7 +16,7 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-include_file('core', 'ftpd', 'class', 'ftpdConstants');
+include_file('core', 'Ftpd', 'class', 'FtpdConstants');
 try {
     require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
     include_file('core', 'authentification', 'php');
@@ -27,25 +27,30 @@ try {
 
     ajax::init();
 
-    if (init(ftpdConstants::FIELD_ACTION) == 'forceDetectFtpd') {
-        $ftpdCmd = ftpd::forceDetectFtpd();
-        ajax::success($ftpdCmd);
+    if (init(FtpdConstants::FIELD_ACTION) == 'forceDetectFtpd') {
+        $FtpdCmd = Ftpd::forceDetectFtpd();
+        ajax::success($FtpdCmd);
     }
 
-    if (init(ftpdConstants::FIELD_ACTION) == 'removeRecord') {
-        ftpd::removeSnapshot(init(ftpdConstants::FIELD_FILTRE));
+    if (init(FtpdConstants::FIELD_ACTION) == 'migrePlugin') {
+        $FtpdCmd = Ftpd::migrePlugin();
+        ajax::success($FtpdCmd);
+    }
+
+    if (init(FtpdConstants::FIELD_ACTION) == 'removeRecord') {
+        Ftpd::removeSnapshot(init(FtpdConstants::FIELD_FILTRE));
         ajax::success();
     }
 
-    if (init(ftpdConstants::FIELD_ACTION) == 'removeAllSnapshot') {
-        $ftpd = ftpd::byId(init(ftpdConstants::FIELD_FILTRE));
-        if (!is_object($ftpd)) {
-            throw new Exception(__('Impossible de trouver la ftpd : ' . init(ftpdConstants::FIELD_FILTRE), __FILE__));
+    if (init(FtpdConstants::FIELD_ACTION) == 'removeAllSnapshot') {
+        $Ftpd = Ftpd::byId(init(FtpdConstants::FIELD_FILTRE));
+        if (!is_object($Ftpd)) {
+            throw new Exception(__('Impossible de trouver la Ftpd : ' . init(FtpdConstants::FIELD_FILTRE), __FILE__));
         }
-        $ftpd->removeAllSnapshot();
+        $Ftpd->removeAllSnapshot();
         ajax::success();
     }
-    throw new \Exception(__('Aucune methode correspondante à : ', __FILE__) . init(ftpdConstants::FIELD_ACTION));
+    throw new \Exception(__('Aucune methode correspondante à : ', __FILE__) . init(FtpdConstants::FIELD_ACTION));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayException($e), $e->getCode());

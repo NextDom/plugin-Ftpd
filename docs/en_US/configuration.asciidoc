@@ -8,7 +8,7 @@ Puis définir les caractèristiques :
 - Visible (optionel si vous ne désirez pas le rendre visible sur le Dashboard)
 - Nombre max de fichier : Nombre de fichier maximum conservés.
 
-image::../images/ftpd_screenshot2.jpg[align="center"]
+image::../images/Ftpd_screenshot2.jpg[align="center"]
 
 Et pour finir, cliquer sur Sauvegarder
 

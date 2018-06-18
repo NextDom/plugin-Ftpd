@@ -1,6 +1,6 @@
-Configuraremos el plugin. Para ello, haga clic en *Plugin / Gestión de plugins *. Entonces busque *ftpd*.
+Configuraremos el plugin. Para ello, haga clic en *Plugin / Gestión de plugins *. Entonces busque *Ftpd*.
 
-image::../images/ftpd_screenshot1.jpg[align="center"]
+image::../images/Ftpd_screenshot1.jpg[align="center"]
 
 Debe definir algunos parámetros globales para el plugin :
 
@@ -14,6 +14,6 @@ Formato: lista separada por comas sin espacios. La lista puede contener ips (192
 
 Ruta de grabado : La ruta donde se almacenarán los archivos.
 
--Debug de demonio : Le permite activar la depuración del demonio ftpd.
+-Debug de demonio : Le permite activar la depuración del demonio Ftpd.
 
 Finalmente, haga clic en Guardar.

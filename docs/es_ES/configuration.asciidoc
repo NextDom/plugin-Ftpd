@@ -8,7 +8,7 @@ A continuación, defina las características :
 - Visible (opcional si no quieres hacerlo visible en el Dashboard)
 - Número máximo de archivos : Número máximo de archivos conservados
 
-image::../images/ftpd_screenshot2.jpg[align="center"]
+image::../images/Ftpd_screenshot2.jpg[align="center"]
 
 Y finalmente, haga clic en Guardar.
 

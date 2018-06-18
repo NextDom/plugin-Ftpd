@@ -1,10 +1,10 @@
-== ftpd
+== Ftpd
 
 === Présentation
 Ce plugin permet de creer un serveur ftp qui notifiera jeedom lorsqu'un fichier est déposé.
 Très utile pour les cameras IP qui peuvent sur détection de mouvement envoyer un fichier par ftp.
 
-image::../images/ftpd_screenshot3.jpg[align="center"]
+image::../images/Ftpd_screenshot3.jpg[align="center"]
 
 ==== Installation/Configuration
 
@@ -13,11 +13,11 @@ include::configurationplugin.asciidoc[]
 ==== Fonctionnement :
 Le plugin créera automatiquement les équipements une fois qu'ils auront envoyé un fichier.
 
-image::../images/ftpd_screenshot6.jpg[align="center"]
+image::../images/Ftpd_screenshot6.jpg[align="center"]
 
 ==== Informations visibles :
 [horizontal]
-- *Etat* : état du ftpd. C'est une commande de type info binary. Elle est active durant 10 secondes sur reception de fichier.
+- *Etat* : état du Ftpd. C'est une commande de type info binary. Elle est active durant 10 secondes sur reception de fichier.
 - *lastfilename* : Nom de la dernière capture reçue.
 
 === Configuration
@@ -47,7 +47,7 @@ include::configuration_hik.asciidoc[]
 ==== Configuration autres modèles
 Il faut mettre l'adresse IP de votre jeedom comme serveur FTP..
 
-Comme port (généralement 21), il faut mettre le port ftpd qui a été renseigné dans la page de configuration du plugin (8888 par defaut).
+Comme port (généralement 21), il faut mettre le port Ftpd qui a été renseigné dans la page de configuration du plugin (8888 par defaut).
 
 Il n'est pas nécessaire de renseigner de compte, de mot de passe, ni de répertoire.
 

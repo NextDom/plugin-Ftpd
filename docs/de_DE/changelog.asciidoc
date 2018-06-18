@@ -1,4 +1,4 @@
-Warnung: Ausführliche Informationen zu den Updates auf https://github.com/guenneguezt/plugin-ftpd/commits/master[Commit Geschichte]
+Warnung: Ausführliche Informationen zu den Updates auf https://github.com/guenneguezt/plugin-Ftpd/commits/master[Commit Geschichte]
 
 Liste der wichtigsten Änderungen in der aktuellen Version :
 

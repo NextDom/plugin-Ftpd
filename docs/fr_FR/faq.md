@@ -18,7 +18,7 @@ Les équipements sont créés automatique à la reception de la première image.
 
 ### Aucune image n'est sauvegardée
 
-Il faut aller dans la log ftpd_daemon et regarder si des erreurs sont présentes.
+Il faut aller dans la log Ftpd_daemon et regarder si des erreurs sont présentes.
 Si des erreurs sont présente, les remonter au développeur link:https://www.jeedom.com/forum/viewtopic.php?f=28&t=24684&start=500[via le Forum sur le lien suivant]
 
 
@@ -44,7 +44,7 @@ Ce plugin est gratuit pour que chacun puisse en profiter simplement. Si vous sou
 
 ### J'aimerai remonter des erreurs/modifications directement dans le code ?
 
-C'est tout à fait possible via https://github.com/Jeedom-Plugins-Extra/plugin-ftpd[github]
+C'est tout à fait possible via https://github.com/Jeedom-Plugins-Extra/plugin-Ftpd[github]
 
 ### Aucune image n'est conservé alors que dans la log en mode debug, il y a plein de chose d'écrit ?
 

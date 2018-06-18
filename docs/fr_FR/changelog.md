@@ -1,7 +1,7 @@
 > **Warning**
 >
 > Detail complet des mises à jour sur [Historique
-> Commit](https://github.com/Jeedom-Plugins-Extra/plugin-ftpd/commits/master)
+> Commit](https://github.com/Jeedom-Plugins-Extra/plugin-Ftpd/commits/master)
 
 Liste des évolutions majeures de la version courante :
 

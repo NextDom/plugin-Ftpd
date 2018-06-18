@@ -1,10 +1,10 @@
-== ftpd
+== Ftpd
 
 === Präsentation
 Dieses Plugin ermöglicht es ihnen einen FTP-Server zu erstellen, der Jeedom benachrichtigt, wenn eine Datei deponiert wird. 
 Sehr nützlich für IP-Kameras, die auf Bewegungsfeststellung eine Datei durch ftp senden können.
 
-image::../images/ftpd_screenshot3.jpg[align="center"]
+image::../images/Ftpd_screenshot3.jpg[align="center"]
 
 ==== Installation/Konfiguration
 
@@ -13,11 +13,11 @@ include::configurationplugin.asciidoc[]
 ==== Funktionsweise :
 Das Plugin erstellt automatisch das Gerät, sobald sie eine Datei gesendet haben.
 
-image::../images/ftpd_screenshot6.jpg[align="center"]
+image::../images/Ftpd_screenshot6.jpg[align="center"]
 
 ==== Sichtbare Informationen :
 [horizontal]
-- *Zustand* : Zustand von ftpd. Es ist ein Befehl vom Typ binär Info. Er ist während 10 Sekunden für Dateiempfang aktiv.
+- *Zustand* : Zustand von Ftpd. Es ist ein Befehl vom Typ binär Info. Er ist während 10 Sekunden für Dateiempfang aktiv.
 - *lastfilename* : Name der letzten empfangenen Erfassung. 
 
 === Konfiguration
@@ -47,7 +47,7 @@ include::configuration_hik.asciidoc[]
 ==== Configuration autres modèles
 Il faut mettre l'adresse IP de votre jeedom comme serveur FTP..
 
-Comme port (généralement 21), il faut mettre le port ftpd qui a été renseigné dans la page de configuration du plugin (8888 par defaut).
+Comme port (généralement 21), il faut mettre le port Ftpd qui a été renseigné dans la page de configuration du plugin (8888 par defaut).
 
 Il n'est pas nécessaire de renseigner de compte, de mot de passe, ni de répertoire.
 

@@ -119,7 +119,7 @@ $("#table_cmd").delegate(".listEquipementNotify", 'click', function () {
 $('.eqLogicDetect').on('click', function() {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // methode de transmission des données au fichier php
-        url: "plugins/ftpd/core/ajax/ftpd.ajax.php", // url du fichier php
+        url: "plugins/Ftpd/core/ajax/Ftpd.ajax.php", // url du fichier php
         data: {
             action: "forceDetectFtpd",
         },
@@ -142,6 +142,31 @@ $('.eqLogicDetect').on('click', function() {
               if (result) {
                   $('#recordDirFtpd').value('');
                   savePluginConfig();
+              }
+          });
+      });
+
+  $('#bt_basculePlugin').on('click',function(){
+          bootbox.confirm('{{Etes-vous sûr de vouloir récupérer la paramétrage du plugin Ftpd ?}}', function (result) {
+              if (result) {
+                  $.ajax({// fonction permettant de faire de l'ajax
+                      type: "POST", // methode de transmission des données au fichier php
+                      url: "plugins/Ftpd/core/ajax/Ftpd.ajax.php", // url du fichier php
+                      data: {
+                          action: "migrePlugin",
+                      },
+                      dataType: 'json',
+                      error: function(request, status, error) {
+                          handleAjaxError(request, status, $('#div_DetectBin'));
+                      },
+                      success: function(data) { // si l'appel a bien fonctionné
+                          if (data.state != 'ok') {
+                              $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                              return;
+                          }
+                          window.location.reload();
+                      }
+                  });
               }
           });
       });

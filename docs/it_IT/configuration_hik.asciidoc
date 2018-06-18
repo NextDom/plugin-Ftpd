@@ -6,6 +6,6 @@ image::../images/configuration_hik.jpg[align="center"]
 
 <IP_JEEDOM> Correspond à l'adresse IP de votre jeedom.
 
-<PORT_PLUGIN> Correspond au port ftpd qui a été renseigné dans la page de configuration du plugin (8888 par defaut).
+<PORT_PLUGIN> Correspond au port Ftpd qui a été renseigné dans la page de configuration du plugin (8888 par defaut).
 
 Il n'est pas nécessaire de renseigner de User Name, Password, ni FTP folder name.

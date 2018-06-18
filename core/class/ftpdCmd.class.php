@@ -18,7 +18,7 @@
 
 require_once __DIR__ . '/../../../../core/php/core.inc.php';
 
-class ftpdCmd extends cmd
+class FtpdCmd extends cmd
 {
 
     public function execute($_options = array())
@@ -33,30 +33,30 @@ class ftpdCmd extends cmd
 
 
         if ($this->getLogicalId() == 'notify_on') {
-            log::add('ftpd', 'debug', "Activation des notifications");
+            log::add(PLUGIN_ID, DEBUG_FACILITY, "Activation des notifications");
             $notifyCmd->setCollectDate('');
             $notifyCmd->event(1);
         } elseif ($this->getLogicalId() == 'notify_off') {
-            log::add('ftpd', 'debug', "Désactivation des notifications");
+            log::add(PLUGIN_ID, DEBUG_FACILITY, "Désactivation des notifications");
             $notifyCmd->setCollectDate('');
             $notifyCmd->event(0);
         } elseif ($this->getLogicalId() == 'notify_commute') {
-            log::add('ftpd', 'debug', "Bascule des notifications");
+            log::add(PLUGIN_ID, DEBUG_FACILITY, "Bascule des notifications");
             $notifyCmd->setCollectDate('');
             $notifyCmd->event(($notifyCmd->execCmd() + 1) % 2);
         } elseif ($this->getLogicalId() == 'stopRecordCmd') {
-            log::add('ftpd', 'debug', "Désactivation stockage");
+            log::add(PLUGIN_ID, DEBUG_FACILITY, "Désactivation stockage");
             $recordStateCmd->setCollectDate('');
             $recordStateCmd->event(0);
         } elseif ($this->getLogicalId() == 'startRecordCmd') {
-            log::add('ftpd', 'debug', "Active stockage");
+            log::add(PLUGIN_ID, DEBUG_FACILITY, "Active stockage");
             $recordStateCmd->setCollectDate('');
             $recordStateCmd->event(1);
         } else {
-            log::add('ftpd', 'debug', "Appel non traite : " . $this->getLogicalId());
+            log::add(PLUGIN_ID, DEBUG_FACILITY, "Appel non traite : " . $this->getLogicalId());
             return false;
         }
-        log::add('ftpd', 'debug', "Notification : " . $notifyCmd->execCmd());
+        log::add(PLUGIN_ID, DEBUG_FACILITY, "Notification : " . $notifyCmd->execCmd());
         return true;
     }
 

@@ -17,7 +17,7 @@ Los dispositivos se crean automáticamente al recibir la primera imagen.
 
 .No se guarda ninguna imagen
 --
-Tienes que ir al registro ftpd_daemon y ver si hay algún error.
+Tienes que ir al registro Ftpd_daemon y ver si hay algún error.
 Si se presentan errores, por favor repórtelos al enlace del desarrollador link:https://www.jeedom.com/forum/viewtopic.php?f=28&t=24684&start=500[a través del Foro en el siguiente enlace]
 --
 
@@ -43,5 +43,5 @@ Este plugin es gratuito para que todo el mundo pueda disfrutarlo de forma sencil
 
 .¿Podría reportar errores/modificaciones directamente en el código?
 --
-Esto es posible a través de https://github.com/guenneguezt/plugin-ftpd[github]
+Esto es posible a través de https://github.com/guenneguezt/plugin-Ftpd[github]
 --

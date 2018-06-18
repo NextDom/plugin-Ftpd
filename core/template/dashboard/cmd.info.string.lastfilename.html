@@ -1,26 +1,26 @@
 <div style="width:90px;min-height:62px;" class="cmd #history# tooltips cmd-widget"data-type="info" data-subtype="string" data-cmd_id="#id#" data-cmd_uid="#uid#" title="Valeur du #valueDate#, collectée le #collectDate#">
 <center>
     <input type="text" class="state iconCmd#id#" value="#state#" style="display:none;"/>
-    <div class="display ftpd_history" id="iconCmd#uid#">
+    <div class="display Ftpd_history" id="iconCmd#uid#">
     </div>
 </center>
 <script>
 filename = '#state#';
 extension = filename.substr(filename.lastIndexOf('.') + 1);
-url = 'plugins/ftpd/core/api/ftpd.api.php?action=downloadcapture&pathfile=' + filename;
+url = 'plugins/Ftpd/core/api/Ftpd.api.php?action=downloadcapture&pathfile=' + filename;
 if ( extension == 'avi' || extension == 'mp4' || extension == 'mjpeg' )
 {
-    data = '<video class="img-responsive ftpd_history videoCmd#uid#" data-eqLogic_id="#id#" width="150" height="100" data-src="' + url + '" style="cursor:pointer"><source src="' + url + '">Your browser does not support the video tag.</video>';
+    data = '<video class="img-responsive Ftpd_history videoCmd#uid#" data-eqLogic_id="#id#" width="150" height="100" data-src="' + url + '" style="cursor:pointer"><source src="' + url + '">Your browser does not support the video tag.</video>';
 }
 else
 {
-    data = '<img class="img-responsive ftpd_history imgCmd#uid#" data-eqLogic_id="#id#" src="' + url + '"/>';
+    data = '<img class="img-responsive Ftpd_history imgCmd#uid#" data-eqLogic_id="#id#" src="' + url + '"/>';
 }
 $('#iconCmd#uid#').html(data);
 
-$('.ftpd_history[data-eqLogic_id=#id#]').off().on('click', function () {
+$('.Ftpd_history[data-eqLogic_id=#id#]').off().on('click', function () {
     $('#md_modal').dialog({title: "Historique"});
-    $('#md_modal').load('index.php?v=d&plugin=ftpd&modal=ftpd.history&id=#id#&_t=' + new Date().getTime()).dialog('open');
+    $('#md_modal').load('index.php?v=d&plugin=Ftpd&modal=Ftpd.history&id=#id#&_t=' + new Date().getTime()).dialog('open');
 });
 </script>
 </div>

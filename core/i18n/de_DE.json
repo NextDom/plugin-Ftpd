@@ -1,18 +1,18 @@
 {
-    "plugins\/ftpd\/plugin_info\/info.xml": {
+    "plugins\/Ftpd\/plugin_info\/info.xml": {
         "Plugin de récupération de photo envoye par camera en ftp sur détection de mouvement": "Plugin de récupération de photo envoye par camera en ftp sur détection de mouvement"
     },
-    "plugins\/ftpd\/plugin_info\/configuration.php": {
-        "Commande ftpd": "ftpd Befehl",
+    "plugins\/Ftpd\/plugin_info\/configuration.php": {
+        "Commande Ftpd": "Ftpd Befehl",
         "Commande arp-scan": "arp-scan Befehl",
-        "Detecter les programme ftpd et arp-scan": "Programme ftpd und arp-scan erkennen",
-        "Port ftpd": "ftpd Port",
+        "Detecter les programme Ftpd et arp-scan": "Programme Ftpd und arp-scan erkennen",
+        "Port Ftpd": "Ftpd Port",
         "Local IP": "IP Lokal",
         "IP Autorisées": "Erlaubte IP",
         "Debug daemon": "Debug-Daemon",
         "Chemin des enregistrements": "Pfad der Datensätze"
     },
-    "plugins\/ftpd\/desktop\/js\/ftpd.js": {
+    "plugins\/Ftpd\/desktop\/js\/Ftpd.js": {
         "Nom": "Name",
         "Historiser": "Archivieren",
         "Afficher": "Anzeigen",
@@ -20,7 +20,7 @@
         "Sauvegarde réussie": "Speichern erfolgreich",
         "Inverser": "Invertieren"
     },
-    "plugins\/ftpd\/core\/class\/ftpd.class.php": {
+    "plugins\/Ftpd\/core\/class\/Ftpd.class.php": {
         "Impossible d'envoyer la commande KILL_FTPD au deamon": "Der Befehl KILL_FTPD konnte nicht an den Deamon gesendet werden",
         "Impossible de communiquer avec le deamon": "Kann nicht mit dem Deamon kommunizieren",
         "daemon start : ": "Daemon-Start :",
@@ -28,19 +28,19 @@
         "PID file : ": "PID-Datei :",
         "PID file exist, PID : ": "PID-Datei existiert, PID :",
         "Process exist": "Prozess existiert",
-        "Retrieve ftpd.py process with PID : ": "Abrufen des ftpd.py-Prozesses mit PID :",
+        "Retrieve Ftpd.py process with PID : ": "Abrufen des Ftpd.py-Prozesses mit PID :",
         "PID file doesn't exist": "PID-Datei existiert nicht",
         "Process not found": "Prozess nicht gefunden",
         "Pid file not found": "PID-Datei nicht gefunden"
     },
-    "plugins\/ftpd\/desktop\/php\/ftpd.php": {
+    "plugins\/Ftpd\/desktop\/php\/Ftpd.php": {
         "Detecter": "entdecken",
         "Gestion": "Verwaltung",
         "Configuration": "Konfiguration",
         "Mes equipements": "Mein Gerät",
         "Général": "Allgemein",
         "Nom de l'équipement": "Gerätename",
-        "Nom de la ftpd": "ftpd Name",
+        "Nom de la Ftpd": "Ftpd Name",
         "Objet parent": "Elternobjekt",
         "Aucun": "Keine",
         "Catégorie": "Kategorie",
@@ -60,22 +60,22 @@
         "Ajouter une pattern image": "Bildmuster hinzufügen",
         "Pattern": "Muster"
     },
-    "plugins\/ftpd\/desktop\/modal\/ftpd.history.php": {
+    "plugins\/Ftpd\/desktop\/modal\/Ftpd.history.php": {
         "L'équipement est introuvable : ": "Das Gerät wurde nicht gefunden :",
         "Tout supprimer": "Alles löschen",
         "Tout télécharger": "Alles herunterladen",
         "Supprimer": "Löschen",
         "Télécharger": "Herunterladen"
     },
-    "plugins\/ftpd\/core\/ajax\/ftpd.ajax.php": {
+    "plugins\/Ftpd\/core\/ajax\/Ftpd.ajax.php": {
         "Aucune methode correspondante à : ": "Keine Methode entspricht :"
     },
-    "plugins\/ftpd\/desktop\/modal\/ftpd.displayImage.php": {
+    "plugins\/Ftpd\/desktop\/modal\/Ftpd.displayImage.php": {
         "Précédente": "vorherige",
         "Suivante": "nächste",
         "L'id ne peut etre vide": "Die ID darf nicht leer sein"
     },
-    "plugins\/ftpd\/core\/api\/ftpd.api.php": {
+    "plugins\/Ftpd\/core\/api\/Ftpd.api.php": {
         "Aucune methode correspondante à : ": "Keine Methode entspricht :",
         "401 - Accès non autorisé": "401 - Nicht autorisierter Zugriff",
         "Pathfile not found": "Dateipfad nicht gefunden",

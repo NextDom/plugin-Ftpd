@@ -1,21 +1,21 @@
 #!/bin/bash
 
 export DEBIAN_FRONTEND=noninteractive
-touch /tmp/ftpd_in_progress
-echo 0 > /tmp/ftpd_in_progress
-echo "Install dependances ftpd"
+touch /tmp/Ftpd_in_progress
+echo 0 > /tmp/Ftpd_in_progress
+echo "Install dependances Ftpd"
 
 function apt_install {
   apt-get -y install "$@" >/dev/null
   if [ $? -ne 0 ]; then
-    echo 100 > /tmp/ftpd_in_progress
+    echo 100 > /tmp/Ftpd_in_progress
     echo "Could not install $1"
-    rm /tmp/ftpd_in_progress
+    rm /tmp/Ftpd_in_progress
     exit 1
   fi
 }
 
-echo 10 > /tmp/ftpd_in_progress
+echo 10 > /tmp/Ftpd_in_progress
 echo "Test the necessity of dependencies"
 BASEDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $BASEDIR
@@ -24,37 +24,37 @@ if [ $? -ne 0 ]
 then
     echo "Installation of ffmpeg"
     apt_install ffmpeg
-    echo 20 > /tmp/ftpd_in_progress
+    echo 20 > /tmp/Ftpd_in_progress
 else
-    echo 20 > /tmp/ftpd_in_progress
+    echo 20 > /tmp/Ftpd_in_progress
     echo "No necessity of dependencies"
 fi
 
-python ./ftpd.py test 2>/dev/null 
+python ./Ftpd.py test 2>/dev/null 
 if [ $? -ne 0 ]
 then
     echo "Installation of python-daemon"
     apt_install python-daemon
-    echo 40 > /tmp/ftpd_in_progress
+    echo 40 > /tmp/Ftpd_in_progress
 
     echo "Installation of python-lxml"
     apt_install python-lxml
-    echo 60 > /tmp/ftpd_in_progress
+    echo 60 > /tmp/Ftpd_in_progress
 
     echo "Installation of python-requests"
     apt_install python-requests
-    echo 80 > /tmp/ftpd_in_progress
+    echo 80 > /tmp/Ftpd_in_progress
     
-    python ./ftpd.py test
+    python ./Ftpd.py test
     if [ $? -ne 0 ]
     then
         echo "Some dependencies missing"
     fi
 else
-    echo 99 > /tmp/ftpd_in_progress
+    echo 99 > /tmp/Ftpd_in_progress
     echo "No necessity of dependencies"
 fi
 
-echo 100 > /tmp/ftpd_in_progress
+echo 100 > /tmp/Ftpd_in_progress
 echo "Everything is successfully installed!"
-rm /tmp/ftpd_in_progress
+rm /tmp/Ftpd_in_progress

@@ -2,7 +2,7 @@
 if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-sendVarToJS('eqType', 'ftpd');
+sendVarToJS('eqType', 'Ftpd');
 ?>
 
 <div class="row row-overflow">
@@ -11,10 +11,10 @@ sendVarToJS('eqType', 'ftpd');
             <ul id="ul_eqLogic" class="nav nav-list bs-sidenav">
                 <a class="btn btn-default eqLogicDetect" style="width : 100%;margin-top : 5px;margin-bottom: 5px;"><i class="fa fa-refresh"></i> {{Detecter}}</a>
                 <?php
-                $eqLogics = eqLogic::byType('ftpd');
+                $eqLogics = eqLogic::byType('Ftpd');
                 foreach ($eqLogics as $eqLogic) {
                     echo '<li>'."\n";
-                        echo '<a class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '" data-eqLogic_type="ftpd"><i class="fa fa-download"></i> ' . $eqLogic->getName() . '</a>'."\n";
+                        echo '<a class="cursor li_eqLogic" data-eqLogic_id="' . $eqLogic->getId() . '" data-eqLogic_type="Ftpd"><i class="fa fa-download"></i> ' . $eqLogic->getName() . '</a>'."\n";
                     echo '</li>'."\n";
                 }
                 ?>
@@ -41,12 +41,12 @@ sendVarToJS('eqType', 'ftpd');
         <div class="eqLogicThumbnailContainer">
             <?php
             if (count($eqLogics) == 0) {
-                echo "<br/><br/><br/><center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore de ftpd, cliquez sur Detecter un équipement pour commencer}}</span></center>";
+                echo "<br/><br/><br/><center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore de Ftpd, cliquez sur Detecter un équipement pour commencer}}</span></center>";
             } else {
                 foreach ($eqLogics as $eqLogic) {
                     echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $eqLogic->getId() . '" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >';
                     echo "<center>";
-                    echo '<img src="plugins/ftpd/plugin_info/ftpd_icon.png" height="105" width="95" />';
+                    echo '<img src="plugins/Ftpd/plugin_info/Ftpd_icon.png" height="105" width="95" />';
                     echo "</center>";
                     echo ' <span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"> <center>' . $eqLogic->getHumanName(true, true) . '</center></span>';
                     echo '</div>';
@@ -55,7 +55,7 @@ sendVarToJS('eqType', 'ftpd');
             ?>
         </div>
     </div>
-    <div class="col-lg-10 col-md-9 col-sm-8 eqLogic ftpd" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
+    <div class="col-lg-10 col-md-9 col-sm-8 eqLogic Ftpd" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
         <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
         <a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
         <a class="btn btn-default eqLogicAction pull-right" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a>
@@ -82,7 +82,7 @@ sendVarToJS('eqType', 'ftpd');
                             <label class="col-lg-2 control-label">{{Nom de l'équipement}}</label>
                             <div class="col-lg-3">
                                 <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-                                <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de la ftpd}}"/>
+                                <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de la Ftpd}}"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -139,7 +139,7 @@ sendVarToJS('eqType', 'ftpd');
                                 10 secondes par défaut
                             </div>
                         </div>
-                    </fieldset> 
+                    </fieldset>
                 </form>
             </div>
             <div role="tabpanel" class="tab-pane" id="commandtab">
@@ -162,5 +162,6 @@ sendVarToJS('eqType', 'ftpd');
     </div>
 </div>
 
-<?php include_file('desktop', 'ftpd', 'js', 'ftpd'); ?>
-<?php include_file('core', 'plugin.template', 'js'); ?>
+<?php
+include_file('desktop', 'Ftpd', 'js', 'Ftpd');
+include_file('core', 'plugin.template', 'js');

@@ -1,4 +1,4 @@
-Wir werden jetzt das Plugin konfigurieren. Um dies zu tun, klicken Sie auf *Plugins / Sicherheit / ftpd*.
+Wir werden jetzt das Plugin konfigurieren. Um dies zu tun, klicken Sie auf *Plugins / Sicherheit / Ftpd*.
 
 Dann definieren Sie die Eigenschaften :
 - Eltern Objekt
@@ -7,7 +7,7 @@ Dann definieren Sie die Eigenschaften :
 - Sichtbar' (optional, wenn Sie nicht wünschen, dass es auf dem Armaturenbrett sichtbar ist)
 - max Datei Anzahl : Maximale Anzahl von gespeicherten Dateien.
 
-image::../images/ftpd_screenshot2.jpg[align="center"]
+image::../images/Ftpd_screenshot2.jpg[align="center"]
 
 Klicken Sie abschließend auf Speichern.
 

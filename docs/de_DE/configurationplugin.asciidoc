@@ -1,10 +1,10 @@
-Wir werden das Plugin konfigurieren. Um dies zu tun, klicken Sie auf *Plugin / Plugin Verwaltung* . Dann *ftpd* ausfindig machen.
+Wir werden das Plugin konfigurieren. Um dies zu tun, klicken Sie auf *Plugin / Plugin Verwaltung* . Dann *Ftpd* ausfindig machen.
 
-image::../images/ftpd_screenshot1.jpg[align="center"]
+image::../images/Ftpd_screenshot1.jpg[align="center"]
 
 Es müssen auf dem Plugin einige globale Parameter festgelegt werden :
 
-- ftpd Port : Port, auf dem der Dämon-Dateien abhört.
+- Ftpd Port : Port, auf dem der Dämon-Dateien abhört.
 
 - Lokale IP : IP Adresse des Abhör Daemon. Am besten ist es 0.0.0.0 zu belassen.
 
@@ -14,6 +14,6 @@ Format : Liste durch Komma ohne Leerzeichen getrennt. Die Liste kann ips (192.16
 
  - Speicherpfad : Pfad in dem die Dateien gespeichert werden.
 
-- Debug-Dämon : Ermöglicht den ftpd Debug-Daemon zu aktivieren.
+- Debug-Dämon : Ermöglicht den Ftpd Debug-Daemon zu aktivieren.
 
 Klicken Sie abschließend auf Speichern.
