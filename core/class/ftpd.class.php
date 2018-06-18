@@ -35,13 +35,12 @@ class Ftpd extends eqLogic
          *         [auto]   0 Démarrage automatique désactivé
          *                  1 Démarrage automatique activé
          */
-    public static function deamon_info()
+    public static function deamon_info($Ftpd_path)
     {
         $return = array();
         $return['log'] = '';
         $return['state'] = 'nok';
         $return['launchable'] = 'ok';
-        $Ftpd_path = dirname(__FILE__) . '/../../ressources';
         $pid_file = $Ftpd_path . "/Ftpd.pid";
         if (file_exists($pid_file)) {
             if (posix_getsid(trim(file_get_contents($pid_file)))) {
@@ -112,10 +111,11 @@ class Ftpd extends eqLogic
         } else {
             $daemon->authorized_ip = config::byKey('authorized_ip', 'Ftpd', '');
         }
+        $logFile = dirname(__FILE__) . '/../../../../log/Ftpd_daemon';
         if (!isset($daemon->log_file)) {
-            $daemon->addChild('log_file', dirname(__FILE__) . '/../../../../log/Ftpd_daemon');
+            $daemon->addChild('log_file', $logFile);
         } else {
-            $daemon->log_file = dirname(__FILE__) . '/../../../../log/Ftpd_daemon';
+            $daemon->log_file = $logFile;
         }
         if (!isset($daemon->api_key)) {
             $daemon->addChild('api_key', jeedom::getApiKey('Ftpd'));
@@ -180,7 +180,7 @@ class Ftpd extends eqLogic
         if (isset($daemon->url_force_scan)) {
             unset($daemon->url_force_scan);
         }
-        file_put_contents(dirname(__FILE__) . '/../../ressources/Ftpd.xml', $xml->asXML());
+        file_put_contents($Ftpd_path . '/ressources/Ftpd.xml', $xml->asXML());
     }
 
     /**
@@ -195,7 +195,7 @@ class Ftpd extends eqLogic
         if ($deamon_info['launchable'] != 'ok') {
             throw new Exception(__('Veuillez vérifier la configuration', __FILE__));
         }
-        self::deamonGenereConfiguration();
+        self::deamonGenereConfiguration($Ftpd_path);
         $Ftpd_path = dirname(__FILE__) . '/../../ressources';
         $cmd = "cd " . $Ftpd_path . ";python ./Ftpd.py start";
         log::add('Ftpd', 'info', __('daemon start : ', __FILE__) . $cmd);
