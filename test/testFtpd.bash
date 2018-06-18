@@ -5,6 +5,7 @@ then
 else
   cd ${TRAVIS_BUILD_DIR}/ressources
 fi
+ls -l
 python ./Ftpd.py test
 if [ $? != 0 ]
 then
