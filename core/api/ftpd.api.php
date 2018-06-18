@@ -21,17 +21,17 @@ include_file('core', 'Ftpd', 'class', 'Ftpd');
 
 try {
     include_file('core', 'authentification', 'php');
-    if ( !isConnect() && !jeedom::apiAccess(init('api'), PLUGIN_ID) ) {
+    if ( !isConnect() && !jeedom::apiAccess(init('api'), 'Ftpd') ) {
         throw new \Exception('Clé API non valide (ou vide) ou non connecté. Demande venant de :' . getClientIp() . '. Clé API : ' . secureXSS(init('api')));
     }
 
-    if (init(FtpdConstants::FIELD_ACTION) == 'forceDetectFtpd') {
+    if (init(FtpdConstants::'action') == 'forceDetectFtpd') {
         Ftpd::forceDetectFtpd();
         exit;
     }
 
-    if (init(FtpdConstants::FIELD_ACTION) == 'newcapture') {
-        $Ftpd = eqlogic::byLogicalId(init('LogicalId'), PLUGIN_ID);
+    if (init(FtpdConstants::'action') == 'newcapture') {
+        $Ftpd = eqlogic::byLogicalId(init('LogicalId'), 'Ftpd');
         if (!is_object($Ftpd)) {
             throw new \Exception(__('Impossible de trouver la Ftpd : ' . init('LogicalId'), __FILE__));
         }
@@ -39,65 +39,64 @@ try {
         exit;
     }
 
-    if (init(FtpdConstants::FIELD_ACTION) == 'downloadcapture' || init(FtpdConstants::FIELD_ACTION) == 'downloadmini') {
+    if (init(FtpdConstants::'action') == 'downloadcapture' || init(FtpdConstants::'action') == 'downloadmini') {
 
         if (init('pathfile') == '') {
             $pathfile = FtpdConstants::DEFAULT_IMAGE;
             $path_parts = pathinfo($pathfile);
-            log::add(PLUGIN_ID, DEBUG_FACILITY, __('Pathfile not receive', __FILE__));
+            log::add('Ftpd', 'debug', __('Pathfile not receive', __FILE__));
         } else {
             $pathfile = calculPath(urldecode(init('pathfile')));
             $path_parts = pathinfo($pathfile);
 
-            if (init(FtpdConstants::FIELD_ACTION) == 'downloadmini') {
-                if (file_exists($path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg")) {
+            if (init(FtpdConstants::'action') == 'downloadmini' && file_exists($path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg")) {
                     $pathfile = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg";
                 }
             }
             if (file_exists($pathfile)) {
-                $_CaptureDir = calculPath(config::byKey('recordDir', PLUGIN_ID));
+                $_CaptureDir = calculPath(config::byKey('recordDir', 'Ftpd'));
 
                 if (is_dir($pathfile)) {
 
                     if (strpos($pathfile, $_CaptureDir) === false) {
-                        log::add(PLUGIN_ID, DEBUG_FACILITY, __('Pathfile not in CaptureDir : ', __FILE__) . $pathfile . " " . $_CaptureDir);
+                        log::add('Ftpd', 'debug', __('Pathfile not in CaptureDir : ', __FILE__) . $pathfile . " " . $_CaptureDir);
                         $pathfile = FtpdConstants::DEFAULT_IMAGE;
                     } else {
-                        log::add(PLUGIN_ID, DEBUG_FACILITY, __('Prepare archive ', __FILE__));
-                        system('cd ' . dirname($pathfile) . ';tar cfz ' . jeedom::getTmpFolder('downloads') . '/archive.tar.gz * > /dev/null 2>&1');
-                        $pathfile = jeedom::getTmpFolder('downloads') . '/archive.tar.gz';
-                        $path_parts['basename'] = 'archive.tar.gz';
+                        log::add('Ftpd', 'debug', __('Prepare archive ', __FILE__));
+                        system('cd ' . dirname($pathfile) . ';tar cfz ' . jeedom::getTmpFolder('downloads') . '/'.ARCHIVE_NAME.' * > /dev/null 2>&1');
+                        $pathfile = jeedom::getTmpFolder('downloads') . '/'.ARCHIVE_NAME;
+                        $path_parts['basename'] = ARCHIVE_NAME;
                     }
                 } else {
 
                     if (strpos($pathfile, $_CaptureDir) === false) {
-                        log::add(PLUGIN_ID, DEBUG_FACILITY, __('Pathfile not in CaptureDir : ', __FILE__) . $pathfile . " " . $_CaptureDir);
+                        log::add('Ftpd', 'debug', __('Pathfile not in CaptureDir : ', __FILE__) . $pathfile . " " . $_CaptureDir);
                         $pathfile = FtpdConstants::DEFAULT_IMAGE;
                     } else {
-                        log::add(PLUGIN_ID, DEBUG_FACILITY, __('Prepare file ', __FILE__));
+                        log::add('Ftpd', 'debug', __('Prepare file ', __FILE__));
                     }
                 }
             } else {
-                log::add(PLUGIN_ID, DEBUG_FACILITY, __('Pathfile not found : ', __FILE__) . $pathfile);
+                log::add('Ftpd', 'debug', __('Pathfile not found : ', __FILE__) . $pathfile);
                 $pathfile = FtpdConstants::DEFAULT_IMAGE;
             }
         }
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename=' . $path_parts['basename']);
         readfile($pathfile);
-        if (file_exists(jeedom::getTmpFolder('downloads') . '/archive.tar.gz')) {
-            unlink(jeedom::getTmpFolder('downloads') . '/archive.tar.gz');
+        if (file_exists(jeedom::getTmpFolder('downloads') . '/'.ARCHIVE_NAME)) {
+            unlink(jeedom::getTmpFolder('downloads') . '/'.ARCHIVE_NAME);
         }
         exit;
     }
-    if (init(FtpdConstants::FIELD_ACTION) == 'lastcapture') {
-        log::add(PLUGIN_ID, DEBUG_FACILITY, __('get lastcapture ', __FILE__) . init('Id'));
+    if (init(FtpdConstants::'action') == 'lastcapture') {
+        log::add('Ftpd', 'debug', __('get lastcapture ', __FILE__) . init('Id'));
         $Ftpd = eqlogic::byId(init('Id'), 'Ftpd');
         if (!is_object($Ftpd)) {
             throw new \Exception(__('Impossible de trouver la Ftpd : ' . init('Id'), __FILE__));
         }
         $pathfile = $Ftpd->getLastCapture();
-        log::add(PLUGIN_ID, DEBUG_FACILITY, __('filename ', __FILE__) . $pathfile);
+        log::add('Ftpd', 'debug', __('filename ', __FILE__) . $pathfile);
         $path_parts = pathinfo($pathfile);
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename=' . init('Id') . '.' . $path_parts['extension']);
@@ -105,7 +104,7 @@ try {
         exit;
     }
 
-    throw new \Exception(__('Aucune methode correspondante à : ', __FILE__) . init(FtpdConstants::FIELD_ACTION));
+    throw new \Exception(__('Aucune methode correspondante à : ', __FILE__) . init(FtpdConstants::'action'));
 
 } catch (\Exception $e) {
     throw new \Exception(displayException($e), $e->getCode());

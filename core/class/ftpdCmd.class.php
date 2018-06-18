@@ -33,30 +33,30 @@ class FtpdCmd extends cmd
 
 
         if ($this->getLogicalId() == 'notify_on') {
-            log::add(PLUGIN_ID, DEBUG_FACILITY, "Activation des notifications");
+            log::add('Ftpd', 'debug', "Activation des notifications");
             $notifyCmd->setCollectDate('');
             $notifyCmd->event(1);
         } elseif ($this->getLogicalId() == 'notify_off') {
-            log::add(PLUGIN_ID, DEBUG_FACILITY, "Désactivation des notifications");
+            log::add('Ftpd', 'debug', "Désactivation des notifications");
             $notifyCmd->setCollectDate('');
             $notifyCmd->event(0);
         } elseif ($this->getLogicalId() == 'notify_commute') {
-            log::add(PLUGIN_ID, DEBUG_FACILITY, "Bascule des notifications");
+            log::add('Ftpd', 'debug', "Bascule des notifications");
             $notifyCmd->setCollectDate('');
             $notifyCmd->event(($notifyCmd->execCmd() + 1) % 2);
         } elseif ($this->getLogicalId() == 'stopRecordCmd') {
-            log::add(PLUGIN_ID, DEBUG_FACILITY, "Désactivation stockage");
+            log::add('Ftpd', 'debug', "Désactivation stockage");
             $recordStateCmd->setCollectDate('');
             $recordStateCmd->event(0);
         } elseif ($this->getLogicalId() == 'startRecordCmd') {
-            log::add(PLUGIN_ID, DEBUG_FACILITY, "Active stockage");
+            log::add('Ftpd', 'debug', "Active stockage");
             $recordStateCmd->setCollectDate('');
             $recordStateCmd->event(1);
         } else {
-            log::add(PLUGIN_ID, DEBUG_FACILITY, "Appel non traite : " . $this->getLogicalId());
+            log::add('Ftpd', 'debug', "Appel non traite : " . $this->getLogicalId());
             return false;
         }
-        log::add(PLUGIN_ID, DEBUG_FACILITY, "Notification : " . $notifyCmd->execCmd());
+        log::add('Ftpd', 'debug', "Notification : " . $notifyCmd->execCmd());
         return true;
     }
 
