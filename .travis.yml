@@ -22,7 +22,7 @@ matrix:
       install:
         - pip install lxml requests python-daemon
       script:
-        - /bin/bash ./test/testFtpd.bash
+        - /bin/bash -x ./test/testFtpd.bash
       after_success:
         - coveralls
 

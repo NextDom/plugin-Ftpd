@@ -463,7 +463,7 @@ class Ftpd extends eqLogic
             $notifyOffCmd->save();
         }
         $recordStateCmd = $this->getCmd(null, 'recordState');
-        if (!is_object($recordState)) {
+        if (!is_object($recordStateCmd)) {
             $recordStateCmd = new FtpdCmd();
             $recordStateCmd->setIsVisible(1);
             $recordStateCmd->setName(__('Status d enregistrement', __FILE__));
