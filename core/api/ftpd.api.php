@@ -64,8 +64,8 @@ try {
                     } else {
                         log::add('Ftpd', 'debug', __('Prepare archive ', __FILE__));
                         system('cd ' . dirname($pathfile) . ';tar cfz ' . jeedom::getTmpFolder('downloads') . '/'.ARCHIVE_NAME.' * > /dev/null 2>&1');
-                        $pathfile = jeedom::getTmpFolder('downloads') . '/'.ARCHIVE_NAME;
-                        $path_parts['basename'] = ARCHIVE_NAME;
+                        $pathfile = jeedom::getTmpFolder('downloads') . '/'.FtpdConstants::ARCHIVE_NAME;
+                        $path_parts['basename'] = FtpdConstants::ARCHIVE_NAME;
                     }
                 } else {
 
@@ -84,8 +84,8 @@ try {
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename=' . $path_parts['basename']);
         readfile($pathfile);
-        if (file_exists(jeedom::getTmpFolder('downloads') . '/'.ARCHIVE_NAME)) {
-            unlink(jeedom::getTmpFolder('downloads') . '/'.ARCHIVE_NAME);
+        if (file_exists(jeedom::getTmpFolder('downloads') . '/'.FtpdConstants::ARCHIVE_NAME)) {
+            unlink(jeedom::getTmpFolder('downloads') . '/'.FtpdConstants::ARCHIVE_NAME);
         }
         exit;
     }

@@ -27,30 +27,30 @@ try {
 
     ajax::init();
 
-    if (init(FtpdConstants::'action') == 'forceDetectFtpd') {
+    if (init('action') == 'forceDetectFtpd') {
         $FtpdCmd = Ftpd::forceDetectFtpd();
         ajax::success($FtpdCmd);
     }
 
-    if (init(FtpdConstants::'action') == 'migrePlugin') {
+    if (init('action') == 'migrePlugin') {
         $FtpdCmd = Ftpd::migrePlugin();
         ajax::success($FtpdCmd);
     }
 
-    if (init(FtpdConstants::'action') == 'removeRecord') {
-        Ftpd::removeSnapshot(init(FtpdConstants::'filtre'));
+    if (init('action') == 'removeRecord') {
+        Ftpd::removeSnapshot(init('filtre'));
         ajax::success();
     }
 
-    if (init(FtpdConstants::'action') == 'removeAllSnapshot') {
-        $Ftpd = Ftpd::byId(init(FtpdConstants::'filtre'));
+    if (init('action') == 'removeAllSnapshot') {
+        $Ftpd = Ftpd::byId(init('filtre'));
         if (!is_object($Ftpd)) {
-            throw new Exception(__('Impossible de trouver la Ftpd : ' . init(FtpdConstants::'filtre'), __FILE__));
+            throw new Exception(__('Impossible de trouver la Ftpd : ' . init('filtre'), __FILE__));
         }
         $Ftpd->removeAllSnapshot();
         ajax::success();
     }
-    throw new \Exception(__('Aucune methode correspondante à : ', __FILE__) . init(FtpdConstants::'action'));
+    throw new \Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayException($e), $e->getCode());

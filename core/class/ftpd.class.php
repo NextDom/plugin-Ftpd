@@ -92,19 +92,19 @@ class Ftpd extends eqLogic
             $daemon = $xml->daemon;
         }
         if (!isset($daemon->port)) {
-            $daemon->addChild('port', config::byKey('port', 'Ftpd', DEFAULT_PORT));
+            $daemon->addChild('port', config::byKey('port', 'Ftpd', FtpdConstants::DEFAULT_PORT));
         } else {
-            $daemon->port = config::byKey('port', 'Ftpd', DEFAULT_PORT);
+            $daemon->port = config::byKey('port', 'Ftpd', FtpdConstants::DEFAULT_PORT);
         }
         if (!isset($daemon->port)) {
-            $daemon->addChild('port', config::byKey('port', 'Ftpd', DEFAULT_PORT));
+            $daemon->addChild('port', config::byKey('port', 'Ftpd', FtpdConstants::DEFAULT_PORT));
         } else {
-            $daemon->port = config::byKey('port', 'Ftpd', DEFAULT_PORT);
+            $daemon->port = config::byKey('port', 'Ftpd', FtpdConstants::DEFAULT_PORT);
         }
         if (!isset($daemon->local_ip)) {
-            $daemon->addChild('local_ip', config::byKey('local_ip', 'Ftpd', DEFAULT_LOCAL_IP));
+            $daemon->addChild('local_ip', config::byKey('local_ip', 'Ftpd', FtpdConstants::DEFAULT_LOCAL_IP));
         } else {
-            $daemon->local_ip = config::byKey('local_ip', 'Ftpd', DEFAULT_LOCAL_IP);
+            $daemon->local_ip = config::byKey('local_ip', 'Ftpd', FtpdConstants::DEFAULT_LOCAL_IP);
         }
         if (!isset($daemon->authorized_ip)) {
             $daemon->addChild('authorized_ip', config::byKey('authorized_ip', 'Ftpd', ''));
