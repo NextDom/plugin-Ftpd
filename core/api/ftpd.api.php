@@ -25,12 +25,12 @@ try {
         throw new \Exception('Clé API non valide (ou vide) ou non connecté. Demande venant de :' . getClientIp() . '. Clé API : ' . secureXSS(init('api')));
     }
 
-    if (init(FtpdConstants::'action') == 'forceDetectFtpd') {
+    if (init('action') == 'forceDetectFtpd') {
         Ftpd::forceDetectFtpd();
         exit;
     }
 
-    if (init(FtpdConstants::'action') == 'newcapture') {
+    if (init('action') == 'newcapture') {
         $Ftpd = eqlogic::byLogicalId(init('LogicalId'), 'Ftpd');
         if (!is_object($Ftpd)) {
             throw new \Exception(__('Impossible de trouver la Ftpd : ' . init('LogicalId'), __FILE__));
@@ -39,7 +39,7 @@ try {
         exit;
     }
 
-    if (init(FtpdConstants::'action') == 'downloadcapture' || init(FtpdConstants::'action') == 'downloadmini') {
+    if (init('action') == 'downloadcapture' || init('action') == 'downloadmini') {
 
         if (init('pathfile') == '') {
             $pathfile = FtpdConstants::DEFAULT_IMAGE;
@@ -49,7 +49,7 @@ try {
             $pathfile = calculPath(urldecode(init('pathfile')));
             $path_parts = pathinfo($pathfile);
 
-            if (init(FtpdConstants::'action') == 'downloadmini' && file_exists($path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg")) {
+            if (init('action') == 'downloadmini' && file_exists($path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg")) {
                     $pathfile = $path_parts['dirname'] . "/" . $path_parts['filename'] . "_mini.jpg";
                 }
             }
@@ -89,7 +89,7 @@ try {
         }
         exit;
     }
-    if (init(FtpdConstants::'action') == 'lastcapture') {
+    if (init('action') == 'lastcapture') {
         log::add('Ftpd', 'debug', __('get lastcapture ', __FILE__) . init('Id'));
         $Ftpd = eqlogic::byId(init('Id'), 'Ftpd');
         if (!is_object($Ftpd)) {
@@ -104,7 +104,7 @@ try {
         exit;
     }
 
-    throw new \Exception(__('Aucune methode correspondante à : ', __FILE__) . init(FtpdConstants::'action'));
+    throw new \Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
 
 } catch (\Exception $e) {
     throw new \Exception(displayException($e), $e->getCode());
