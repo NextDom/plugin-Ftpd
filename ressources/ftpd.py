@@ -443,6 +443,12 @@ class App():
 #        raw_input('Enter to end...\n')
         ftp.stop()
 
+if len(sys.argv) == 1:
+    print("Usage :")
+    print("Ftpd.pl start")
+    print("Ftpd.pl test")
+    sys.exit(1)
+
 if sys.argv[1] == "test":
     print("Ftpd startable")
     sys.exit(0)
